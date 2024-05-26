@@ -53,7 +53,7 @@ class UserMetaController extends Controller
             if ($request->hasFile('profile_pic')) {
                 $profilePic = $request->file('profile_pic');
                 $path = Storage::disk('s3')->put('profile_pictures', $profilePic);
-                $insert['profile_pic'] = env('AWS_PATH').$path;
+                $insert['profile_pic'] = $path;
             }
             UserMeta::create($insert);
         }
