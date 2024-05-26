@@ -15,13 +15,15 @@ Route::get('/user', function (Request $request) {
 Route::post('/signup', [AuthController::class, 'register'])->name('register');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 
+Route::get('/get-languages', [UserMetaController::class, 'getLangauges'])->name('get-language');
+Route::get('/get-countries', [UserMetaController::class, 'getCountries'])->name('get-country');
+Route::get('/get-timezones', [UserMetaController::class, 'getTimezone'])->name('get-timzone');
+
 Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
 
     Route::put('/update/{id}', [UserMetaController::class, 'update'])->name('update');
     Route::put('/update/skills/{id}', [UserMetaController::class, 'updateOrCreateSkills'])->name('update.skills');
-    Route::post('/get-languages', [UserMetaController::class, 'getLangauges'])->name('get-language');
-    Route::post('/get-countries', [UserMetaController::class, 'getCountries'])->name('get-country');
-    Route::post('/get-timezones', [UserMetaController::class, 'getTimezone'])->name('get-timzone');
+
 
 
 });
