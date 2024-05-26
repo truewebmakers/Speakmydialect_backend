@@ -22,38 +22,40 @@ class UserMetaController extends Controller
             'intro' => 'nullable|string',
 
         ]);
-        $user = User::findOrFail($id);
-
+        if($request->input('fname') || $request->input('lname')){
+            $request->validate([
+                'fname' => 'required',
+                'lname' => 'required',
+            ]);
+            User::find($id)->update([
+                'fname' => $request->input('fname'),
+                'lname' => $request->input('lname'),
+            ]);
+        }
         $userMeta = UserMeta::where(['user_id' => $id]);
-
+        $insert = [
+            'phone' => $request->input('phone'),
+            'gender' => $request->input('gender'),
+            'location' => $request->input('location'),
+            'fix_rate' => $request->input('fix_rate'),
+            'hourly_rate' => $request->input('hourly_rate'),
+            'intro' => $request->input('intro'),
+        ];
         if (!empty($userMeta)) {
-            $userMeta->update([
-                'phone' => $request->input('phone'),
-                'gender' => $request->input('gender'),
-                'location' => $request->input('location'),
-                'fix_rate' => $request->input('fix_rate'),
-                'hourly_rate' => $request->input('hourly_rate'),
-                'intro' => $request->input('intro'),
-            ]);
+            if ($request->hasFile('profile_pic')) {
+                $profilePic = $request->file('profile_pic');
+                $path = Storage::disk('s3')->put('profile_pictures', $profilePic);
+                $insert['profile_pic'] = $path;
+            }
+            $userMeta->update($insert);
         }else{
-            $userMeta->create([
-                'phone' => $request->input('phone'),
-                'gender' => $request->input('gender'),
-                'location' => $request->input('location'),
-                'fix_rate' => $request->input('fix_rate'),
-                'hourly_rate' => $request->input('hourly_rate'),
-                'intro' => $request->input('intro'),
-            ]);
+            if ($request->hasFile('profile_pic')) {
+                $profilePic = $request->file('profile_pic');
+                $path = Storage::disk('s3')->put('profile_pictures', $profilePic);
+                $insert['profile_pic'] = $path;
+            }
+            UserMeta::create($insert);
         }
-
-
-        if ($request->hasFile('profile_pic')) {
-            $profilePic = $request->file('profile_pic');
-            $path = Storage::disk('s3')->put('profile_pictures', $profilePic); // Assuming AWS S3 is configured
-            $userMeta->profile_pic = $path;
-            $userMeta->save();
-        }
-
         return response()->json(['message' => 'User meta information updated successfully'], 200);
     }
 
