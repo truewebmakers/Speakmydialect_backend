@@ -44,7 +44,7 @@ class AuthController extends Controller
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $user = Auth::user();
             $token = $user->createToken('auth_token')->plainTextToken;
-            return response()->json(['token' => $token , 'userInfo' => Auth::user()->get(['id', 'email', 'fname', 'lname','email_verified_at']), 'message' => 'login successful' ], 200);
+            return response()->json(['token' => $token , 'userInfo' => Auth::user()]), 'message' => 'login successful' ], 200);
         }
 
         throw ValidationException::withMessages([
