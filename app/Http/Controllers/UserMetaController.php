@@ -14,10 +14,9 @@ class UserMetaController extends Controller
         // Validate incoming request data
         $request->validate([
             'profile_pic' => 'image|mimes:jpeg,png,jpg,gif|max:10000',
-            'phone' => 'required|string|exists:users_meta,value,'.$id.',user_id',
-            'fix_rate' => 'required|numeric|min:0',
-            'hourly_rate' => 'required|numeric|min:0',
-            'email' => 'required|email|unique:users,email,'.$id,
+            'phone' => 'required|numeric|exists:users_meta,value,'.$id.',user_id',
+            'fix_rate' => 'required',
+            'hourly_rate' => 'required',
             'gender' => 'nullable|string',
             'location' => 'nullable|string',
             'intro' => 'nullable|string',
