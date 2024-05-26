@@ -17,11 +17,11 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
 
-    Route::patch('/update/{id}', [UserMetaController::class, 'update'])->name('update');
-    Route::patch('/update/skills/{id}', [UserMetaController::class, 'updateOrCreateSkills'])->name('update.skills');
+    Route::put('/update/{id}', [UserMetaController::class, 'update'])->name('update');
+    Route::put('/update/skills/{id}', [UserMetaController::class, 'updateOrCreateSkills'])->name('update.skills');
     Route::post('/get-languages', [UserMetaController::class, 'getLangauges'])->name('get-language');
-    Route::put('/get-countries', [UserMetaController::class, 'getCountries'])->name('get-country');
-    Route::put('/get-timezones', [UserMetaController::class, 'getTimezone'])->name('get-timzone');
+    Route::post('/get-countries', [UserMetaController::class, 'getCountries'])->name('get-country');
+    Route::post('/get-timezones', [UserMetaController::class, 'getTimezone'])->name('get-timzone');
 
 
 });
