@@ -41,7 +41,7 @@ class UserMetaController extends Controller
             'hourly_rate' => $request->input('hourly_rate'),
             'intro' => $request->input('intro'),
         ];
-        if (!$userMeta->IsEmpty()) {
+        if ($userMeta->count() > 0) {
             if ($request->hasFile('profile_pic')) {
                 $profilePic = $request->file('profile_pic');
                 $path = Storage::disk('s3')->put('profile_pictures', $profilePic);
