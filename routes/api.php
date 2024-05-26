@@ -21,10 +21,10 @@ Route::get('/get-timezones', [UserMetaController::class, 'getTimezone'])->name('
 
 Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
 
-    Route::put('/update/{id}', [UserMetaController::class, 'update'])->name('update');
+    Route::post('/update/{id}', [UserMetaController::class, 'update'])->name('update');
     Route::get('/getProfile/{id}', [UserMetaController::class, 'getUserDetail'])->name('getProfile');
 
-    Route::put('/update/skills/{id}', [UserMetaController::class, 'updateOrCreateSkills'])->name('update.skills');
+    Route::post('/update/skills/{id}', [UserMetaController::class, 'updateOrCreateSkills'])->name('update.skills');
 
 
 
