@@ -40,6 +40,7 @@ class UserMetaController extends Controller
             'fix_rate' => $request->input('fix_rate'),
             'hourly_rate' => $request->input('hourly_rate'),
             'intro' => $request->input('intro'),
+            'user_id' => $id
         ];
         if ($userMeta->count() > 0) {
             if ($request->hasFile('profile_pic')) {
