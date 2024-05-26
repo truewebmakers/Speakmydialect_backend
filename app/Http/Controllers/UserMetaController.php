@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{Country, Language, Timezone, User,UserSkills};
+use App\Models\{Country, Language, Timezone, User, UserMeta, UserSkills};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -25,14 +25,29 @@ class UserMetaController extends Controller
         ]);
         $user = User::findOrFail($id);
 
-        $user->update([
-            'phone' => $request->input('phone'),
-            'gender' => $request->input('gender'),
-            'location' => $request->input('location'),
-            'fix_rate' => $request->input('fix_rate'),
-            'hourly_rate' => $request->input('hourly_rate'),
-            'intro' => $request->input('intro'),
-        ]);
+        $userMeta = UserMeta::where(['user_id' => $id]);
+
+        if (!empty($userMeta)) {
+            $userMeta->update([
+                'phone' => $request->input('phone'),
+                'gender' => $request->input('gender'),
+                'location' => $request->input('location'),
+                'fix_rate' => $request->input('fix_rate'),
+                'hourly_rate' => $request->input('hourly_rate'),
+                'intro' => $request->input('intro'),
+            ]);
+        }else{
+            $userMeta->create([
+                'phone' => $request->input('phone'),
+                'gender' => $request->input('gender'),
+                'location' => $request->input('location'),
+                'fix_rate' => $request->input('fix_rate'),
+                'hourly_rate' => $request->input('hourly_rate'),
+                'intro' => $request->input('intro'),
+            ]);
+        }
+
+
         if ($request->hasFile('profile_pic')) {
             $profilePic = $request->file('profile_pic');
             $path = Storage::disk('s3')->put('profile_pictures', $profilePic, 'public'); // Assuming AWS S3 is configured
@@ -42,6 +57,8 @@ class UserMetaController extends Controller
 
         return response()->json(['message' => 'User meta information updated successfully'], 200);
     }
+
+
 
     public function updateOrCreateSkills(Request $request, $userId)
     {
@@ -71,6 +88,12 @@ class UserMetaController extends Controller
         }
 
         return response()->json(['message' => 'Skills updated successfully']);
+    }
+
+    public function getUserDetail($id){
+        $user = User::with('UserMeta')->findOrFail($id);
+        return response()->json(['message' => 'User fetched successfully' , 'user' =>$user]);
+
     }
 
 
