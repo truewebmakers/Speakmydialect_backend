@@ -50,8 +50,8 @@ class UserMetaController extends Controller
         if ($request->hasFile('profile_pic')) {
             $profilePic = $request->file('profile_pic');
             $path = Storage::disk('s3')->put('profile_pictures', $profilePic); // Assuming AWS S3 is configured
-            $user->profile_pic = $path;
-            $user->save();
+            $userMeta->profile_pic = $path;
+            $userMeta->save();
         }
 
         return response()->json(['message' => 'User meta information updated successfully'], 200);
