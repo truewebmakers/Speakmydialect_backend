@@ -51,4 +51,14 @@ class AuthController extends Controller
             'email' => ['The provided credentials are incorrect.'],
         ]);
     }
+    public function logout(Request $request)
+    {
+        $user = Auth::user();
+        // Revoke the token that was used to authenticate the current request
+        $request->user()->token()->revoke();
+
+        return response()->json([
+            'message' => 'Successfully logged out'
+        ]);
+    }
 }

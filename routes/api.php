@@ -19,13 +19,14 @@ Route::get('/get-languages', [UserMetaController::class, 'getLangauges'])->name(
 Route::get('/get-countries', [UserMetaController::class, 'getCountries'])->name('get-country');
 Route::get('/get-timezones', [UserMetaController::class, 'getTimezone'])->name('get-timzone');
 
+
 Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
 
     Route::post('/update/{id}', [UserMetaController::class, 'update'])->name('update');
     Route::get('/getProfile/{id}', [UserMetaController::class, 'getUserDetail'])->name('getProfile');
 
     Route::post('/update/skills/{id}', [UserMetaController::class, 'updateOrCreateSkills'])->name('update.skills');
-
+    Route::post('/logout', [AuthController::class, 'logout'])->name('admin.logout');
 
 
 });
