@@ -26,7 +26,7 @@ Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
     Route::get('/getProfile/{id}', [UserMetaController::class, 'getUserDetail'])->name('getProfile');
 
     Route::post('/update/skills/{id}', [UserMetaController::class, 'updateOrCreateSkills'])->name('update.skills');
-    Route::post('/logout', [AuthController::class, 'logout'])->name('admin.logout');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
 });
