@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Language;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -61,18 +62,12 @@ class SearchTranslatorsController extends Controller
     }
     public function searchTranslatorsSuggestions(Request $request)
     {
-        $query = User::query();
+        $query = Language::query();
         if ($request->filled('language')) {
-            $query->whereHas('userSkills', function ($subquery) use ($request) {
-                $subquery->where('language', $request->input('language'));
-            });
+            $query ->where('name', $request->input('language'));
         }
-        $query->with('userMeta', 'userSkills');
-
-        $translators = $query->get();
-        // $translators = $query->get();
-
-        return response()->json(['message' => 'Translators suggestion list fetched successfully.' ,'data' => $translators],200);
+        $languages = $query->get();
+        return response()->json(['message' => 'languages suggestion list fetched successfully.' ,'data' => $languages],200);
     }
 
 }
