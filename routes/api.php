@@ -21,6 +21,8 @@ Route::get('/get-countries', [UserMetaController::class, 'getCountries'])->name(
 Route::get('/get-timezones', [UserMetaController::class, 'getTimezone'])->name('get-timzone');
 
 
+
+
 Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
 
     Route::post('/update/{id}', [UserMetaController::class, 'update'])->name('update');
