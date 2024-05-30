@@ -54,4 +54,9 @@ class User extends Authenticatable
         return $this->hasOne(UserMeta::class, 'user_id', 'id');
 
     }
+    // Define the one-to-many relationship with UserSkill
+    public function userSkills()
+    {
+        return $this->hasMany(UserSkills::class);
+    }
 }

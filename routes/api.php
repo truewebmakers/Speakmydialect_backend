@@ -5,7 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
     AuthController,
     UserMetaController,
-    UserWorkExperienceController
+    UserWorkExperienceController,
+    SearchTranslatorsController
 };
 
 Route::get('/user', function (Request $request) {
@@ -19,6 +20,8 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::get('/get-languages', [UserMetaController::class, 'getLangauges'])->name('get-language');
 Route::get('/get-countries', [UserMetaController::class, 'getCountries'])->name('get-country');
 Route::get('/get-timezones', [UserMetaController::class, 'getTimezone'])->name('get-timzone');
+
+Route::get('/translators/search', [SearchTranslatorsController::class, 'searchTranslators'])->name('get-timzone');
 
 
 

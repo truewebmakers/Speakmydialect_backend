@@ -10,15 +10,44 @@ class SearchTranslatorsController extends Controller
 
     public function searchTranslators(Request $request)
     {
+        $query = User::query();
 
-        $query = User::where('user_type', 'translator');
-
-        // Apply additional filters if needed
-        if ($request->has('language')) {
-            $query->where('language', $request->input('language'));
+        // Apply filters from user_metas table
+        if ($request->filled('fix_rate')) {
+            $query->whereHas('userMeta', function ($subquery) use ($request) {
+                $subquery->where('fix_rate', $request->input('fix_rate'));
+            });
         }
-        if ($request->has('language')) {
-            $query->where('language', $request->input('language'));
+
+        if ($request->filled('hourly_rate')) {
+            $query->whereHas('userMeta', function ($subquery) use ($request) {
+                $subquery->where('hourly_rate', $request->input('hourly_rate'));
+            });
+        }
+
+        if ($request->filled('location')) {
+            $query->whereHas('userMeta', function ($subquery) use ($request) {
+                $subquery->where('location', $request->input('location'));
+            });
+        }
+
+        if ($request->filled('gender')) {
+            $query->whereHas('userMeta', function ($subquery) use ($request) {
+                $subquery->where('gender', $request->input('gender'));
+            });
+        }
+
+        // Apply filters from user_skills table
+        if ($request->filled('language')) {
+            $query->whereHas('userSkills', function ($subquery) use ($request) {
+                $subquery->where('language', $request->input('language'));
+            });
+        }
+
+        if ($request->filled('level')) {
+            $query->whereHas('userSkills', function ($subquery) use ($request) {
+                $subquery->where('level', $request->input('level'));
+            });
         }
 
         // You can add more filters here
