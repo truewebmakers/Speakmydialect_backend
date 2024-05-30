@@ -50,11 +50,14 @@ class SearchTranslatorsController extends Controller
             });
         }
 
-        // You can add more filters here
+        $query->with('userMeta', 'userSkills');
 
         $translators = $query->get();
 
-        return response()->json(['message' => 'Translators fetched successfully.' ,'data' => $translators ],200);
+
+        // $translators = $query->get();
+
+        return response()->json(['message' => 'Translators fetched successfully.' ,'data' => $translators],200);
 
 
     }
