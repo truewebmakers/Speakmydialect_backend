@@ -54,7 +54,9 @@ class SearchTranslatorsController extends Controller
 
         $translators = $query->get();
 
-        return response()->json($translators);
+        return response()->json(['message' => 'Translators fetched successfully.' ,'data' => $translators ],200);
+
+
     }
 
 }
