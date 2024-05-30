@@ -47,7 +47,7 @@ class SearchTranslatorsController extends Controller
 
         if ($request->filled('level')) {
             $query->whereHas('userSkills', function ($subquery) use ($request) {
-                $subquery->where('level', $request->input('level'));
+                $subquery->where('level',  $request->input('level'));
             });
         }
 
@@ -64,7 +64,8 @@ class SearchTranslatorsController extends Controller
     {
         $query = Language::query();
         if ($request->filled('language')) {
-            $query ->where('name', $request->input('language'));
+            $language = $request->input('language');
+            $query->where('name', 'LIKE', "%$language%");
         }
         $languages = $query->get();
         return response()->json(['message' => 'languages suggestion list fetched successfully.' ,'data' => $languages],200);
