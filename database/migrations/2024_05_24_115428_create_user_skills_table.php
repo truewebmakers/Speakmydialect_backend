@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('language')->nullable();
-            $table->enum('lavel',['basic','bilingual','fluent','native'])->default('basic');
+            $table->enum('level',['basic','bilingual','fluent','native'])->default('basic');
             $table->enum('status',['active','inactive'])->default('active');
             $table->timestamps();
         });
