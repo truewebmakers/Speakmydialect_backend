@@ -21,7 +21,10 @@ Route::get('/get-languages', [UserMetaController::class, 'getLangauges'])->name(
 Route::get('/get-countries', [UserMetaController::class, 'getCountries'])->name('get-country');
 Route::get('/get-timezones', [UserMetaController::class, 'getTimezone'])->name('get-timzone');
 
-Route::get('/translators/search', [SearchTranslatorsController::class, 'searchTranslators'])->name('get-timzone');
+Route::get('/translators/search', [SearchTranslatorsController::class, 'searchTranslators'])->name('search.translator.filter');
+Route::get('/translators/search/suggestion', [SearchTranslatorsController::class, 'searchTranslatorsSuggestions'])->name('search.translator.suggestion');
+
+
 
 
 

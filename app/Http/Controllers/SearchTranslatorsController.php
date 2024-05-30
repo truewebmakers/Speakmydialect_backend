@@ -53,13 +53,26 @@ class SearchTranslatorsController extends Controller
         $query->with('userMeta', 'userSkills');
 
         $translators = $query->get();
-
-
         // $translators = $query->get();
 
         return response()->json(['message' => 'Translators fetched successfully.' ,'data' => $translators],200);
 
 
+    }
+    public function searchTranslatorsSuggestions(Request $request)
+    {
+        $query = User::query();
+        if ($request->filled('language')) {
+            $query->whereHas('userSkills', function ($subquery) use ($request) {
+                $subquery->where('language', $request->input('language'));
+            });
+        }
+        $query->with('userMeta', 'userSkills');
+
+        $translators = $query->get();
+        // $translators = $query->get();
+
+        return response()->json(['message' => 'Translators suggestion list fetched successfully.' ,'data' => $translators],200);
     }
 
 }
