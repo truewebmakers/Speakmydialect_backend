@@ -51,6 +51,20 @@ class AuthController extends Controller
             'email' => ['The provided credentials are incorrect.'],
         ]);
     }
+
+    public function UpdatePassword(Request $request,$id)
+    {
+
+        $request->validate([
+            'password' => 'min:6|required_with:password_confirmation|same:password_confirmation',
+            'password_confirmation' => 'min:6',
+        ]);
+        $user = User::find($id);
+        $user->password = Hash::make($request->input('password'));
+        $user->save();
+
+        return response()->json(['message' => 'Password changed successfully.']);
+    }
     public function logout(Request $request)
     {
         $user = Auth::user();
