@@ -56,12 +56,21 @@ class AuthController extends Controller
     {
 
         $request->validate([
+            'old_password' => 'required',
             'password' => 'min:6|required_with:password_confirmation|same:password_confirmation',
             'password_confirmation' => 'min:6',
         ]);
         $user = User::find($id);
-        $user->password = Hash::make($request->input('password'));
-        $user->save();
+
+        if($user->password == Hash::make($request->input('old_password'))){
+            $user->password = Hash::make($request->input('password'));
+            $user->save();
+        }else{
+            return response()->json(['message' => 'You old password not match with our records. please check your password and try again']);
+        }
+
+
+
 
         return response()->json(['message' => 'Password changed successfully.']);
     }
