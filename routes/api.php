@@ -6,7 +6,8 @@ use App\Http\Controllers\{
     AuthController,
     UserMetaController,
     UserWorkExperienceController,
-    SearchTranslatorsController
+    SearchTranslatorsController,
+    UserEductionController
 };
 
 Route::get('/user', function (Request $request) {
@@ -41,16 +42,16 @@ Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
 
     // Work experience Apis started
     Route::get('/experience/get/{user_id}', [UserWorkExperienceController::class, 'getWorkExperience'])->name('experience.get');
-    Route::post('/experience/add', [UserWorkExperienceController::class, 'store'])->name('experience.add');
+    Route::post('/experience/add/{user_id}', [UserWorkExperienceController::class, 'store'])->name('experience.add');
     Route::post('/experience/update/{id}', [UserWorkExperienceController::class, 'update'])->name('experience.update');
     Route::post('/experience/delete/{id}', [UserWorkExperienceController::class, 'destroy'])->name('experience.destroy');
     // Work experience Apis end
 
     // Education Apis started
-    Route::get('/education/get/{user_id}', [UserWorkExperienceController::class, 'getWorkExperience'])->name('experience.get');
-    Route::post('/education/add', [UserWorkExperienceController::class, 'store'])->name('experience.add');
-    Route::post('/education/update/{id}', [UserWorkExperienceController::class, 'update'])->name('experience.update');
-    Route::post('/education/delete/{id}', [UserWorkExperienceController::class, 'destroy'])->name('experience.destroy');
+    Route::get('/education/get/{user_id}', [UserEductionController::class, 'getWorkExperience'])->name('experience.get');
+    Route::post('/education/add/{user_id}', [UserEductionController::class, 'store'])->name('experience.add');
+    Route::post('/education/update/{id}', [UserEductionController::class, 'update'])->name('experience.update');
+    Route::post('/education/delete/{id}', [UserEductionController::class, 'destroy'])->name('experience.destroy');
     // Education Apis end
 
 

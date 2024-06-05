@@ -68,16 +68,11 @@ class AuthController extends Controller
         }else{
             return response()->json(['message' => 'You old password not match with our records. please check your password and try again']);
         }
-
-
-
-
         return response()->json(['message' => 'Password changed successfully.']);
     }
     public function logout(Request $request)
     {
         $user = Auth::user();
-        // Revoke the token that was used to authenticate the current request
         $request->user()->token()->revoke();
 
         return response()->json([

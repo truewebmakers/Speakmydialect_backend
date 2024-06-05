@@ -12,7 +12,7 @@ class UserWorkExperienceController extends Controller
         $workExperience = UserWorkExperience::where('user_id',$id)->get();
         return response()->json(['message' => 'Work Experience feched successfully.','data' => $workExperience ],200);
     }
-    public function store(Request $request)
+    public function store(Request $request,$id)
     {
         $validatedData = $request->validate([
             'title' => 'required|string|max:255',
@@ -28,7 +28,8 @@ class UserWorkExperienceController extends Controller
             'job_description' => 'nullable|string',
         ]);
 
-        $validatedData['user_id'] = auth()->id();
+        // $validatedData['user_id'] = auth()->id();
+        $validatedData['user_id'] = $id;
         UserWorkExperience::create($validatedData);
         return response()->json(['message' => 'Work Experience add successfully.'],200);
     }
