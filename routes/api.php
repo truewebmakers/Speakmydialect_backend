@@ -38,6 +38,10 @@ Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
     Route::post('/update/password/{id}', [AuthController::class, 'UpdatePassword'])->name('update.password');
 
     Route::post('/update/skills/{id}', [UserMetaController::class, 'updateOrCreateSkills'])->name('update.skills');
+    Route::get('/get/skills/{id}', [UserMetaController::class, 'getSkills'])->name('get.skills');
+    Route::post('/delete/skills/{id}', [UserMetaController::class, 'DeleteSkill'])->name('delete.skills');
+
+
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
     // Work experience Apis started

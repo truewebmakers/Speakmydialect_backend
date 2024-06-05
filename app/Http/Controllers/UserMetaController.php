@@ -92,6 +92,20 @@ class UserMetaController extends Controller
         return response()->json(['message' => 'Skills updated successfully']);
     }
 
+    public function getSkills($id){
+         $skills =  UserSkills::where(['user_id' => $id])->get();
+        return response()->json(['message' => 'User skills fetched successfully' , 'data' =>$skills]);
+
+    }
+
+    public function DeleteSkill($id){
+        $skills =  UserSkills::where(['user_id' => $id])->delete();
+       return response()->json(['message' => 'User skills delete successfully']);
+
+   }
+
+
+
     public function getUserDetail($id){
         $user = User::with('UserMeta')->findOrFail($id);
         return response()->json(['message' => 'User fetched successfully' , 'user' =>$user]);
