@@ -68,10 +68,10 @@ class AuthController extends Controller
             $user->password = Hash::make($request->input('password'));
             $user->save();
 
-            return response()->json(['message' => 'Password changed successfully.']);
+            return response()->json(['message' => 'Password changed successfully.','status' => true]);
         } else {
             // Old password doesn't match
-            return response()->json(['message' => 'Your old password does not match with our records. Please check your password and try again.'], 401);
+            return response()->json(['message' => 'Your old password does not match with our records. Please check your password and try again.' ,'status' => false], 401);
         }
     }
 
