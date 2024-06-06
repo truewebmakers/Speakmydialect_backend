@@ -8,7 +8,7 @@ class UserEductionController extends Controller
 {
     public function getWorkExperience($id){
         $workExperience = UserEduction::where('user_id',$id)->get();
-        return response()->json(['message' => 'Education feched successfully.','data' => $workExperience ],200);
+        return response()->json(['message' => 'Education feched successfully.','data' => $workExperience ,'status' => true],200);
     }
     public function store(Request $request,$id)
     {
@@ -22,7 +22,7 @@ class UserEductionController extends Controller
 
         $validatedData['user_id'] = $id;
         UserEduction::create($validatedData);
-        return response()->json(['message' => 'Education add successfully.'],200);
+        return response()->json(['message' => 'Education add successfully.','status' => true],200);
     }
 
     public function update(Request $request, $id)
@@ -37,7 +37,7 @@ class UserEductionController extends Controller
         $workExperience = UserEduction::find($id);
 
         $workExperience->update($validatedData);
-        return response()->json(['message' => 'Education update successfully.'],200);
+        return response()->json(['message' => 'Education update successfully.','status' => true],200);
 
 
     }
@@ -46,7 +46,7 @@ class UserEductionController extends Controller
     {
         $workExperience = UserEduction::find($id);
         $workExperience->delete();
-        return response()->json(['message' => 'Education deleted successfully.'],200);
+        return response()->json(['message' => 'Education deleted successfully.','status' => true],200);
 
     }
 }

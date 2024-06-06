@@ -56,7 +56,7 @@ class SearchTranslatorsController extends Controller
         $translators = $query->get();
         // $translators = $query->get();
 
-        return response()->json(['message' => 'Translators fetched successfully.' ,'data' => $translators],200);
+        return response()->json(['message' => 'Translators fetched successfully.' ,'data' => $translators ,'status' => true],200);
 
 
     }
@@ -68,7 +68,7 @@ class SearchTranslatorsController extends Controller
             $query->where('name', 'LIKE', "%$language%");
         }
         $languages = $query->get();
-        return response()->json(['message' => 'languages suggestion list fetched successfully.' ,'data' => $languages],200);
+        return response()->json(['message' => 'languages suggestion list fetched successfully.' ,'data' => $languages ,'status' => true],200);
     }
 
 }

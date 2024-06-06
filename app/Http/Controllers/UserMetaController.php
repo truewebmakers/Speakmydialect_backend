@@ -57,7 +57,7 @@ class UserMetaController extends Controller
             }
             UserMeta::create($insert);
         }
-        return response()->json(['message' => 'User meta information updated successfully'], 200);
+        return response()->json(['message' => 'User meta information updated successfully' ,'status' => true], 200);
     }
 
 
@@ -89,18 +89,18 @@ class UserMetaController extends Controller
             }
         }
 
-        return response()->json(['message' => 'Skills updated successfully']);
+        return response()->json(['message' => 'Skills updated successfully','status' => true]);
     }
 
     public function getSkills($id){
          $skills =  UserSkills::where(['user_id' => $id])->get();
-        return response()->json(['message' => 'User skills fetched successfully' , 'data' =>$skills]);
+        return response()->json(['message' => 'User skills fetched successfully' , 'data' =>$skills ,'status' => true]);
 
     }
 
     public function DeleteSkill($id){
         $skills =  UserSkills::where(['user_id' => $id])->delete();
-       return response()->json(['message' => 'User skills delete successfully']);
+       return response()->json(['message' => 'User skills delete successfully','status' => true]);
 
    }
 
@@ -108,21 +108,21 @@ class UserMetaController extends Controller
 
     public function getUserDetail($id){
         $user = User::with('UserMeta')->findOrFail($id);
-        return response()->json(['message' => 'User fetched successfully' , 'user' =>$user]);
+        return response()->json(['message' => 'User fetched successfully' , 'user' =>$user,'status' => true]);
 
     }
 
 
     public function getLangauges(){
        $lang =  Language::all();
-        return response()->json(['message' => 'Languages Fetched' ,'data' => $lang]);
+        return response()->json(['message' => 'Languages Fetched' ,'data' => $lang,'status' => true]);
     }
     public function getCountries(){
         $countries =  Country::all();
-         return response()->json(['message' => 'Country Fetched' ,'data' => $countries]);
+         return response()->json(['message' => 'Country Fetched' ,'data' => $countries,'status' => true]);
      }
     public function getTimezone(){
         $timezone =  Timezone::all();
-         return response()->json(['message' => 'Timezone Fetched' ,'data' => $timezone]);
+         return response()->json(['message' => 'Timezone Fetched' ,'data' => $timezone,'status' => true]);
      }
 }

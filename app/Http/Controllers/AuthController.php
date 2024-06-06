@@ -30,7 +30,7 @@ class AuthController extends Controller
             'user_type' => $request->user_type
         ]);
 
-        return response()->json(['message' => 'User registered successfully'], 201);
+        return response()->json(['message' => 'User registered successfully','status' => true], 201);
     }
 
     public function login(Request $request)
@@ -82,6 +82,7 @@ class AuthController extends Controller
 
         return response()->json([
             'message' => 'Successfully logged out'
+            ,'status' => true
         ]);
     }
 }

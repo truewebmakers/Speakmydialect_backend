@@ -31,7 +31,7 @@ class UserWorkExperienceController extends Controller
         // $validatedData['user_id'] = auth()->id();
         $validatedData['user_id'] = $id;
         UserWorkExperience::create($validatedData);
-        return response()->json(['message' => 'Work Experience add successfully.'],200);
+        return response()->json(['message' => 'Work Experience add successfully.','status' => true],200);
     }
 
     public function update(Request $request, $id)
@@ -52,7 +52,7 @@ class UserWorkExperienceController extends Controller
         $workExperience = UserWorkExperience::find($id);
 
         $workExperience->update($validatedData);
-        return response()->json(['message' => 'Work Experience update successfully.'],200);
+        return response()->json(['message' => 'Work Experience update successfully.','status' => true],200);
 
 
     }
@@ -61,7 +61,7 @@ class UserWorkExperienceController extends Controller
     {
         $workExperience = UserWorkExperience::find($id);
         $workExperience->delete();
-        return response()->json(['message' => 'Work Experience deleted successfully.'],200);
+        return response()->json(['message' => 'Work Experience deleted successfully.','status' => true],200);
 
     }
 }
