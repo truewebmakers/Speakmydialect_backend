@@ -22,7 +22,9 @@ return new class extends Migration
             $table->string('location_type')->nullable();
             $table->string('start_month')->nullable();
             $table->string('start_year')->nullable();
-            $table->enum('present_working',['0','1'])->comment('0 for not present, 1 yes presently working here ');
+            $table->unsignedBigInteger('present_working')->default(0)->comment('0 for not present, 1 yes presently working here ');
+
+           // $table->enum('present_working',['0','1'])->comment('0 for not present, 1 yes presently working here ');
             $table->string('end_month')->nullable();
             $table->string('end_year')->nullable();
             $table->text('job_description')->nullable();
