@@ -99,7 +99,7 @@ class UserMetaController extends Controller
     }
 
     public function DeleteSkill($id){
-        $skills =  UserSkills::where(['user_id' => $id])->delete();
+        $skills =  UserSkills::where(['id' => $id])->delete();
        return response()->json(['message' => 'User skills delete successfully','status' => true]);
 
    }
