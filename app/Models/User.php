@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
@@ -23,7 +24,8 @@ class User extends Authenticatable
         'username',
         'email',
         'password',
-        'user_type'
+        'user_type',
+        'uuid'
     ];
 
     /**
@@ -49,6 +51,14 @@ class User extends Authenticatable
         ];
     }
 
+    protected static function booted()
+    {
+        static::creating(function ($user) {
+            if (empty($user->uuid)) {
+                $user->uuid = (string) Str::uuid();
+            }
+        });
+    }
 
     public function UserMeta(){
         return $this->hasOne(UserMeta::class, 'user_id', 'id');
