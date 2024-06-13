@@ -72,7 +72,7 @@ class SearchTranslatorsController extends Controller
     }
 
     public function getUserProfile($id){
-        $data = User::with('userMeta', 'userSkills','UserEducation','UserWorkExperince')->find($id);
+        $data = User::with('userMeta', 'userSkills','UserEducation','UserWorkExperince')->where('uuid',$id)->first();
         return response()->json(['message' => 'user profile fetched successfully.' ,'data' => $data ,'status' => true],200);
     }
 
