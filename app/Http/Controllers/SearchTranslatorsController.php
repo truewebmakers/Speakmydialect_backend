@@ -71,4 +71,9 @@ class SearchTranslatorsController extends Controller
         return response()->json(['message' => 'languages suggestion list fetched successfully.' ,'data' => $languages ,'status' => true],200);
     }
 
+    public function getUserProfile($id){
+        $data = User::with('userMeta', 'userSkills','UserEducation','UserWorkExperince')->find($id);
+        return response()->json(['message' => 'user profile fetched successfully.' ,'data' => $data ,'status' => true],200);
+    }
+
 }

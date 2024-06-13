@@ -24,6 +24,7 @@ Route::get('/get-timezones', [UserMetaController::class, 'getTimezone'])->name('
 
 Route::get('/translators/search', [SearchTranslatorsController::class, 'searchTranslators'])->name('search.translator.filter');
 Route::get('/language/search/suggestion', [SearchTranslatorsController::class, 'searchTranslatorsSuggestions'])->name('search.language.suggestion');
+Route::get('/get-profile/{id}', [SearchTranslatorsController::class, 'getUserProfile'])->name('get.user.profile');
 
 
 
@@ -32,6 +33,7 @@ Route::get('/language/search/suggestion', [SearchTranslatorsController::class, '
 
 Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
 
+    Route::get('/get-profile-admin/{id}', [SearchTranslatorsController::class, 'getUserProfile'])->name('get.user.admin.profile');
     Route::post('/update/{id}', [UserMetaController::class, 'update'])->name('update');
     Route::get('/getProfile/{id}', [UserMetaController::class, 'getUserDetail'])->name('getProfile');
 
