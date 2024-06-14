@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 
 class SearchTranslatorsController extends Controller
 {
-
     public function searchTranslators(Request $request)
     {
         $query = User::query();
@@ -40,8 +39,9 @@ class SearchTranslatorsController extends Controller
 
         // Apply filters from user_skills table
         if ($request->filled('language')) {
-            $query->whereHas('userSkills', function ($subquery) use ($request) {
-                $subquery->where('language', $request->input('language'));
+            $languageId = Language::where('name','Like','%'.$request->input('language').'%')->pluck('id');
+            $query->whereHas('userSkills', function ($subquery) use ($request,$languageId) {
+                $subquery->whereIn('language',$languageId );
             });
         }
 
