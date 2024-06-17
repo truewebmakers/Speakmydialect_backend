@@ -7,7 +7,8 @@ use App\Http\Controllers\{
     UserMetaController,
     UserWorkExperienceController,
     SearchTranslatorsController,
-    UserEductionController
+    UserEductionController,
+    BookingController
 };
 
 Route::get('/user', function (Request $request) {
@@ -54,13 +55,21 @@ Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
     // Work experience Apis end
 
     // Education Apis started
-    Route::get('/education/get/{user_id}', [UserEductionController::class, 'getWorkExperience'])->name('experience.get');
-    Route::post('/education/add/{user_id}', [UserEductionController::class, 'store'])->name('experience.add');
-    Route::post('/education/update/{id}', [UserEductionController::class, 'update'])->name('experience.update');
-    Route::post('/education/delete/{id}', [UserEductionController::class, 'destroy'])->name('experience.destroy');
+    Route::get('/education/get/{user_id}', [UserEductionController::class, 'getWorkExperience'])->name('education.get');
+    Route::post('/education/add/{user_id}', [UserEductionController::class, 'store'])->name('education.add');
+    Route::post('/education/update/{id}', [UserEductionController::class, 'update'])->name('education.update');
+    Route::post('/education/delete/{id}', [UserEductionController::class, 'destroy'])->name('education.destroy');
     // Education Apis end
+
+    // Booking Apis started
+    Route::get('/booking/get/client/{client_id}/{status}', [BookingController::class, 'getBookingForClient'])->name('booking.get.client');
+    Route::get('/booking/get/translator/{translator_id}/{status}', [BookingController::class, 'getBookingForTranslator'])->name('booking.get.translator');
+    Route::post('/booking/update/client/{client_id}/{status}', [BookingController::class, 'updateClientStatus'])->name('booking.update');
+    Route::post('/booking/update/translator/{translator_id}/{status}', [BookingController::class, 'updateTranslatorStatus'])->name('booking.update');
+    Route::post('/booking/add', [BookingController::class, 'store'])->name('booking.add');
+    Route::post('/booking/delete/{id}', [BookingController::class, 'destroy'])->name('booking.destroy');
+    // Booking Apis end
+
 
 
 });
-
-
