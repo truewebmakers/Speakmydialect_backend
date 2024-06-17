@@ -8,6 +8,14 @@ use App\Models\Booking;
 class BookingController extends Controller
 {
 
+
+    public function getPayoutBooking($translatorId)
+    {
+        $query = Booking::where(['translator_id' => $translatorId]);
+        $booking = $query->get();
+        return response()->json(['message' => 'Booking added successfully.' ,'data' =>$booking ,'status' => true],200);
+    }
+
     public function getBookingForClient($clientId , $status='')
     {
         $query = Booking::where(['client_id' => $clientId]);
@@ -84,6 +92,8 @@ class BookingController extends Controller
         return response()->json(['message' => 'Booking updated successfully.' ,'data' => $job ,'status' => true],200);
 
     }
+
+
 
 
 }

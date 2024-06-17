@@ -62,6 +62,7 @@ Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
     // Education Apis end
 
     // Booking Apis started
+    Route::get('/payout/get/translator/{translator_id}', [BookingController::class, 'getPayoutBooking'])->name('booking.get');
     Route::get('/booking/get/client/{client_id}/{status}', [BookingController::class, 'getBookingForClient'])->name('booking.get.client');
     Route::get('/booking/get/translator/{translator_id}/{status}', [BookingController::class, 'getBookingForTranslator'])->name('booking.get.translator');
     Route::post('/booking/update/client/{client_id}/{status}', [BookingController::class, 'updateClientStatus'])->name('booking.update');
