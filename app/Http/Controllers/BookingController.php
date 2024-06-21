@@ -24,16 +24,16 @@ class BookingController extends Controller
             $query->where(['status' => $status]);
         }
         if($request->input('type') == 'upcoming_booking'){
-            $query->whereDate('start_at','>',date('Y-m-d'))->where(['work_status','pending']);
+            $query->whereDate('start_at','>',date('Y-m-d')) ;
         }
         if($request->input('type') == 'current_booking'){
-            $query->whereDate('start_at',date('Y-m-d'))->where(['status','accept']);
+            $query->whereDate('start_at',date('Y-m-d'));
         }
         if($request->input('type') == 'cancle_booking'){
-            $query->where(['work_status','cancle']);
+            $query->where(['work_status'=>'cancle']);
         }
         if($request->input('type') == 'approved_booking'){
-            $query->where(['work_status','approved']);
+            $query->where(['work_status'=>'approved']);
         }
         $booking = $query->get();
         return response()->json(['message' => 'Booking added successfully.' ,'data' =>$booking ,'status' => true],200);
@@ -50,22 +50,22 @@ class BookingController extends Controller
             $query->where(['status','pending']);
         }
         if($request->input('type') == 'today_booking'){
-            $query->whereDate('start_at',date('Y-m-d'))->where(['status','accept']);
+            $query->whereDate('start_at',date('Y-m-d')) ;
         }
         if($request->input('type') == 'upcoming_booking'){
-            $query->whereDate('start_at','>',date('Y-m-d'))->where(['status','accept']);
+            $query->whereDate('start_at','>',date('Y-m-d'));
         }
 
         if($request->input('type') == 'approved_booking'){
-            $query->where(['work_status','approved']);
+            $query->where('work_status','approved');
         }
 
         if($request->input('type') == 'cancled_booking'){
-            $query->where(['work_status','cancle']);
+            $query->where('work_status','cancle');
         }
 
         if($request->input('type') == 'completed_booking'){
-            $query->where(['status','mark-completed','work_status' => 'approved']);
+            $query->where(['status'=>'mark-completed','work_status' => 'approved']);
         }
         $booking = $query->get();
         return response()->json(['message' => 'Booking added successfully.' ,'data' =>$booking ,'status' => true],200);
