@@ -65,7 +65,8 @@ class BookingController extends Controller
         }
 
         if($request->input('type') == 'completed_booking'){
-            $query->where(['status'=>'mark-completed','work_status' => 'approved']);
+            $query->where('work_status', '!=','approved');
+          //  $query->where(['status'=>'mark-completed','work_status' => 'approved']);
         }
         $booking = $query->get();
         return response()->json(['message' => 'Booking fetched successfully.' ,'data' =>$booking ,'status' => true],200);
