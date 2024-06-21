@@ -23,8 +23,8 @@ return new class extends Migration
             $table->dateTime('start_at')->nullable();
             $table->dateTime('end_at')->nullable();
             $table->enum('availability',['remote','hybrid','onsite'])->default('remote');
-            $table->enum('status',['accept','reject','cancle','in-process','mark-completed'])->default('in-process');
-            $table->enum('work_status',['approved','reject','disputed','pending','cancle'])->default('pending');
+            $table->enum('status',['accept','reject','cancel','in-process','mark-completed'])->default('in-process');
+            $table->enum('work_status',['approved','reject','disputed','pending','cancel'])->default('pending');
             $table->enum('payment_status',['paid','escrow','hold','dispute','none'])->default('none');
             $table->dateTime('payment_by_client_at')->nullable();
             $table->dateTime('payment_by_translator_at')->nullable();

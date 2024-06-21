@@ -21,20 +21,20 @@ class BookingController extends Controller
     {
         $query = Booking::where(['client_id' => $clientId]);
         if($status){
-            $query->where(['status' => $status]);
+            $query->where(['work_status' => $status]);
         }
         if($request->input('type') == 'upcoming_booking'){
-            $query->whereDate('start_at','>',date('Y-m-d')) ;
+            $query->whereDate('start_at','>',date('Y-m-d'));
         }
         if($request->input('type') == 'current_booking'){
-            $query->whereDate('start_at',date('Y-m-d'));
+            $query->whereDate('start_at',date('Y-m-d'))->where('status','accept');
         }
-        if($request->input('type') == 'cancle_booking'){
-            $query->where(['work_status'=>'cancle']);
+        if($request->input('type') == 'completed_booking'){
+            $query->where(['status'=>'mark-completed']);
         }
-        if($request->input('type') == 'approved_booking'){
-            $query->where(['work_status'=>'approved']);
-        }
+        // if($request->input('type') == 'approved_booking'){
+        //     $query->where(['work_status'=> 'approved']);
+        // }
         $booking = $query->get();
         return response()->json(['message' => 'Booking fetched successfully.' ,'data' =>$booking ,'status' => true],200);
     }
@@ -60,9 +60,9 @@ class BookingController extends Controller
             $query->where('work_status','approved');
         }
 
-        if($request->input('type') == 'cancled_booking'){
-            $query->where('work_status','cancle');
-        }
+        // if($request->input('type') == 'cancled_booking'){
+        //     $query->where('work_status','cancle');
+        // }
 
         if($request->input('type') == 'completed_booking'){
             $query->where('work_status', '!=','approved');
