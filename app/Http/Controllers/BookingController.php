@@ -9,28 +9,63 @@ class BookingController extends Controller
 {
 
 
-    public function getPayoutBooking($translatorId)
+    public function getPayoutBooking($translatorId,Request $request)
     {
         $query = Booking::where(['translator_id' => $translatorId]);
+
         $booking = $query->get();
         return response()->json(['message' => 'Booking added successfully.' ,'data' =>$booking ,'status' => true],200);
     }
 
-    public function getBookingForClient($clientId , $status='')
+    public function getBookingForClient($clientId , $status='',Request $request)
     {
         $query = Booking::where(['client_id' => $clientId]);
         if($status){
             $query->where(['status' => $status]);
         }
+        if($request->input('type') == 'upcoming_booking'){
+            $query->whereDate('start_at','>',date('Y-m-d'))->where(['work_status','pending']);
+        }
+        if($request->input('type') == 'current_booking'){
+            $query->whereDate('start_at',date('Y-m-d'))->where(['status','accept']);
+        }
+        if($request->input('type') == 'cancle_booking'){
+            $query->where(['work_status','cancle']);
+        }
+        if($request->input('type') == 'approved_booking'){
+            $query->where(['work_status','approved']);
+        }
         $booking = $query->get();
         return response()->json(['message' => 'Booking added successfully.' ,'data' =>$booking ,'status' => true],200);
     }
 
-    public function getBookingForTranslator($translatorId , $status ='')
+    public function getBookingForTranslator($translatorId , $status ='' , Request $request)
     {
         $query = Booking::where(['translator_id' => $translatorId]);
         if($status){
             $query->where(['status' => $status]);
+        }
+        // New Bookings | Today Bookings | Upcoming | Canceled | Approved | Completed
+        if($request->input('type') == 'new_booking'){
+            $query->where(['status','pending']);
+        }
+        if($request->input('type') == 'today_booking'){
+            $query->whereDate('start_at',date('Y-m-d'))->where(['status','accept']);
+        }
+        if($request->input('type') == 'upcoming_booking'){
+            $query->whereDate('start_at','>',date('Y-m-d'))->where(['status','accept']);
+        }
+
+        if($request->input('type') == 'approved_booking'){
+            $query->where(['work_status','approved']);
+        }
+
+        if($request->input('type') == 'cancled_booking'){
+            $query->where(['work_status','cancle']);
+        }
+
+        if($request->input('type') == 'completed_booking'){
+            $query->where(['status','mark-completed','work_status' => 'approved']);
         }
         $booking = $query->get();
         return response()->json(['message' => 'Booking added successfully.' ,'data' =>$booking ,'status' => true],200);
