@@ -14,7 +14,7 @@ class BookingController extends Controller
         $query = Booking::where(['translator_id' => $translatorId]);
 
         $booking = $query->get();
-        return response()->json(['message' => 'Booking added successfully.' ,'data' =>$booking ,'status' => true],200);
+        return response()->json(['message' => 'Booking fetched successfully.' ,'data' =>$booking ,'status' => true],200);
     }
 
     public function getBookingForClient($clientId , $status='',Request $request)
@@ -36,7 +36,7 @@ class BookingController extends Controller
             $query->where(['work_status'=>'approved']);
         }
         $booking = $query->get();
-        return response()->json(['message' => 'Booking added successfully.' ,'data' =>$booking ,'status' => true],200);
+        return response()->json(['message' => 'Booking fetched successfully.' ,'data' =>$booking ,'status' => true],200);
     }
 
     public function getBookingForTranslator($translatorId , $status ='' , Request $request)
@@ -68,7 +68,7 @@ class BookingController extends Controller
             $query->where(['status'=>'mark-completed','work_status' => 'approved']);
         }
         $booking = $query->get();
-        return response()->json(['message' => 'Booking added successfully.' ,'data' =>$booking ,'status' => true],200);
+        return response()->json(['message' => 'Booking fetched successfully.' ,'data' =>$booking ,'status' => true],200);
     }
 
     public function updateClientStatus($id , $status ='')
