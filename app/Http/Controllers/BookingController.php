@@ -47,7 +47,7 @@ class BookingController extends Controller
         }
         // New Bookings | Today Bookings | Upcoming | Canceled | Approved | Completed
         if($request->input('type') == 'new_booking'){
-            $query->where(['status','pending']);
+            $query->where('status','pending');
         }
         if($request->input('type') == 'today_booking'){
             $query->whereDate('start_at',date('Y-m-d')) ;
