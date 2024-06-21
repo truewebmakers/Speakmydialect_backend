@@ -36,16 +36,16 @@ class BookingController extends Controller
         return response()->json(['message' => 'Booking added successfully.' ,'data' =>$booking ,'status' => true],200);
     }
 
-    public function updateClientStatus($translatorId , $status ='')
+    public function updateClientStatus($id , $status ='')
     {
-        $query = Booking::where(['translator_id' => $translatorId])->update(['status' => $status]);
+        $query = Booking::where(['id' => $id])->update(['status' => $status]);
 
         return response()->json(['message' => 'status Updated.' ,'data' =>$query ,'status' => true],200);
     }
 
-    public function updateTranslatorStatus($clientId , $status ='')
+    public function updateTranslatorStatus($id , $status ='')
     {
-        $query = Booking::where(['client_id' => $clientId])->update(['status' => $status]);
+        $query = Booking::where(['id' => $id])->update(['status' => $status]);
 
         return response()->json(['message' => 'status Updated.' ,'data' => $query ,'status' => true],200);
     }

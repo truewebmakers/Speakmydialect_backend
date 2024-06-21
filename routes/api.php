@@ -65,8 +65,8 @@ Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
     Route::get('/payout/get/translator/{translator_id}', [BookingController::class, 'getPayoutBooking'])->name('booking.get');
     Route::get('/booking/get/client/{client_id}/{status}', [BookingController::class, 'getBookingForClient'])->name('booking.get.client');
     Route::get('/booking/get/translator/{translator_id}/{status}', [BookingController::class, 'getBookingForTranslator'])->name('booking.get.translator');
-    Route::post('/booking/update/client/{client_id}/{status}', [BookingController::class, 'updateClientStatus'])->name('booking.update');
-    Route::post('/booking/update/translator/{translator_id}/{status}', [BookingController::class, 'updateTranslatorStatus'])->name('booking.update');
+    Route::post('/booking/update/client/{booking_id}/{status}', [BookingController::class, 'updateClientStatus'])->name('booking.update');
+    Route::post('/booking/update/translator/{booking_id}/{status}', [BookingController::class, 'updateTranslatorStatus'])->name('booking.update');
     Route::post('/booking/add', [BookingController::class, 'store'])->name('booking.add');
     Route::post('/booking/delete/{id}', [BookingController::class, 'destroy'])->name('booking.destroy');
     // Booking Apis end
