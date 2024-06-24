@@ -20,7 +20,7 @@ class BookingController extends Controller
 
     public function getBookingForClient($clientId , $status='',Request $request)
     {
-        $query = Booking::with('translator')->where(['client_id' => $clientId]);
+        $query = Booking::with('translator','translatorMeta')->where(['client_id' => $clientId]);
         if($status){
             $query->where(['work_status' => $status]);
         }
@@ -42,7 +42,7 @@ class BookingController extends Controller
 
     public function getBookingForTranslator($translatorId , $status ='' , Request $request)
     {
-        $query = Booking::with('client')->where(['translator_id' => $translatorId]);
+        $query = Booking::with('client','clientMeta')->where(['translator_id' => $translatorId]);
         if($status){
             $query->where(['status' => $status]);
         }

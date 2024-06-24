@@ -14,10 +14,19 @@ class Booking extends Model
     {
         return $this->belongsTo(User::class,'translator_id','id');
     }
+    public function translatorMeta()
+    {
+        return $this->belongsTo(UserMeta::class,'translator_id','id');
+    }
 
     public function client()
     {
         return $this->belongsTo(User::class,'client_id','id');
+    }
+
+    public function clientMeta()
+    {
+        return $this->belongsTo(UserMeta::class,'client_id','id');
     }
 
 
