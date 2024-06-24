@@ -12,7 +12,7 @@ class Booking extends Model
 
     public function translator()
     {
-        return $this->belongsTo(User::class,'translator_id','id')->select('client_id','uuid', 'fname', 'lname','email','user_type'); // Replace 'id', 'name', 'email' with the columns you need;
+        return $this->belongsTo(User::class,'translator_id','id')->select('translator_id','uuid', 'fname', 'lname','email','user_type'); // Replace 'id', 'name', 'email' with the columns you need;
     }
     public function translatorMeta()
     {
