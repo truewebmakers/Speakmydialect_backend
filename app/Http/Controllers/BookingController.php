@@ -35,7 +35,7 @@ class BookingController extends Controller
         // if($request->input('type') == 'approved_booking'){
         //     $query->where(['work_status'=> 'approved']);
         // }
-        $booking = $query->get();
+        $booking = $query->orderBy('created_at','desc')->get();
         return response()->json(['message' => 'Booking fetched successfully.' ,'data' =>$booking ,'status' => true],200);
     }
 
@@ -68,7 +68,7 @@ class BookingController extends Controller
             $query->where('work_status', '!=','approved');
           //  $query->where(['status'=>'mark-completed','work_status' => 'approved']);
         }
-        $booking = $query->get();
+        $booking = $query->orderBy('created_at','desc')->get();
         return response()->json(['message' => 'Booking fetched successfully.' ,'data' =>$booking ,'status' => true],200);
     }
 
