@@ -16,7 +16,7 @@ class Booking extends Model
     }
     public function translatorMeta()
     {
-        return $this->belongsTo(UserMeta::class,'translator_id','user_id')->select('phone', 'profile_pic', 'intro','gender'); // Replace 'id', 'name', 'email' with the columns you need;
+        return $this->belongsTo(UserMeta::class,'translator_id','user_id')->select('user_id','phone', 'profile_pic', 'intro','gender'); // Replace 'id', 'name', 'email' with the columns you need;
     }
 
     public function client()
@@ -26,7 +26,7 @@ class Booking extends Model
 
     public function clientMeta()
     {
-        return $this->belongsTo(UserMeta::class,'client_id','user_id')->select('phone', 'profile_pic', 'intro','gender');
+        return $this->belongsTo(UserMeta::class,'client_id','user_id')->select('user_id','phone', 'profile_pic', 'intro','gender');
     }
 
 
