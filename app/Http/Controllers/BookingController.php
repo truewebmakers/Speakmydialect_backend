@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Booking;
+use App\Models\User;
 
 class BookingController extends Controller
 {
@@ -87,6 +88,8 @@ class BookingController extends Controller
 
     public function store(Request $request)
     {
+
+
         $request->validate([
             'client_id' => 'required|exists:users,id',
             'translator_id' => 'required|exists:users,id',
@@ -100,7 +103,15 @@ class BookingController extends Controller
             'end_at' => 'required',
         ]);
 
-        $booking = Booking::create($request->all());
+
+        $user = User::where(['id' => $request->input('client_id')])->get()->first();
+        if(!empty( $user) && $user->user_type == 'client'){
+            $booking = Booking::create($request->all());
+        }else{
+            return response()->json(['message' => 'This User is not client. You must have client account to get hire' ,'data' =>[] ,'status' => true],422);
+        }
+
+
         return response()->json(['message' => 'Booking added successfully.' ,'data' =>$booking ,'status' => true],200);
 
     }
