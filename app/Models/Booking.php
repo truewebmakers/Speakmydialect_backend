@@ -16,7 +16,7 @@ class Booking extends Model
     }
     public function translatorMeta()
     {
-        return $this->belongsTo(UserMeta::class,'translator_id','id');
+        return $this->belongsTo(UserMeta::class,'translator_id','user_id');
     }
 
     public function client()
@@ -26,7 +26,7 @@ class Booking extends Model
 
     public function clientMeta()
     {
-        return $this->belongsTo(UserMeta::class,'client_id','id');
+        return $this->belongsTo(UserMeta::class,'client_id','user_id');
     }
 
 
