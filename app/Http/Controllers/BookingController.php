@@ -27,7 +27,7 @@ class BookingController extends Controller
             $query->whereDate('start_at','>',date('Y-m-d'));
         }
         if($request->input('type') == 'current_booking'){
-            $query->whereDate('start_at',date('Y-m-d'))->where('status','accept');
+            $query->whereDate('start_at',date('Y-m-d'))->orWhere('status','accept');
         }
         if($request->input('type') == 'completed_booking'){
             $query->where(['status'=>'mark-completed']);
