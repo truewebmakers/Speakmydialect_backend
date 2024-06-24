@@ -75,7 +75,6 @@ class BookingController extends Controller
     public function updateClientStatus($id , $status ='')
     {
         $query = Booking::where(['id' => $id])->update(['work_status' => $status]);
-
         return response()->json(['message' => 'status Updated.' ,'data' =>$query ,'status' => true],200);
     }
 
