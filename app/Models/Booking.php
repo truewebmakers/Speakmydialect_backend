@@ -9,6 +9,18 @@ class Booking extends Model
 {
     use HasFactory;
     protected $guarded = [];
+
+    public function translator()
+    {
+        return $this->belongsTo(User::class,'translator_id','id');
+    }
+
+    public function client()
+    {
+        return $this->belongsTo(User::class,'client_id','id');
+    }
+
+
     protected static function booted()
     {
         static::creating(function ($user) {
@@ -16,5 +28,6 @@ class Booking extends Model
                 $user->uuid = (string) Str::uuid();
             }
         });
+
     }
 }
