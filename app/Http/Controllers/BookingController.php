@@ -25,7 +25,7 @@ class BookingController extends Controller
             $query->where(['status' => $status]);
         }
         if($request->input('type') == 'upcoming_booking'){
-            $query->whereDate('start_at','>',date('Y-m-d'));
+            $query->whereDate('start_at','>',date('Y-m-d'))->orWhere('status','accept');
         }
         if($request->input('type') == 'current_booking'){
             $query->whereDate('start_at',date('Y-m-d'))->orWhere('status','accept');
@@ -45,7 +45,7 @@ class BookingController extends Controller
             $query->whereDate('start_at',date('Y-m-d')) ;
         }
         if($request->input('type') == 'upcoming_booking'){
-            $query->whereDate('start_at','>',date('Y-m-d'));
+            $query->whereDate('start_at','>',date('Y-m-d'))->orWhere('status','accept');
         }
 
 
@@ -76,7 +76,7 @@ class BookingController extends Controller
             'payment_type' => 'required|in:fix,hourly',
             'present_rate' => 'required|integer',
             'availability' => 'required|in:remote,hybrid,onsite',
-            'status' => 'required|in:accept,reject,cancel,in-process,approved,reject,disputed,pending',
+            'status' => 'required|in:accept,reject,cancel,in-process,approved,reject,disputed,pending,mark-completed',
            // 'work_status' => 'required|in:approved,reject,disputed,pending',
             'payment_status' => 'required|in:paid,escrow,hold,dispute,none',
             'start_at' => 'required',
