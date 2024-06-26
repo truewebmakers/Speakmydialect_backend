@@ -22,7 +22,7 @@ class BookingController extends Controller
     {
         $query = Booking::with('translator','translatorMeta')->where(['client_id' => $clientId]);
         if($status){
-            $query->where(['work_status' => $status]);
+            $query->where(['status' => $status]);
         }
         if($request->input('type') == 'upcoming_booking'){
             $query->whereDate('start_at','>',date('Y-m-d'));
@@ -30,12 +30,7 @@ class BookingController extends Controller
         if($request->input('type') == 'current_booking'){
             $query->whereDate('start_at',date('Y-m-d'))->orWhere('status','accept');
         }
-        if($request->input('type') == 'completed_booking'){
-            $query->where(['status'=>'mark-completed']);
-        }
-        // if($request->input('type') == 'approved_booking'){
-        //     $query->where(['work_status'=> 'approved']);
-        // }
+
         $booking = $query->orderBy('created_at','desc')->get();
         return response()->json(['message' => 'Booking fetched successfully.' ,'data' =>$booking ,'status' => true],200);
     }
@@ -46,10 +41,6 @@ class BookingController extends Controller
         if($status){
             $query->where(['status' => $status]);
         }
-        // New Bookings | Today Bookings | Upcoming | Canceled | Approved | Completed
-        if($request->input('type') == 'new_booking'){
-            $query->where('work_status','pending');
-        }
         if($request->input('type') == 'today_booking'){
             $query->whereDate('start_at',date('Y-m-d')) ;
         }
@@ -57,25 +48,14 @@ class BookingController extends Controller
             $query->whereDate('start_at','>',date('Y-m-d'));
         }
 
-        if($request->input('type') == 'approved_booking'){
-            $query->where('work_status','approved');
-        }
 
-        // if($request->input('type') == 'cancled_booking'){
-        //     $query->where('work_status','cancle');
-        // }
-
-        if($request->input('type') == 'completed_booking'){
-            $query->where('work_status', '!=','approved');
-          //  $query->where(['status'=>'mark-completed','work_status' => 'approved']);
-        }
         $booking = $query->orderBy('created_at','desc')->get();
         return response()->json(['message' => 'Booking fetched successfully.' ,'data' =>$booking ,'status' => true],200);
     }
 
     public function updateClientStatus($id , $status ='')
     {
-        $query = Booking::where(['id' => $id])->update(['work_status' => $status]);
+        $query = Booking::where(['id' => $id])->update(['status' => $status]);
         return response()->json(['message' => 'status Updated.' ,'data' =>$query ,'status' => true],200);
     }
 
@@ -96,8 +76,8 @@ class BookingController extends Controller
             'payment_type' => 'required|in:fix,hourly',
             'present_rate' => 'required|integer',
             'availability' => 'required|in:remote,hybrid,onsite',
-            'status' => 'required|in:accept,reject,cancel,in-process',
-            'work_status' => 'required|in:approved,reject,disputed,pending',
+            'status' => 'required|in:accept,reject,cancel,in-process,approved,reject,disputed,pending',
+           // 'work_status' => 'required|in:approved,reject,disputed,pending',
             'payment_status' => 'required|in:paid,escrow,hold,dispute,none',
             'start_at' => 'required',
             'end_at' => 'required',
