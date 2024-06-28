@@ -86,7 +86,7 @@ class BookingController extends Controller
 
         $user = User::where(['id' => $request->input('client_id')])->get()->first();
         if(!empty( $user) && $user->user_type == 'client'){
-            $booking = Booking::create($request->all());
+            $booking = Booking::create($request->except('work_status'));
         }else{
             return response()->json(['message' => 'This User is not client. You must have client account to get hire' ,'data' =>[] ,'status' => true],422);
         }
