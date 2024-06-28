@@ -25,10 +25,10 @@ class BookingController extends Controller
             $query->where(['status' => $status]);
         }
         if($request->input('type') == 'upcoming_booking'){
-            $query->whereDate('start_at','>',date('Y-m-d')) ;
+            $query->whereDate('start_at','>=',date('Y-m-d'))->orWhere('status','accept');
         }
         if($request->input('type') == 'current_booking'){
-            $query->whereDate('start_at',date('Y-m-d'));
+            $query->whereDate('start_at',date('Y-m-d'))->orWhere('status','accept');
         }
 
         $booking = $query->orderBy('created_at','desc')->get();
