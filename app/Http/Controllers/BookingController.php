@@ -34,7 +34,7 @@ class BookingController extends Controller
         }
 
         if($request->input('type') == 'completed_booking'){
-            $query->where('status', $status)->whereDate('start_at',date('Y-m-d'));
+            $query->where('status', $status);
         }
 
         if($request->input('type') == 'approved_booking'){
@@ -59,6 +59,17 @@ class BookingController extends Controller
         }
         if($request->input('type') == 'today_booking'){
             $query->where(['status' => $status])->whereDate('start_at',date('Y-m-d')) ;
+        }
+        if($request->input('type') == 'completed_booking'){
+            $query->where('status', $status);
+        }
+
+        if($request->input('type') == 'approved_booking'){
+            $query->where('status', $status);
+        }
+
+        if($request->input('type') == 'canceled_booking'){
+            $query->where('status', $status);
         }
         if($request->input('type') == 'upcoming_booking'){
             $query->where(function($query) use ($status) {
