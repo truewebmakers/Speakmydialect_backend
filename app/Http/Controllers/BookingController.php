@@ -41,6 +41,9 @@ class BookingController extends Controller
         if($status){
             $query->where(['status' => $status]);
         }
+        if($request->input('type') == 'new_booking'){
+            $query->whereDate('start_at','>=',date('Y-m-d')) ;
+        }
         if($request->input('type') == 'today_booking'){
             $query->whereDate('start_at',date('Y-m-d')) ;
         }
