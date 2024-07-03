@@ -37,6 +37,15 @@ class BookingController extends Controller
             $query->where('status', $status)->whereDate('start_at',date('Y-m-d'));
         }
 
+        if($request->input('type') == 'approved_booking'){
+            $query->where('status', $status);
+        }
+
+        if($request->input('type') == 'canceled_booking'){
+            $query->where('status', $status);
+        }
+
+
         $booking = $query->orderBy('created_at','desc')->get();
         return response()->json(['message' => 'Booking fetched successfully.' ,'data' =>$booking ,'status' => true],200);
     }
