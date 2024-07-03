@@ -23,12 +23,10 @@ class BookingController extends Controller
         $query = Booking::with('translator','translatorMeta')->where(['client_id' => $clientId]);
 
         if($request->input('type') == 'upcoming_booking'){
-
             $query->where(function($query) use ($status) {
                 $query->where('status', $status)
                       ->orWhere('status', 'accept');
-            })->whereDate('start_at', '>=', now()->toDateString());
-
+            })->whereDate('start_at', '>', now()->toDateString());
 
         }
         if($request->input('type') == 'current_booking'){
@@ -42,17 +40,19 @@ class BookingController extends Controller
     public function getBookingForTranslator($translatorId , $status ='' , Request $request)
     {
         $query = Booking::with('client','clientMeta')->where(['translator_id' => $translatorId]);
-        if($status){
-            $query->where(['status' => $status]);
-        }
+
         if($request->input('type') == 'new_booking'){
-            $query->whereDate('start_at','>=',date('Y-m-d')) ;
+            $query->where(['status' => $status])->whereDate('start_at','>=',date('Y-m-d')) ;
         }
         if($request->input('type') == 'today_booking'){
-            $query->whereDate('start_at',date('Y-m-d')) ;
+            $query->where(['status' => $status])->whereDate('start_at',date('Y-m-d')) ;
         }
         if($request->input('type') == 'upcoming_booking'){
-            $query->whereDate('start_at','>',date('Y-m-d'))->orWhere('status','accept');
+            $query->where(function($query) use ($status) {
+                $query->where('status', $status)
+                      ->orWhere('status', 'accept');
+            })->whereDate('start_at', '>', now()->toDateString());
+            // $query->whereDate('start_at','>',date('Y-m-d'))->orWhere('status','accept');
         }
 
 
