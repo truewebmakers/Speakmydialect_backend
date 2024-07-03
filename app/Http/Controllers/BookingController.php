@@ -107,6 +107,7 @@ class BookingController extends Controller
         $request->validate([
             'client_id' => 'required|exists:users,id',
             'translator_id' => 'required|exists:users,id',
+            'job_title' => 'required',
             'payment_type' => 'required|in:fix,hourly',
             'present_rate' => 'required|integer',
             'availability' => 'required|in:remote,hybrid,onsite',

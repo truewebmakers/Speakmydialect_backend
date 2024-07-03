@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid')->nullable();
+            $table->string('job_title')->nullable();
             $table->unsignedBigInteger('client_id');
             $table->foreign('client_id')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('translator_id');
