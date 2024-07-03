@@ -20,7 +20,7 @@ jobs:
       - name: Send Slack notification on success
         if: success()
         env:
-          SLACK_WEBHOOK_URL: 'https://hooks.slack.com/services/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'
+          SLACK_WEBHOOK_URL: 'https://hooks.slack.com/services/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'
         run: |
           curl -X POST -H 'Content-type: application/json' --data '{
             "text": "Code Deployed Successfully",
