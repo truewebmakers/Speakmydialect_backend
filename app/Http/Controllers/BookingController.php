@@ -21,14 +21,15 @@ class BookingController extends Controller
     public function getBookingForClient($clientId , $status='',Request $request)
     {
         $query = Booking::with('translator','translatorMeta')->where(['client_id' => $clientId]);
-        if($status){
-            $query->where(['status' => $status]);
-        }
+
         if($request->input('type') == 'upcoming_booking'){
-            $query->whereDate('start_at','>=',date('Y-m-d'))->orWhere('status','accept');
+            $query->where(function($query) use ($status) {
+                $query->where('status', $status)
+                      ->whereDate('start_at', '>=', date('Y-m-d'));
+            })->orWhere('status', 'accept');
         }
         if($request->input('type') == 'current_booking'){
-            $query->whereDate('start_at',date('Y-m-d'));
+            $query->where('status', $status)->whereDate('start_at',date('Y-m-d'));
         }
 
         $booking = $query->orderBy('created_at','desc')->get();
