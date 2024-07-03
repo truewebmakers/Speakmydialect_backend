@@ -23,10 +23,13 @@ class BookingController extends Controller
         $query = Booking::with('translator','translatorMeta')->where(['client_id' => $clientId]);
 
         if($request->input('type') == 'upcoming_booking'){
+
             $query->where(function($query) use ($status) {
                 $query->where('status', $status)
-                      ->whereDate('start_at', '>=', date('Y-m-d'));
-            })->orWhere('status', 'accept');
+                      ->orWhere('status', 'accept');
+            })->whereDate('start_at', '>=', now()->toDateString());
+
+
         }
         if($request->input('type') == 'current_booking'){
             $query->where('status', $status)->whereDate('start_at',date('Y-m-d'));
