@@ -18,10 +18,16 @@ class UserDocuemntController extends Controller
     }
 
     public function UpdateUserStatus(Request $request,$userId){
+
+        $request->validate([
+            'status' => 'required',
+            'reason' => 'required',
+        ]);
         $user =   User::find($userId);
         if($user){
             $user->update([
-                'status' => $request->input('status')
+                'status' => $request->input('status'),
+                'reason' => $request->input('reason')
             ]);
         }else{
             return response()->json(['message' => 'User not found' ,'data' => [],'status' => false]);
@@ -31,8 +37,14 @@ class UserDocuemntController extends Controller
 
     }
 
-    public function getNewUserList(){
-        $users = User::where('status','!=','active')->get();
+    public function getNewUserList(Request $request){
+        $status = $request->input('status');
+        if($status){
+            $users = User::where('status', $status)->get();
+        }else{
+            $users = User::where('status','!=','active')->get();
+        }
+
         if($users){
             return response()->json(['message' => 'User Fetched' ,'data' => $users,'status' => true]);
 
