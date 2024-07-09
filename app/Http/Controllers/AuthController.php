@@ -71,7 +71,7 @@ class AuthController extends Controller
     }
 
 
-    public function uploadDocuments(Request $request, $userId)
+    private function uploadDocuments(Request $request, $userId)
     {
         $files = $request->input('files');
 
