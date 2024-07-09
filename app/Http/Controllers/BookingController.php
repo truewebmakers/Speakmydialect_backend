@@ -122,20 +122,19 @@ class BookingController extends Controller
         }
         $users = $query->get();
         $userCounts = [];
-        $userarr = [
-           'accept',
-           'reject',
-           'cancel',
-           'in-process',
-           'mark-completed',
-           'approved',
-           'reject',
-           'disputed',
-           'pending'
+        $statuses = [
+            'accept' => 0,
+            'reject' => 0,
+            'cancel' => 0,
+            'in-process' => 0,
+            'mark-completed' => 0,
+            'approved' => 0,
+            'disputed' => 0,
+            'pending' => 0
         ];
         foreach($users as $item){
-            if(in_array($item->status,$userarr)){
-                $userCounts[$item->status]++;
+            if(array_key_exists($item->status,$statuses)){
+                $statuses[$item->status]++;
             }
 
         }
