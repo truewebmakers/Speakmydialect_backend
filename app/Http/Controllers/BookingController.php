@@ -70,6 +70,9 @@ class BookingController extends Controller
         if($request->input('type') == 'canceled_booking'){
             $query->where('status', $status);
         }
+        if($request->input('type') == 'rejected_booking'){
+            $query->where('status', $status);
+        }
 
 
         $booking = $query->orderBy('created_at','desc')->get();
