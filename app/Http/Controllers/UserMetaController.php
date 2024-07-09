@@ -2,12 +2,54 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{Country, Language, Timezone, User, UserMeta, UserSkills};
+use App\Models\{Country, Language, Timezone, User, UserDocuments, UserMeta, UserSkills};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class UserMetaController extends Controller
 {
+
+    public function uploadDocumentTemp(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|file|mimes:jpg,png,pdf,docx', // add your validation rules
+            'type' => 'required|string', // e.g., passport
+            'side' => 'required|string', // e.g., front or back
+        ]);
+
+        $file = $request->file('file');
+        $type = $request->input('type');
+        $side = $request->input('side');
+        $filename = time() . '_' . $file->getClientOriginalName();
+
+        // Store file temporarily
+        $path = $file->storeAs('temp', $filename);
+
+        // Return details to the client
+        return response()->json([
+            'path' => $path,
+            'filename' => $filename,
+            'type' => $type,
+            'side' => $side,
+        ]);
+    }
+
+    public function UserDocumentUpload(Request $request,$id)
+    {
+
+        $file = $request->file('file');
+        $validatedData = $request->validate([
+            'file' => 'image|mimes:jpeg,png,jpg,gif|max:10000',
+            'type' => 'nullable|string|max:255',
+        ]);
+
+
+       $path = uploadProfilePicture($file , 'user1');
+
+        $validatedData['user_id'] = $id;
+        UserDocuments::create($validatedData);
+        return response()->json(['message' => 'Education add successfully.','status' => true],200);
+    }
 
     public function update(Request $request, $id)
     {
