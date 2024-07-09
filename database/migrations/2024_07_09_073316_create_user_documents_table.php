@@ -16,7 +16,7 @@ return new class extends Migration
             $table->uuid('uuid')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->string('degree_name')->nullable();
+
             $table->string('filename')->nullable();
             $table->string('type')->nullable();
             $table->string('side')->nullable();
