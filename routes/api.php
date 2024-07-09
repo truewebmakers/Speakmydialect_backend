@@ -8,7 +8,8 @@ use App\Http\Controllers\{
     UserWorkExperienceController,
     SearchTranslatorsController,
     UserEductionController,
-    BookingController
+    BookingController,
+    UserDocuemntController
 };
 
 Route::get('/user', function (Request $request) {
@@ -37,6 +38,12 @@ Route::get('/get-profile/{uuid}', [SearchTranslatorsController::class, 'getUserP
 Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
 
     Route::get('/get-profile-admin/{id}', [SearchTranslatorsController::class, 'getUserProfile'])->name('get.user.admin.profile');
+
+
+    Route::get('/users/get/list', [UserDocuemntController::class, 'getNewUserList'])->name('user.get.new.list');
+    Route::post('/user/update/status/{id}', [UserDocuemntController::class, 'UpdateUserStatus'])->name('user.update.new.list');
+    Route::get('/user/get/docuemnts/{id}', [UserDocuemntController::class, 'getdocumentsOfUser'])->name('user.get.document');
+
 
 
 
