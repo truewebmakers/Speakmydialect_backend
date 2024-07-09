@@ -139,7 +139,7 @@ class BookingController extends Controller
 
         }
 
-        return response()->json(['message' => 'status Updated.' ,'data' => $userCounts ,'status' => true],200);
+        return response()->json(['message' => 'count fecthed.' ,'data' => $statuses ,'status' => true],200);
     }
 
     public function store(Request $request)
