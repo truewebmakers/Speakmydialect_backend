@@ -13,7 +13,10 @@ class UserDocuemntController extends Controller
 
     public function getdocumentsOfUser(Request $request,$userId){
       $documents =   UserDocuments::where(['user_id' => $userId])->get();
-      return response()->json(['message' => 'Documents Fetched' ,'data' => $documents,'status' => true]);
+      if($documents){
+        return response()->json(['message' => 'Documents Fetched' ,'data' => $documents,'status' => true]);
+      }
+      return response()->json(['message' => 'Documents Fetched' ,'data' => [],'status' => false]);
 
     }
 
