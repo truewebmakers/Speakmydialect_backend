@@ -18,6 +18,27 @@ class BookingController extends Controller
         return response()->json(['message' => 'Booking fetched successfully.' ,'data' =>$booking ,'status' => true],200);
     }
 
+
+    public function ApprovedBookingPaidStatus(Request $request,$bookindId)
+
+    {
+        $request->validate([
+            'payment_status' => 'required'
+        ]);
+        $paymentStatus = $request->input('payment_status');
+        $query = Booking::find($bookindId)->update(['payment_status' =>  $paymentStatus]);
+        return response()->json(['message' => 'Booking updated successfully.' ,'data' => $query,'status' => true],200);
+    }
+
+
+    public function getApprovedBookings(Request $request)
+    {
+        $query = Booking::where(['status' => 'approved']);
+
+        $booking = $query->get();
+        return response()->json(['message' => 'Booking fetched successfully.' ,'data' =>$booking ,'status' => true],200);
+    }
+
     public function getBookingForClient($clientId , $status='',Request $request)
     {
         $query = Booking::with('translator','translatorMeta')->where(['client_id' => $clientId]);

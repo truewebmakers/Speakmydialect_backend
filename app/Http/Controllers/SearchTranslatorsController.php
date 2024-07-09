@@ -51,7 +51,7 @@ class SearchTranslatorsController extends Controller
             });
         }
 
-        $query->with('userMeta', 'userSkills')->where(['user_type' =>'translator']);
+        $query->with('userMeta', 'userSkills')->where(['user_type' =>'translator','status' => 'active']);
         $translators = $query->get();
         return response()->json(['message' => 'Translators fetched successfully.' ,'data' => $translators ,'status' => true],200);
 
