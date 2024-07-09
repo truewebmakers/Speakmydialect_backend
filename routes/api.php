@@ -49,9 +49,6 @@ Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
 
 
 
-
-
-
     Route::post('/update/{id}', [UserMetaController::class, 'update'])->name('update');
     Route::get('/getProfile/{id}', [UserMetaController::class, 'getUserDetail'])->name('getProfile');
 
