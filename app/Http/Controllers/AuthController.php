@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\UserDocuments;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Str;
+
 
 class AuthController extends Controller
 {
@@ -49,6 +52,7 @@ class AuthController extends Controller
         $files = $request->input('files');
 
         foreach ($files as $file) {
+
             $uuid = Str::uuid();
             $tempPath = $file['path'];
             $type = $file['type'];
@@ -64,7 +68,7 @@ class AuthController extends Controller
             Storage::delete($tempPath);
 
             // Store details in the database
-            UserDocument::create([
+            UserDocuments::create([
                 'uuid' => $uuid,
                 'user_id' => $userId,
                 'filename' => $filename,
@@ -74,7 +78,7 @@ class AuthController extends Controller
             ]);
         }
     }
-}
+
 
     public function login(Request $request)
     {
