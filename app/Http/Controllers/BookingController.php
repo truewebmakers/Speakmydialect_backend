@@ -118,7 +118,7 @@ class BookingController extends Controller
             $query = Booking::where(['translator_id' => $id]);
 
         }else{
-            $query = Booking::where(['id' => $id]);
+            $query = new Booking;
         }
         $users = $query->get();
         $userCounts = [];
