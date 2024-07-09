@@ -14,6 +14,31 @@ use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
+
+    public function uploadDocumentTemp(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|file|mimes:jpg,png,pdf,docx', // add your validation rules
+            'type' => 'required|string', // e.g., passport
+            'side' => 'required|string', // e.g., front or back
+        ]);
+
+        $file = $request->file('file');
+        $type = $request->input('type');
+        $side = $request->input('side');
+        $filename = time() . '_' . $file->getClientOriginalName();
+
+        // Store file temporarily
+        $path = $file->storeAs('temp', $filename);
+
+        // Return details to the client
+        return response()->json([
+            'path' => $path,
+            'filename' => $filename,
+            'type' => $type,
+            'side' => $side,
+        ]);
+    }
     public function register(Request $request)
     {
         $request->validate([

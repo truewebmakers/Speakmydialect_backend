@@ -19,6 +19,8 @@ Route::get('/user', function (Request $request) {
 Route::post('/signup', [AuthController::class, 'register'])->name('register');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 
+Route::post('/upload/temp-documents', [AuthController::class, 'uploadDocumentTemp'])->name('upload.temp.document');
+
 Route::get('/get-languages', [UserMetaController::class, 'getLangauges'])->name('get-language');
 Route::get('/get-countries', [UserMetaController::class, 'getCountries'])->name('get-country');
 Route::get('/get-timezones', [UserMetaController::class, 'getTimezone'])->name('get-timzone');
@@ -35,10 +37,15 @@ Route::get('/get-profile/{uuid}', [SearchTranslatorsController::class, 'getUserP
 Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
 
     Route::get('/get-profile-admin/{id}', [SearchTranslatorsController::class, 'getUserProfile'])->name('get.user.admin.profile');
+
+
+
     Route::post('/update/{id}', [UserMetaController::class, 'update'])->name('update');
     Route::get('/getProfile/{id}', [UserMetaController::class, 'getUserDetail'])->name('getProfile');
 
     Route::post('/update/password/{id}', [AuthController::class, 'UpdatePassword'])->name('update.password');
+
+
 
     Route::post('/update/skills/{id}', [UserMetaController::class, 'updateOrCreateSkills'])->name('update.skills');
     Route::get('/get/skills/{id}', [UserMetaController::class, 'getSkills'])->name('get.skills');
