@@ -11,6 +11,7 @@ use App\Http\Controllers\{
     BookingController,
     UserDocuemntController
 };
+use App\Models\Booking;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -43,6 +44,10 @@ Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
     Route::get('/users/get/list', [UserDocuemntController::class, 'getNewUserList'])->name('user.get.new.list');
     Route::post('/user/update/status/{id}', [UserDocuemntController::class, 'UpdateUserStatus'])->name('user.update.new.list');
     Route::get('/user/get/docuemnts/{id}', [UserDocuemntController::class, 'getdocumentsOfUser'])->name('user.get.document');
+
+    Route::get('/user/get/dashboard/count', [BookingController::class, 'BookingCounts'])->name('user.get.document');
+
+
 
 
 

@@ -105,6 +105,36 @@ class BookingController extends Controller
         return response()->json(['message' => 'status Updated.' ,'data' => $query ,'status' => true],200);
     }
 
+
+    public function BookingCounts(Request $request)
+    {
+        $id = $request->input('id');
+        // $status = $request->input('status');
+        $userType = $request->input('userType');
+        if($userType == 'client'){
+            $query = Booking::where(['client_id' => $id]);
+
+        }else if($userType == 'translator'){
+            $query = Booking::where(['translator_id' => $id]);
+
+        }else{
+            $query = Booking::where(['id' => $id]);
+        }
+        $users = $query->get();
+        $userCounts = [];
+        $userarr = [
+           'accept','reject','cancel','in-process','mark-completed','approved','reject','disputed','pending'
+        ];
+        foreach($users as $item){
+            if(in_array($item->status,$userarr)){
+                $userCounts[$item->status]++;
+            }
+
+        }
+
+        return response()->json(['message' => 'status Updated.' ,'data' => $userCounts ,'status' => true],200);
+    }
+
     public function store(Request $request)
     {
 

@@ -65,7 +65,7 @@ class AuthController extends Controller
             'status' => 'in-review'
         ]);
 
-       $DocuemntData = $this->UploadDocuments($request,$user->id);
+        $this->UploadDocuments($request,$user->id);
 
         return response()->json(['message' => 'User registered successfully','status' => true], 201);
     }
