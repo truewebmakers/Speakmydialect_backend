@@ -189,7 +189,7 @@ class BookingController extends Controller
         if(!empty( $user) && $user->user_type == 'client'){
             $booking = Booking::create($request->except('work_status'));
         }else{
-            return response()->json(['message' => 'This User is not client. You must have client account to get hire' ,'data' =>[] ,'status' => true],422);
+            return response()->json(['message' => 'This user is not a client. You must have a client account to be hired.' ,'data' =>[] ,'status' => true],422);
         }
 
 
