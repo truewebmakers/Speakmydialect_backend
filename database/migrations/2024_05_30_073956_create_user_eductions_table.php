@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('year_start')->nullable();
             $table->string('year_end')->nullable();
             $table->string('any_info')->nullable();
-
             $table->timestamps();
         });
     }
