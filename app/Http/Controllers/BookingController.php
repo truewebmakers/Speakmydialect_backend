@@ -26,7 +26,7 @@ class BookingController extends Controller
             'payment_status' => 'required'
         ]);
         $paymentStatus = $request->input('payment_status');
-        $query = Booking::find($bookindId)->update(['payment_status' =>  $paymentStatus]);
+        $query = Booking::find($bookindId)->update(['payment_status' =>  $paymentStatus , 'payment_by_translator_at' => now()->toDateString()]);
         return response()->json(['message' => 'Booking updated successfully.' ,'data' => $query,'status' => true],200);
     }
 
