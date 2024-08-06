@@ -46,4 +46,4 @@ return new class extends Migration
     }
 };
 
-// php artisan migrate --path=/database/migrations/2024_08_06_064530_create_payouts_table.php
+// php artisan migrate:refresh --path=/database/migrations/2024_08_06_064530_create_payouts_table.php
