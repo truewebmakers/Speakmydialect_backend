@@ -16,8 +16,19 @@ class PayoutController extends Controller
 
     public function generateInvoice($id)
     {
-        $data = Payout::find($id)->get()->toArray();
-        $pdf = Pdf::loadView('invoice.invoice', $data);
+        // Retrieve the Payout model instance or return a 404 if not found
+        $payout = Payout::find($id);
+
+        if (!$payout) {
+            return abort(404, 'Payout not found');
+        }
+
+        // Convert model instance to an array
+        $data = $payout->toArray();
+
+        // Load the view with data and generate PDF
+        $pdf = Pdf::loadView('invoice.invoice', ['payout' => $data]);
+
         return $pdf->download('invoice.pdf');
     }
 
