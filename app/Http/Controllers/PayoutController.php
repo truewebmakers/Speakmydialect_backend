@@ -75,7 +75,7 @@ class PayoutController extends Controller
             //     'billing_phone' => $chargeData['billing_details']['phone'],
             // ]);
 
-            $invoice = $this->retrieveInvoice($chargeData['id']);
+            // $invoice = $this->retrieveInvoice($chargeData['id']);
 
             Payout::create([
                 'job_id' => $jobId,
@@ -94,7 +94,7 @@ class PayoutController extends Controller
                 'billing_address_postal_code' => $chargeData['billing_details']['address']['postal_code'],
                 'billing_email' => $chargeData['billing_details']['email'],
                 'billing_name' => $chargeData['billing_details']['name'],
-                'invoice_url' => ($invoice) ? $invoice->hosted_invoice_url : null
+                'invoice_url' =>  $chargeData['receipt_url']
 
             ]);
 
@@ -105,7 +105,7 @@ class PayoutController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'Message Successful',
-                'invoice_url' => ($invoice) ? $invoice->hosted_invoice_url : null
+                'invoice_url' =>  $chargeData['receipt_url']
             ]);
         } catch (\Exception $e) {
 
