@@ -198,7 +198,7 @@
         top: -290px;
         margin: 0 auto;
         width: 700px;
-        background: #e0e0e0;
+        background: #FFF;
     }
 
     [id*='invoice-'] {
