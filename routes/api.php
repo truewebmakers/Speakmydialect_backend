@@ -94,3 +94,5 @@ Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
 
 });
 Route::post('/payout/charge', [PayoutController::class, 'createCharge'])->name('payout.crete');
+Route::get('/payout/invoices/{id}', [PayoutController::class, 'getInvoice'])->name('payout.invoice');
+
