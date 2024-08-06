@@ -13,7 +13,28 @@ return new class extends Migration
     {
         Schema::create('payouts', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->nullable();
+            $table->unsignedBigInteger('job_id');
+            $table->foreign('job_id')->references('id')->on('bookings')->onDelete('cascade');
+            // bookings
+            $table->string('stripe_id')->unique();
+            $table->integer('amount')->default(0);
+            $table->string('currency')->default('usd');
+            $table->string('description')->nullable();
+            $table->string('receipt_url')->nullable();
+            $table->boolean('captured')->default(false);
+            $table->boolean('paid')->default(false);
+            $table->string('payment_method')->nullable();
+            $table->string('payment_method_brand')->nullable();
+            $table->string('payment_method_last4')->nullable();
+            $table->integer('payment_method_exp_month')->nullable();
+            $table->integer('payment_method_exp_year')->nullable();
+            $table->string('billing_address_postal_code')->nullable();
+            $table->string('billing_email')->nullable();
+            $table->string('billing_name')->nullable();
+            $table->string('invoice_url')->nullable();
             $table->timestamps();
+
         });
     }
 
