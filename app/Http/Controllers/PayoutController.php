@@ -12,7 +12,7 @@ class PayoutController extends Controller
     {
         $amount = $request->input('amount');
         $currency = $request->input('currency','aud');
-        $source = $request->input('token');
+        $token = $request->input('token');
         $description = $request->input('description');
 
         Stripe::setApiKey(config('services.stripe.secret'));
@@ -20,7 +20,7 @@ class PayoutController extends Controller
         $charge = Charge::create([
             'amount' => $amount * 100, // Amount in cents
             'currency' => $currency,
-            'source' => $source,
+            'source' => $token,
             'description' => $description,
         ]);
 
