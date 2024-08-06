@@ -31,7 +31,7 @@ class Booking extends Model
 
     public function payouts()
     {
-        return $this->hasMany(Payout::class);
+        return $this->hasMany(Payout::class,'job_id','id');
     }
 
 
