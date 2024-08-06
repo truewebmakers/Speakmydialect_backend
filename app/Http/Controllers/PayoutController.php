@@ -201,7 +201,7 @@ class PayoutController extends Controller
 
     public function getInvoice($clientId){
 
-      $invoices =   Booking::with('payout')->where(['client_id' => $clientId])->get();
+      $invoices =   Booking::with('payouts')->where(['client_id' => $clientId])->get();
         return response()->json([
             'status' => true,
             'message' => 'getpayout Successfull',
