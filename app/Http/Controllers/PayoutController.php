@@ -16,7 +16,15 @@ class PayoutController extends Controller
 
     public function generateInvoice(Request $request, $id)
     {
-        // return view('invoice.invoice',compact('id'));
+        // $data = [
+        //     'created_at' => null,
+        //     'id' => null,
+        //     'description' => null,
+        //     'stripe_id' => null,
+        //     'amount' => null,
+        //     'paid' => null,
+        // ];
+        //  return view('invoice.invoice',compact('id','data'));
         // Retrieve the Payout model instance or return a 404 if not found
         $payout = Payout::find($id);
 
