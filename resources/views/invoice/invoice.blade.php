@@ -16,7 +16,7 @@
             </div><!--End Info-->
             <div class="title">
                 <h1>Invoice #{{ $data['id']}}</h1>
-                <p>Issued: {{ $data['created_at']->format('M,d,Y')}}</br>
+                <p>Issued: {{ $data['created_at'] }}</br>
 
                 </p>
             </div><!--End Title-->
