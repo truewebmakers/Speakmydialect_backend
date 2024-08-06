@@ -21,6 +21,8 @@ class PayoutController extends Controller
             $token = $request->input('token');
             $description = $request->input('description');
             $jobId = $request->input('job_id');
+            $name = $request->input('user_name');
+            $email = $request->input('email');
 
             Stripe::setApiKey(config('services.stripe.secret'));
 
@@ -29,6 +31,10 @@ class PayoutController extends Controller
                 'currency' => $currency,
                 'source' => $token,
                 'description' => $description,
+                'metadata' => [
+                    'name' => $name,
+                    'email' => $email,
+                ],
             ]);
 
             $chargeData = $charge->jsonSerialize();
