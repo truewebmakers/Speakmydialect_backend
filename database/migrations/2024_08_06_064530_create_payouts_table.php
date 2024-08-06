@@ -16,7 +16,6 @@ return new class extends Migration
             $table->uuid('uuid')->nullable();
             $table->unsignedBigInteger('job_id');
             $table->foreign('job_id')->references('id')->on('bookings')->onDelete('cascade');
-            // bookings
             $table->string('stripe_id')->unique();
             $table->integer('amount')->default(0);
             $table->string('currency')->default('usd');
