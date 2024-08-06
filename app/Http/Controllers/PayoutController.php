@@ -16,6 +16,8 @@ class PayoutController extends Controller
 
 
         try {
+
+
             $amount = $request->input('amount');
             $currency = $request->input('currency', 'aud');
             $token = $request->input('token');
@@ -23,6 +25,22 @@ class PayoutController extends Controller
             $jobId = $request->input('job_id');
             $name = $request->input('user_name');
             $email = $request->input('email');
+
+
+            $booking = Booking::find($jobId);
+
+            if( $booking->payment_status == 'escrow' ||  $booking->payment_status == 'paid'){
+
+                return response()->json([
+                    'status' => false,
+                    'message' => 'You already paid for this Job. Currently Payment is on "'.$booking->payment_status.'" State.'
+                ]);
+            }
+
+
+
+
+
 
             Stripe::setApiKey(config('services.stripe.secret'));
 
@@ -38,6 +56,8 @@ class PayoutController extends Controller
             ]);
 
             $chargeData = $charge->jsonSerialize();
+
+
 
             // Create an entry in the payouts table
             // Payout::create([
@@ -98,7 +118,7 @@ class PayoutController extends Controller
 
             ]);
 
-            Booking::find($jobId)->update([
+            $booking->update([
                 'payment_status' => 'escrow',
                 'payment_by_client_at' => date('Y-m-d H:i:s')
             ]);
