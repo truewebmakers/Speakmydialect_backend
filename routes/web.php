@@ -7,4 +7,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/generate-invoice', [PayoutController::class, 'generateInvoice'])->name('view.invoice');
+Route::get('/generate-invoice/{id}', [PayoutController::class, 'generateInvoice'])->name('view.invoice');
