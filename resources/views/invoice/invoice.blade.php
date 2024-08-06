@@ -136,13 +136,13 @@
         font-size: 16px;
     }
 
-    /* body {
+    body {
         background: #E0E0E0;
         font-family: 'Roboto', sans-serif;
         background-image: url('');
         background-repeat: repeat-y;
         background-size: 100%;
-    } */
+    }
 
     ::selection {
         background: #f31544;
