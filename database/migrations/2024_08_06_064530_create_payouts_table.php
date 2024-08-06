@@ -46,3 +46,5 @@ return new class extends Migration
         Schema::dropIfExists('payouts');
     }
 };
+
+// php artisan migrate --path=/database/migrations/2024_08_06_064530_create_payouts_table.php
