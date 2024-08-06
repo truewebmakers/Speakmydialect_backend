@@ -205,7 +205,9 @@ class PayoutController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'getpayout Successfull',
-            'data' => $invoices
+            'data' => $invoices,
+            'invoice_url' => route('view.invoice',[0])
+
         ]);
 
     }
