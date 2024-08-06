@@ -167,21 +167,16 @@ p{
   hieght: 100%;
   padding-top: 50px;
 }
-/* #headerimage{
+#headerimage{
   z-index:-1;
   position:relative;
   top: -50px;
   height: 350px;
-  background-image: url('http://michaeltruong.ca/images/invoicebg.jpg');
-
-  -webkit-box-shadow:inset 0 2px 4px rgba(0,0,0,.15), inset 0 -2px 4px rgba(0,0,0,.15);
-	-moz-box-shadow:inset 0 2px 4px rgba(0,0,0,.15), inset 0 -2px 4px rgba(0,0,0,.15);
-	box-shadow:inset 0 2px 4px rgba(0,0,0,.15), inset 0 -2px 4px rgba(0,0,0,.15);
   overflow:hidden;
   background-attachment: fixed;
   background-size: 1920px 80%;
   background-position: 50% -90%;
-} */
+}
 #invoice{
   position: relative;
   top: -290px;
