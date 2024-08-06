@@ -198,4 +198,15 @@ class PayoutController extends Controller
 
         return null; // No invoice associated with this charge
     }
+
+    public function getInvoice($clientId){
+
+      $invoices =   Booking::with('payout')->where(['client_id' => $clientId])->get();
+      return response()->json([
+        'status' => true,
+        'message' => 'getpayout Successfull',
+        'data' => $invoices
+    ]);
+
+    }
 }
