@@ -9,6 +9,7 @@ use App\Http\Controllers\{
     SearchTranslatorsController,
     UserEductionController,
     BookingController,
+    PayoutController,
     UserDocuemntController
 };
 use App\Models\Booking;
@@ -91,6 +92,5 @@ Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
     Route::post('/booking/delete/{id}', [BookingController::class, 'destroy'])->name('booking.destroy');
     // Booking Apis end
 
-
-
 });
+Route::post('/payout/charge', [PayoutController::class, 'createCharge'])->name('payout.crete');
