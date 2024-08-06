@@ -55,9 +55,7 @@
                         <td class="Rate">
                             <h2>Amount</h2>
                         </td>
-                        <td class="Rate">
-                            <h2>Description</h2>
-                        </td>
+
                         <td class="subtotal">
                             <h2>Paid</h2>
                         </td>
@@ -68,18 +66,14 @@
 
                     <tr class="service">
                         <td class="tableitem">
-                            <p class="itemtext">Booking for Job</p>
+                            <p class="itemtext">{{ $data['description']}}</p>
                         </td>
                         <td class="tableitem">
                             <p class="itemtext">{{ $data['stripe_id']}}</p>
                         </td>
                         <td class="tableitem">
-                            <p class="itemtext">{{ $data['amount']}}</p>
+                            <p class="itemtext">${{ $data['amount']}}</p>
                         </td>
-                        <td class="tableitem">
-                            <p class="itemtext">{{ $data['description']}}</p>
-                        </td>
-
                         <td class="tableitem">
                             <p class="itemtext">{{ ($data['paid'] == 1) ? 'Paid' : 'Not Paid' }}</p>
                         </td>
@@ -91,6 +85,7 @@
 
 
                     <tr class="tabletitle">
+                        <td></td>
                         <td></td>
                         <td></td>
                         <td class="Rate">
