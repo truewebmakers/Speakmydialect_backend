@@ -92,17 +92,14 @@ class PayoutController extends Controller
 
             ]);
 
-
-
-
             Booking::find($jobId)->update([
                 'payment_status' => 'escrow',
                 'payment_by_client_at' => date('Y-m-d H:i:s')
-
             ]);
             return response()->json([
                 'status' => true,
-                'message' => 'Message Successful'
+                'message' => 'Message Successful',
+                'invoice_url' => $invoice->hosted_invoice_url
             ]);
         } catch (\Exception $e) {
 
