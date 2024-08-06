@@ -94,7 +94,7 @@ class PayoutController extends Controller
                 'billing_address_postal_code' => $chargeData['billing_details']['address']['postal_code'],
                 'billing_email' => $chargeData['billing_details']['email'],
                 'billing_name' => $chargeData['billing_details']['name'],
-                'invoice_url' => $invoice->hosted_invoice_url
+                'invoice_url' => ($invoice) ? $invoice->hosted_invoice_url : null
 
             ]);
 
@@ -105,7 +105,7 @@ class PayoutController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'Message Successful',
-                'invoice_url' => $invoice->hosted_invoice_url
+                'invoice_url' => ($invoice) ? $invoice->hosted_invoice_url : null
             ]);
         } catch (\Exception $e) {
 
