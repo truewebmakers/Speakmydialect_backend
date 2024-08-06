@@ -29,7 +29,7 @@ class Booking extends Model
         return $this->belongsTo(UserMeta::class,'client_id','user_id')->select('user_id','phone', 'profile_pic', 'intro','gender');
     }
 
-    public function payout()
+    public function payouts()
     {
         return $this->hasMany(Payout::class);
     }
