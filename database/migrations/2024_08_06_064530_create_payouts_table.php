@@ -34,7 +34,6 @@ return new class extends Migration
             $table->string('billing_name')->nullable();
             $table->string('invoice_url')->nullable();
             $table->timestamps();
-
         });
     }
 
