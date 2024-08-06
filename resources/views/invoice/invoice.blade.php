@@ -2,7 +2,7 @@
 
     @php
     use Carbon\Carbon;
-    $formattedDate = Carbon::parse($data['created_at'])->format('d,m Y');
+    $formattedDate = Carbon::parse($data['created_at'])->format('d, M Y');
 @endphp
 
 
@@ -81,7 +81,7 @@
                             <p class="itemtext">{{ ($data['paid'] == 1) ? 'Paid' : 'Not Paid' }}</p>
                         </td>
                         <td class="tableitem">
-                            <p class="itemtext">{{ $data['created_at'] }} </p>
+                            <p class="itemtext">{{ $formattedDate }} </p>
                         </td>
                     </tr>
 
