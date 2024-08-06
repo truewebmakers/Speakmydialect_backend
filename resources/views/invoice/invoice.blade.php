@@ -1,6 +1,9 @@
 <div id="invoiceholder">
 
-
+    @php
+    use Carbon\Carbon;
+    $formattedDate = Carbon::parse($data['created_at'])->format('d,m Y');
+@endphp
 
 
     <div id="headerimage"></div>
@@ -16,7 +19,7 @@
             </div><!--End Info-->
             <div class="title">
                 <h1>Invoice #{{ $data['id']}}</h1>
-                <p>Issued: {{ $data['created_at'] }}</br>
+                <p>Issued: {{ $formattedDate }}</br>
 
                 </p>
             </div><!--End Title-->
