@@ -167,7 +167,7 @@ p{
   hieght: 100%;
   padding-top: 50px;
 }
-#headerimage{
+/* #headerimage{
   z-index:-1;
   position:relative;
   top: -50px;
@@ -181,7 +181,7 @@ p{
   background-attachment: fixed;
   background-size: 1920px 80%;
   background-position: 50% -90%;
-}
+} */
 #invoice{
   position: relative;
   top: -290px;
