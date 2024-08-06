@@ -28,7 +28,7 @@ class PayoutController extends Controller
             $data = $payout->toArray();
 
             // Load the view with data and generate PDF
-            $pdf = Pdf::loadView('invoice.invoice', ['payout' => $data ,'id' => $id]);
+            $pdf = Pdf::loadView('invoice.invoice', ['data' => $data ,'id' => $id]);
 
             if($request->input('download')=='true'){
                 return $pdf->download('invoice.pdf');
