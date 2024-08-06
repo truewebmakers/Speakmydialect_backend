@@ -8,9 +8,20 @@ use Illuminate\Http\Request;
 use Stripe\Stripe;
 use Stripe\Charge;
 use Stripe\Invoice;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class PayoutController extends Controller
 {
+
+
+    public function generateInvoice($id)
+    {
+        $data = Payout::find($id);
+        $pdf = Pdf::loadView('invoice.invoice', $data);
+        return $pdf->download('invoice.pdf');
+    }
+
+
     public function createCharge(Request $request)
     {
 
@@ -97,7 +108,7 @@ class PayoutController extends Controller
 
             // $invoice = $this->retrieveInvoice($chargeData['id']);
 
-            Payout::create([
+          $payout =  Payout::create([
                 'job_id' => $jobId,
                 'stripe_id' => $chargeData['id'],
                 'amount' => $chargeData['amount'],
@@ -122,10 +133,12 @@ class PayoutController extends Controller
                 'payment_status' => 'escrow',
                 'payment_by_client_at' => date('Y-m-d H:i:s')
             ]);
+
+
             return response()->json([
                 'status' => true,
                 'message' => 'Message Successful',
-                'invoice_url' =>  $chargeData['receipt_url']
+                'invoice_url' =>  route('view.invoice',$payout->id)
             ]);
         } catch (\Exception $e) {
 
