@@ -131,7 +131,7 @@ class PayoutController extends Controller
         // Retrieve the invoice associated with the charge
         if ($charge->invoice) {
             $invoice = Invoice::retrieve($charge->invoice);
-            return $invoice;
+            return isset($invoice->hosted_invoice_url) ? $invoice : null;
         }
 
         return null; // No invoice associated with this charge
