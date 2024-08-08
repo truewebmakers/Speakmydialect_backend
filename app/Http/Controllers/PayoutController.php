@@ -54,18 +54,15 @@ class PayoutController extends Controller
     public function createCharge(Request $request)
     {
 
+        $amount = $request->input('amount');
+        $currency = $request->input('currency', 'aud');
+        $token = $request->input('token');
+        $description = $request->input('description');
+        $jobId = $request->input('job_id');
+        $name = $request->input('user_name');
+        $email = $request->input('email');
 
         try {
-
-
-            $amount = $request->input('amount');
-            $currency = $request->input('currency', 'aud');
-            $token = $request->input('token');
-            $description = $request->input('description');
-            $jobId = $request->input('job_id');
-            $name = $request->input('user_name');
-            $email = $request->input('email');
-
 
             $booking = Booking::find($jobId);
 
