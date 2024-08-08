@@ -73,12 +73,6 @@ class PayoutController extends Controller
                     'message' => 'You already paid for this Job. Currently Payment is on "'.$booking->payment_status.'" State.'
                 ]);
             }
-
-
-
-
-
-
             Stripe::setApiKey(config('services.stripe.secret'));
 
             $charge = Charge::create([
@@ -137,7 +131,7 @@ class PayoutController extends Controller
           $payout =  Payout::create([
                 'job_id' => $jobId,
                 'stripe_id' => $chargeData['id'],
-                'amount' => $chargeData['amount'],
+                'amount' => $chargeData['amount'] / 100,
                 'currency' => $chargeData['currency'],
                 'description' => $chargeData['description'],
                 'receipt_url' => $chargeData['receipt_url'],
