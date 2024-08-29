@@ -10,7 +10,8 @@ use App\Http\Controllers\{
     UserEductionController,
     BookingController,
     PayoutController,
-    UserDocuemntController
+    UserDocuemntController,
+    TranslatorBankDetailsController
 };
 use App\Models\Booking;
 
@@ -94,5 +95,11 @@ Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
 
     Route::post('/payout/charge', [PayoutController::class, 'createCharge'])->name('payout.crete');
     Route::get('/payout/invoices/{id}', [PayoutController::class, 'getInvoice'])->name('payout.invoice');
+
+    Route::get('/translator/get/bank/{user_id}', [TranslatorBankDetailsController::class, 'index'])->name('translator.get');
+    Route::post('/translator/bank/store', [TranslatorBankDetailsController::class, 'store'])->name('translator.store');
+    Route::get('/translator/bank/update/{id}', [TranslatorBankDetailsController::class, 'update'])->name('translator.update');
+
+
 });
 

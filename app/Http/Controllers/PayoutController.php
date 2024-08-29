@@ -157,7 +157,7 @@ class PayoutController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'Message Successful',
+                'message' => 'Payment Successful',
                 'invoice_url' =>  route('view.invoice',$payout->id)
             ]);
         } catch (\Exception $e) {
