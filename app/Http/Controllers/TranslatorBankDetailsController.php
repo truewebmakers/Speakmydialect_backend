@@ -28,7 +28,7 @@ class TranslatorBankDetailsController extends Controller
             'bsb' => 'required|string|max:255',
             'ifsc' => 'nullable|string|max:255',
         ]);
-        $validatedData['user_id'] =  Auth::user()->id;
+        $validatedData['user_id'] =   Auth::user()->id;
         $bankDetail = TranslatorBankDetails::create($validatedData);
         return response()->json(['message' => 'bank details store.' ,'data' => $bankDetail ,'status' => true],200);
 
@@ -57,6 +57,7 @@ class TranslatorBankDetailsController extends Controller
     {
         TranslatorBankDetails::find($id)->delete();
         // Return a response indicating successful deletion
-        return response()->json(null, 204);
+        return response()->json(['message' => 'bank details deleted.'  , 'status' => true],200);
+
     }
 }
