@@ -98,7 +98,7 @@ Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
 
     Route::get('/translator/get/bank/{user_id}', [TranslatorBankDetailsController::class, 'index'])->name('translator.get');
     Route::post('/translator/bank/store', [TranslatorBankDetailsController::class, 'store'])->name('translator.store');
-    Route::get('/translator/bank/update/{id}', [TranslatorBankDetailsController::class, 'update'])->name('translator.update');
+    Route::post('/translator/bank/update/{id}', [TranslatorBankDetailsController::class, 'update'])->name('translator.update');
     Route::post('/translator/bank/delete/{id}', [TranslatorBankDetailsController::class, 'destroy'])->name('translator.delete');
 
 
