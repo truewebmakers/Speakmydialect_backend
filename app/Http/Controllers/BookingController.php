@@ -176,7 +176,7 @@ class BookingController extends Controller
             'job_title' => 'required|max:155',
             'payment_type' => 'required|in:fix,hourly',
             'present_rate' => 'required|integer',
-            'availability' => 'required|in:remote,hybrid,onsite',
+            'availability' => 'required|in:phone,video-call,in-person',
             'status' => 'required|in:accept,reject,cancel,in-process,approved,reject,disputed,pending,mark-completed',
            // 'work_status' => 'required|in:approved,reject,disputed,pending',
             'payment_status' => 'required|in:paid,escrow,hold,dispute,none',

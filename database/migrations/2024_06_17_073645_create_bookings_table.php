@@ -23,7 +23,7 @@ return new class extends Migration
             $table->unsignedInteger('present_rate')->default(0);
             $table->dateTime('start_at')->nullable();
             $table->dateTime('end_at')->nullable();
-            $table->enum('availability',['remote','hybrid','onsite'])->default('remote');
+            $table->enum('availability',['phone','video-call','in-person'])->default('in-person');
             $table->enum('status',['accept','reject','cancel','in-process','mark-completed','approved','reject','disputed','pending'])->default('pending');
             // $table->enum('work_status',['approved','reject','disputed','pending','cancel'])->default('pending');
             $table->enum('payment_status',['paid','escrow','hold','dispute','none','failed'])->default('none');
