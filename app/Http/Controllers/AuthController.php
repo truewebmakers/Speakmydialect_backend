@@ -71,6 +71,8 @@ class AuthController extends Controller
         ]);
 
         $this->UploadDocuments($request,$user->id);
+        $user->sendEmailVerificationNotification();
+
 
         return response()->json(['message' => 'User registered successfully','status' => true], 201);
     }
@@ -119,6 +121,11 @@ class AuthController extends Controller
 
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $user = Auth::user();
+
+            if (!$user->hasVerifiedEmail()) {
+                Auth::logout(); // Log out the user
+                return response()->json(['message' => 'Please verify your email before logging in.'], 403);
+            }
 
             // Check if the user's status is active
             if ($user->status === 'active') {
@@ -180,11 +187,28 @@ class AuthController extends Controller
 
     public function sendEmail(Request $request)
     {
-        $post = $request->all();
-        $email = $request->input('email');
-        $data = ['message' => 'Hello, this is a test email!']; // Pass data if needed
-        Mail::to($email)->send(new SendContactUs($post));
+        try {
+            $request->validate([
+                'first_name' => 'required',
+                'last_name' => 'required',
+                'subject' => 'required',
+                'email' => 'required',
+                'query' => 'required'
 
-        return 'Email sent!';
+            ]);
+            $post = $request->all();
+            $email = $request->input('email');
+            $data = ['message' => 'Hello, this is a test email!']; // Pass data if needed
+            Mail::to($email)->send(new SendContactUs($post));
+            return response()->json([
+                'message' => 'Email Sent' ,
+                'status' => true
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => $th->getMessage() ,
+                'status' => true
+            ]);
+        }
     }
 }
