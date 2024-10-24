@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use App\Models\UserDocuments;
 
 use Illuminate\Support\Facades\Storage;
+
+use App\Mail\AdminUserApproval;
+use Illuminate\Support\Facades\Mail;
 class UserDocuemntController extends Controller
 {
     //
@@ -26,19 +29,49 @@ class UserDocuemntController extends Controller
             'status' => 'required',
             'reason' => 'required',
         ]);
-
+        $post = [];
         $user =   User::find($userId);
         if($user){
             $user->update([
                 'status' => $request->input('status'),
                 'reason' => $request->input('reason')
             ]);
+            $post['status'] = $request->input('status');
+             if($request->input('status') == 'active'){
+                $post['message'] = "Congratulation, You are now Approved from admin and you can able to login now in the system";
+                $post['login'] = true;
+            }else if($request->input('status') == 'inactive'){
+                $post['message'] = "You status put as inactive for ".$request->input('reason'). " Please check accordingly" ;
+                $post['login'] = false;
+            }else if($request->input('status') == 'reject'){
+                $post['message'] = "You status put as Reject for ".$request->input('reason'). " Please check accordingly" ;
+                $post['login'] = false;
+            }
+
         }else{
             return response()->json(['message' => 'User not found' ,'data' => [],'status' => false]);
 
         }
+        $this->ApprovalMail($user->email ,$post );
         return response()->json(['message' => 'User Status has been  updated' ,'data' => $user,'status' => true]);
 
+    }
+
+
+    public function ApprovalMail($email ,$post){
+        try {
+            $adminEmail = env('MAIL_ADMIN_EMAIL');
+            Mail::to($adminEmail) ->cc($email)->send(new AdminUserApproval(data: $post));
+            return response()->json([
+                'message' => 'Email Sent' ,
+                'status' => true
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => $th->getMessage() ,
+                'status' => true
+            ]);
+        }
     }
 
     public function getNewUserList(Request $request){

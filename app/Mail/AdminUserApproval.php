@@ -39,8 +39,8 @@ class AdminUserApproval extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.admin_approval', // Update to your actual view path
-            with: ['data' => $this->data], // Pass data to the view
+            view: 'emails.admin_approval',
+            with: ['data' => $this->data],
         );
     }
 

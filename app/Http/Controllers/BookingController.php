@@ -20,14 +20,11 @@ class BookingController extends Controller
 
 
     public function ApprovedBookingPaidStatus(Request $request,$bookindId)
-
     {
-        $request->validate([
-            'payment_status' => 'required'
-        ]);
+        $request->validate(['payment_status' => 'required']);
         $paymentStatus = $request->input('payment_status');
         $query = Booking::find($bookindId)->update(['payment_status' =>  $paymentStatus , 'payment_by_translator_at' => now()->toDateString()]);
-        return response()->json(['message' => 'Booking updated successfully.' ,'data' => $query,'status' => true],200);
+        return response()->json(['message' => 'Booking updated successfully.','data' => $query,'status' => true],200);
     }
 
 
@@ -191,8 +188,6 @@ class BookingController extends Controller
         }else{
             return response()->json(['message' => 'This user is not a client. You must have a client account to be hired.' ,'data' =>[] ,'status' => true],422);
         }
-
-
         return response()->json(['message' => 'Booking added successfully.' ,'data' =>$booking ,'status' => true],200);
 
     }
