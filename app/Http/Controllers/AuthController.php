@@ -203,7 +203,7 @@ class AuthController extends Controller
             $adminEmail = env('MAIL_ADMIN_EMAIL');
             Mail::to($adminEmail)
             ->cc($email) // Send a copy to the user
-            ->send(new SendContactUs($data)); // Use the $data array in your Mailable
+            ->send(new SendContactUs(data: $post)); // Use the $data array in your Mailable
           //   Mail::to($email)->send(new SendContactUs($post));
             return response()->json([
                 'message' => 'Email Sent' ,
