@@ -35,7 +35,7 @@ Route::get('/get-timezones', [UserMetaController::class, 'getTimezone'])->name('
 Route::get('/translators/search', [SearchTranslatorsController::class, 'searchTranslators'])->name('search.translator.filter');
 Route::get('/language/search/suggestion', [SearchTranslatorsController::class, 'searchTranslatorsSuggestions'])->name('search.language.suggestion');
 Route::get('/get-profile/{uuid}', [SearchTranslatorsController::class, 'getUserProfile'])->name('get.user.profile');
-
+Route::get('/get/skillsall/{column}', [UserMetaController::class, 'getSkillsAll'])->name('get.skills.all');
 
 Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
 
@@ -55,7 +55,7 @@ Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
     Route::post('/update/password/{id}', [AuthController::class, 'UpdatePassword'])->name('update.password');
     Route::post('/update/skills/{id}', [UserMetaController::class, 'updateOrCreateSkills'])->name('update.skills');
     Route::get('/get/skills/{id}', [UserMetaController::class, 'getSkills'])->name('get.skills');
-    Route::get('/get/skillsall/{column}', [UserMetaController::class, 'getSkillsAll'])->name('get.skills.all');
+
 
     Route::post('/delete/skills/{id}', [UserMetaController::class, 'DeleteSkill'])->name('delete.skills');
 
