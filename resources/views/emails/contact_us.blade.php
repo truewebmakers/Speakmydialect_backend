@@ -11,6 +11,4 @@
        <td>{{ $p }}</td>
      </tr>
     @endforeach
-
-
   </table>

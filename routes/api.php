@@ -40,19 +40,14 @@ Route::get('/get-profile/{uuid}', [SearchTranslatorsController::class, 'getUserP
 Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
 
     Route::get('/get-profile-admin/{id}', [SearchTranslatorsController::class, 'getUserProfile'])->name('get.user.admin.profile');
-
-
     Route::get('/users/get/list', [UserDocuemntController::class, 'getNewUserList'])->name('user.get.new.list');
     Route::post('/user/update/status/{id}', [UserDocuemntController::class, 'UpdateUserStatus'])->name('user.update.new.list');
-    Route::get('/user/get/docuemnts/{id}', [UserDocuemntController::class, 'getdocumentsOfUser'])->name('user.get.document');
+    Route::post('/user/delete/{id}', [UserDocuemntController::class, 'destroy'])->name('user.delete');
 
+    Route::get('/user/get/docuemnts/{id}', [UserDocuemntController::class, 'getdocumentsOfUser'])->name('user.get.document');
     Route::get('/user/get/dashboard/count', [BookingController::class, 'BookingCounts'])->name('user.get.document');
     Route::get('/user/get/approved/bookings', [BookingController::class, 'getApprovedBookings'])->name('user.get.approved');
     Route::post('/user/status/approved/bookings/{id}', [BookingController::class, 'ApprovedBookingPaidStatus'])->name('user.status.paid');
-
-
-
-
 
     Route::post('/update/{id}', [UserMetaController::class, 'update'])->name('update');
     Route::get('/getProfile/{id}', [UserMetaController::class, 'getUserDetail'])->name('getProfile');

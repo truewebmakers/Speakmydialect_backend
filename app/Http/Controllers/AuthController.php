@@ -198,13 +198,8 @@ class AuthController extends Controller
             ]);
             $post = $request->all();
             $email = $request->input('email');
-            // $data = ['message' => 'Hello, this is a test email!']; // Pass data if needed
-            // MAIL_ADMIN_EMAIL
             $adminEmail = env('MAIL_ADMIN_EMAIL');
-            Mail::to($adminEmail)
-            ->cc($email) // Send a copy to the user
-            ->send(new SendContactUs(data: $post)); // Use the $data array in your Mailable
-          //   Mail::to($email)->send(new SendContactUs($post));
+            Mail::to($adminEmail) ->cc($email)->send(new SendContactUs(data: $post));
             return response()->json([
                 'message' => 'Email Sent' ,
                 'status' => true

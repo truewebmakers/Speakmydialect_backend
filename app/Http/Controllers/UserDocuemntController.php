@@ -26,6 +26,7 @@ class UserDocuemntController extends Controller
             'status' => 'required',
             'reason' => 'required',
         ]);
+
         $user =   User::find($userId);
         if($user){
             $user->update([
@@ -53,6 +54,18 @@ class UserDocuemntController extends Controller
 
         }
         return response()->json(['message' => 'User not founf' ,'data' => [],'status' => false]);
+
+    }
+
+    public function destroy($userId){
+        $user =   User::find($userId);
+        if($user){
+            $user->delete();
+            return response()->json(['message' => 'User deleted' ,'data' => [],'status' => true]);
+        }else{
+            return response()->json(['message' => 'User deleted' ,'status' => false]);
+
+        }
 
     }
 }
