@@ -8,5 +8,5 @@
 
 <div class="alert alert-success">
      <p>{{ $message }}</p>
-    <a href="https://speakmydialect.com.au/login">Click here to Login </a>
+    <a href="https://speakmydialect.com.au">Click here to home </a>
 </div>
