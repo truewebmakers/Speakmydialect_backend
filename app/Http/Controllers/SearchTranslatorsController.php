@@ -58,8 +58,18 @@ class SearchTranslatorsController extends Controller
         }
 
         $query->with('userMeta', 'userSkills')->where(['user_type' =>'translator','status' => 'active']);
-        $translators = $query->get();
-        return response()->json(['message' => 'Translators fetched successfully.' ,'data' => $translators ,'status' => true],200);
+        // $translators = $query->get();
+        $translators = $query->paginate(10);
+
+
+        return response()->json([
+            'message' => 'Translators fetched successfully.',
+            'data' => $translators->items(), // Get only the current page items
+            'current_page' => $translators->currentPage(),
+            'last_page' => $translators->lastPage(),
+            'status' => true,
+        ], 200);
+        // return response()->json(['message' => 'Translators fetched successfully.' ,'data' => $translators ,'status' => true],200);
 
 
     }
