@@ -59,8 +59,9 @@ class SearchTranslatorsController extends Controller
 
         $query->with('userMeta', 'userSkills')->where(['user_type' =>'translator','status' => 'active']);
         // $translators = $query->get();
+        $pagelimit = $request->input('page_limit',10);
         $currentPage = $request->input('page', 1);
-        $translators = $query->paginate(10, ['*'], 'page', $currentPage);
+        $translators = $query->paginate($pagelimit , ['*'], 'page', $currentPage);
 
 
         return response()->json([
@@ -68,6 +69,8 @@ class SearchTranslatorsController extends Controller
             'data' => $translators->items(), // Get only the current page items
             'current_page' => $translators->currentPage(),
             'last_page' => $translators->lastPage(),
+            'total_count' => $translators->total(), // Total count of records
+            'total_pages' => $translators->lastPage(), // Total number of pages
             'status' => true,
         ], 200);
         // return response()->json(['message' => 'Translators fetched successfully.' ,'data' => $translators ,'status' => true],200);
