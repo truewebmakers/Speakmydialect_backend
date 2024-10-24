@@ -51,6 +51,12 @@ class SearchTranslatorsController extends Controller
             });
         }
 
+        if ($request->filled('dialect')) {
+            $query->whereHas('userSkills', function ($subquery) use ($request) {
+                $subquery->where('dialect',  $request->input('dialect'));
+            });
+        }
+
         $query->with('userMeta', 'userSkills')->where(['user_type' =>'translator','status' => 'active']);
         $translators = $query->get();
         return response()->json(['message' => 'Translators fetched successfully.' ,'data' => $translators ,'status' => true],200);
