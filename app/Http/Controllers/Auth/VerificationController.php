@@ -20,22 +20,26 @@ class VerificationController extends Controller
         // echo "<pre>"; print_r($id); die;
 
         // Find the user by ID
+        $message = "";
         $user = User::findOrFail($id);
 
         // Check if the hash matches
         if (! hash_equals((string) $hash, (string) sha1($user->getEmailForVerification()))) {
-            return 'Invalid verification link.';
+            $message = 'Invalid verification link.';
         }
 
         // Mark the user as verified
         if ($user->hasVerifiedEmail()) {
-            return 'Email already verified.';
+            $message = 'Email already verified.';
         }
 
         // Verify the user
         $user->markEmailAsVerified();
         // event(new Verified($user));
-        $message = "Thank you! You have successfully verified your email. ";
+        if(empty($message)){
+            $message = "Thank you! You have successfully verified your email. ";
+        }
+
         return view('thankyou',compact('message'));
     }
 }
