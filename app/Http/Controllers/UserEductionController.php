@@ -7,7 +7,7 @@ use App\Models\UserEduction;
 class UserEductionController extends Controller
 {
     public function getWorkExperience($id){
-        $workExperience = UserEduction::where('user_id',$id)->get();
+        $workExperience = UserEduction::where('user_id',$id)->orderBy('id','desc')->get();
         return response()->json(['message' => 'Education feched successfully.','data' => $workExperience ,'status' => true],200);
     }
     public function store(Request $request,$id)

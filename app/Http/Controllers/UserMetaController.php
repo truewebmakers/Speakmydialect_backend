@@ -112,7 +112,7 @@ class UserMetaController extends Controller
     }
 
     public function getSkills($id){
-         $skills =  UserSkills::where(['user_id' => $id])->get();
+         $skills =  UserSkills::where(['user_id' => $id])->orderBy('id','desc')->get();
          return response()->json(['message' => 'User skills fetched successfully' , 'data' =>$skills ,'status' => true]);
 
     }

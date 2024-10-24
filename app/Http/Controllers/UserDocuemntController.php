@@ -12,7 +12,7 @@ class UserDocuemntController extends Controller
     //
 
     public function getdocumentsOfUser(Request $request,$userId){
-      $documents =   UserDocuments::where(['user_id' => $userId])->get();
+      $documents =   UserDocuments::where(['user_id' => $userId])->orderBy('id','desc')->get();
       if($documents){
         return response()->json(['message' => 'Documents Fetched' ,'data' => $documents,'status' => true]);
       }
