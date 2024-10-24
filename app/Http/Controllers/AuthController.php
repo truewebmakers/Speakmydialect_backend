@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\UserDocuments;
+use App\Models\{UserDocuments,ContactFormEntry};
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -196,10 +196,13 @@ class AuthController extends Controller
                 'query' => 'required'
 
             ]);
-            $post = $request->all();
+            $post = $request->only(['first_name', 'last_name', 'subject', 'email', 'query']);
+
             $email = $request->input('email');
             $adminEmail = env('MAIL_ADMIN_EMAIL');
             Mail::to($adminEmail) ->cc($email)->send(new SendContactUs(data: $post));
+
+            ContactFormEntry::create( $post );
             return response()->json([
                 'message' => 'Email Sent' ,
                 'status' => true
