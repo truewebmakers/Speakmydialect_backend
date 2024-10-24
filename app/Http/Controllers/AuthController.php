@@ -198,7 +198,7 @@ class AuthController extends Controller
             ]);
             $post = $request->all();
             $email = $request->input('email');
-            $data = ['message' => 'Hello, this is a test email!']; // Pass data if needed
+            // $data = ['message' => 'Hello, this is a test email!']; // Pass data if needed
             // MAIL_ADMIN_EMAIL
             $adminEmail = env('MAIL_ADMIN_EMAIL');
             Mail::to($adminEmail)
