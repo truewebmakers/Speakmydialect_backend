@@ -9,6 +9,9 @@ class Booking extends Model
 {
     use HasFactory;
     protected $guarded = [];
+    protected $casts = [
+        'duration' => 'array', // or 'json' depending on your version
+    ];
 
     public function translator()
     {

@@ -165,7 +165,7 @@ class BookingController extends Controller
 
     public function store(Request $request)
     {
-
+        // duration: { hours: 0, minutes: 0 },
 
         $request->validate([
             'client_id' => 'required|exists:users,id',
@@ -177,6 +177,7 @@ class BookingController extends Controller
             'status' => 'required|in:accept,reject,cancel,in-process,approved,reject,disputed,pending,mark-completed',
            // 'work_status' => 'required|in:approved,reject,disputed,pending',
             'payment_status' => 'required|in:paid,escrow,hold,dispute,none',
+             'duration' => 'required',
             'start_at' => 'required',
             'end_at' => 'required',
         ]);
