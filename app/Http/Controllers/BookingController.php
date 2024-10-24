@@ -35,7 +35,7 @@ class BookingController extends Controller
     {
         $query = Booking::where(['status' => 'approved']);
 
-        $booking = $query->get();
+        $booking = $query->orderBy('id','desc')->get();
         return response()->json(['message' => 'Booking fetched successfully.' ,'data' =>$booking ,'status' => true],200);
     }
 

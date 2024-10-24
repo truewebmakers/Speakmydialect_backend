@@ -26,7 +26,9 @@ class PayoutController extends Controller
         // ];
         //  return view('invoice.invoice',compact('id','data'));
         // Retrieve the Payout model instance or return a 404 if not found
-        $payout = Payout::find($id);
+           $payout = Payout::with('booking')->find($id);
+
+
 
             if (!$payout) {
                 return abort(404, 'Payout not found');
