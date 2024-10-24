@@ -17,7 +17,7 @@ class VerificationController extends Controller
         //     'hash' => 'required|string',
         // ]);
 
-        echo "<pre>"; print_r($id); die;
+        // echo "<pre>"; print_r($id); die;
 
         // Find the user by ID
         $user = User::findOrFail($id);
