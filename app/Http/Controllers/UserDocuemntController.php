@@ -43,9 +43,9 @@ class UserDocuemntController extends Controller
     public function getNewUserList(Request $request){
         $status = $request->input('status');
         if($status){
-            $users = User::where('status', $status)->get();
+            $users = User::where('status', $status)->orderBy('id','desc')->get();
         }else{
-            $users = User::where('status','!=','active')->get();
+            $users = User::where('status','!=','active')->orderBy('id','desc')->get();
         }
 
         if($users){

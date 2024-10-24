@@ -63,7 +63,7 @@ class UserMetaController extends Controller
         ];
         if ($userMeta->count() > 0) {
             if ($request->hasFile('profile_pic')) {
-                $profilePic = $request->file('profile_pic');
+                $profilePic = $request->file(key: 'profile_pic');
                 $path = Storage::disk('s3')->put('profile_pictures', $profilePic);
                 $insert['profile_pic'] = $path;
             }
