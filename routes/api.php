@@ -44,6 +44,11 @@ Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
     Route::post('/user/update/status/{id}', [UserDocuemntController::class, 'UpdateUserStatus'])->name('user.update.new.list');
     Route::post('/user/delete/{id}', [UserDocuemntController::class, 'destroy'])->name('user.delete');
 
+    Route::get('/get-contactform-entries', [AuthController::class, 'FetchContactFormEntires'])->name('get.contact.form.entry');
+
+
+
+
     Route::get('/user/get/docuemnts/{id}', [UserDocuemntController::class, 'getdocumentsOfUser'])->name('user.get.document');
     Route::get('/user/get/dashboard/count', [BookingController::class, 'BookingCounts'])->name('user.get.document');
     Route::get('/user/get/approved/bookings', [BookingController::class, 'getApprovedBookings'])->name('user.get.approved');
