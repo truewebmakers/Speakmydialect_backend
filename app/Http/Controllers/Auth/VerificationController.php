@@ -32,7 +32,7 @@ class VerificationController extends Controller
 
         // Verify the user
         $user->markEmailAsVerified();
-        event(new Verified($user));
+        // event(new Verified($user));
         $message = "Thank you! You have successfully verified your email. ";
         return view('thankyou',compact('message'));
     }
