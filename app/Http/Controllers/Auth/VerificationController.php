@@ -9,21 +9,21 @@ use Illuminate\Auth\Events\Verified;
 
 class VerificationController extends Controller
 {
-    public function verify(Request $request)
+    public function verify($id,$hash)
     {
         // Validate the request
-        $request->validate([
-            'id' => 'required|integer',
-            'hash' => 'required|string',
-        ]);
+        // $request->validate([
+        //     'id' => 'required|integer',
+        //     'hash' => 'required|string',
+        // ]);
 
-        echo "<pre>"; print_r($request->all()); die;
+        echo "<pre>"; print_r($id); die;
 
         // Find the user by ID
-        $user = User::findOrFail($request->id);
+        $user = User::findOrFail($id);
 
         // Check if the hash matches
-        if (! hash_equals((string) $request->hash, (string) sha1($user->getEmailForVerification()))) {
+        if (! hash_equals((string) $hash, (string) sha1($user->getEmailForVerification()))) {
             return 'Invalid verification link.';
         }
 
