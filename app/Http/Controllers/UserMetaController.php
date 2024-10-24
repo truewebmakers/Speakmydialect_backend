@@ -39,6 +39,7 @@ class UserMetaController extends Controller
             'gender' => 'nullable|string',
             'location' => 'nullable|string',
             'intro' => 'nullable|string',
+            'address' => 'nullable|string'
 
         ]);
         if($request->input('fname') || $request->input('lname')){
@@ -59,6 +60,7 @@ class UserMetaController extends Controller
             'fix_rate' => $request->input('fix_rate'),
             'hourly_rate' => $request->input('hourly_rate'),
             'intro' => $request->input('intro'),
+            'address' => $request->input('address'),
             'user_id' => $id
         ];
         if ($userMeta->count() > 0) {

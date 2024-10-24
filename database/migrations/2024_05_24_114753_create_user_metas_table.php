@@ -22,6 +22,8 @@ return new class extends Migration
             $table->decimal('fix_rate', 8, 2)->nullable();
             $table->decimal('hourly_rate', 8, 2)->nullable();
             $table->text('intro')->nullable();
+            $table->string('address')->nullable();
+
             $table->timestamps();
         });
     }
