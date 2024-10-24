@@ -36,7 +36,9 @@
                 text alignment and add links, double click to get into text edit mode. To change fonts, Use Default
                 fonts from the design tab on the right.
               </p>
-              <h2 style="margin: 0px; padding-bottom: 25px;">Expire: 05 November {{ $data['message']}}</h2>
+              @foreach($data as $p)
+              <h2 style="margin: 0px; padding-bottom: 25px;">{{ $p }}</h2>
+              @endforeach
             </td>
           </tr>
           <tr>
