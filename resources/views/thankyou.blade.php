@@ -1,5 +1,5 @@
 <style>
-    .alert.alert-success {
+    .alert.alert-success p {
     text-align: center;
     margin: 70px;
     font-size: 40px;
@@ -7,6 +7,6 @@
 </style>
 
 <div class="alert alert-success">
-    {{ $message }}
+     <p>{{ $message }}</p>
     <a href="https://speakmydialect.com.au/login">Click here to Login </a>
 </div>
