@@ -61,7 +61,7 @@ class UserDocuemntController extends Controller
     public function ApprovalMail($email ,$post){
         try {
             $adminEmail = env('MAIL_ADMIN_EMAIL');
-            Mail::to($adminEmail) ->cc($email)->send(new AdminUserApproval(data: $post));
+            Mail::to($email) ->send(new AdminUserApproval(data: $post));
             return response()->json([
                 'message' => 'Email Sent' ,
                 'status' => true
