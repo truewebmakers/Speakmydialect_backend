@@ -15,9 +15,10 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            // $table->string('language')->nullable();
+
             $table->unsignedBigInteger('language');
             $table->enum('level',['basic','bilingual','fluent','native'])->default('basic');
+            $table->string('dialect')->nullable();
             $table->enum('status',['active','inactive'])->default('active');
             $table->timestamps();
         });

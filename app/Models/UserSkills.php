@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class UserSkills extends Model
 {
     use HasFactory;
-    protected $fillable = ['user_id', 'language', 'level', 'status'];
+    protected $fillable = ['user_id', 'language', 'level', 'status','dialect'];
 
     public function user()
     {
