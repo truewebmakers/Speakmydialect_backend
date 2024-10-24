@@ -22,6 +22,9 @@ Route::get('/user', function (Request $request) {
 
 Route::post('/signup', [AuthController::class, 'register'])->name('register');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/send-email', [AuthController::class, 'sendEmail'])->name('send-email');
+
+
 
 Route::post('/upload/temp-documents', [AuthController::class, 'uploadDocumentTemp'])->name('upload.temp.document');
 
@@ -32,10 +35,6 @@ Route::get('/get-timezones', [UserMetaController::class, 'getTimezone'])->name('
 Route::get('/translators/search', [SearchTranslatorsController::class, 'searchTranslators'])->name('search.translator.filter');
 Route::get('/language/search/suggestion', [SearchTranslatorsController::class, 'searchTranslatorsSuggestions'])->name('search.language.suggestion');
 Route::get('/get-profile/{uuid}', [SearchTranslatorsController::class, 'getUserProfile'])->name('get.user.profile');
-
-
-
-
 
 
 Route::middleware('auth:sanctum')->prefix('admin')->group(function () {

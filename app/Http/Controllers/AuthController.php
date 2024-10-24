@@ -11,6 +11,11 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Str;
 
+use App\Mail\SendContactUs;
+use Illuminate\Support\Facades\Mail;
+
+
+
 
 class AuthController extends Controller
 {
@@ -171,5 +176,14 @@ class AuthController extends Controller
         return response()->json([
             'message' => 'Successfully logged out' ,'status' => true
         ]);
+    }
+
+    public function sendEmail(Request $request)
+    {
+        $email = $request->input('email');
+        $data = ['message' => 'Hello, this is a test email!']; // Pass data if needed
+        Mail::to($email)->send(new SendContactUs($data));
+
+        return 'Email sent!';
     }
 }
