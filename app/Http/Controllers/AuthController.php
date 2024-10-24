@@ -180,9 +180,10 @@ class AuthController extends Controller
 
     public function sendEmail(Request $request)
     {
+        $post = $request->all();
         $email = $request->input('email');
         $data = ['message' => 'Hello, this is a test email!']; // Pass data if needed
-        Mail::to($email)->send(new SendContactUs($data));
+        Mail::to($email)->send(new SendContactUs($post));
 
         return 'Email sent!';
     }
