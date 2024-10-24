@@ -59,7 +59,8 @@ class SearchTranslatorsController extends Controller
 
         $query->with('userMeta', 'userSkills')->where(['user_type' =>'translator','status' => 'active']);
         // $translators = $query->get();
-        $translators = $query->paginate(10);
+        $currentPage = $request->input('page', 1);
+        $translators = $query->paginate(10, ['*'], 'page', $currentPage);
 
 
         return response()->json([
