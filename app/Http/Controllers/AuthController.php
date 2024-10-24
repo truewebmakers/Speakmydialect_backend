@@ -204,7 +204,7 @@ class AuthController extends Controller
             Mail::to($adminEmail)
             ->cc($email) // Send a copy to the user
             ->send(new SendContactUs($data)); // Use the $data array in your Mailable
-            Mail::to($email)->send(new SendContactUs($post));
+          //   Mail::to($email)->send(new SendContactUs($post));
             return response()->json([
                 'message' => 'Email Sent' ,
                 'status' => true
