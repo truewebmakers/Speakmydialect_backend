@@ -17,12 +17,17 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        // User::factory()->create([
-        //     'fname' => 'Test',
-        //     'lname' => 'User',
-        //     'username' =>'testq',
-        //     'email' => 'test@example.com',
-        // ]);
+        User::create([
+            'fname' => 'admin',
+            'lname' => 'admin',
+            'username' =>'admin',
+            'email' => 'admin@gmail.com',
+            'email_verified_at' => now(),
+            'password' => bcrypt('admin@123'),
+            'language' => 'urdu',
+            'second_language' => 'english',
+            'department' => 'seed'
+        ]);
         $this->InsertCountryData();
         $this->InsertLanguageData();
         $this->InsertTimezoneData();
