@@ -38,7 +38,7 @@ class UserDocuemntController extends Controller
             ]);
             $post['status'] = $request->input('status');
              if($request->input('status') == 'active'){
-                $post['message'] = "Congratulation, You are now Approved from admin and you can able to login now in the system";
+                $post['message'] = "Congratulations, You are not Approved from admin and you can able to login now in the system";
                 $post['login'] = true;
             }else if($request->input('status') == 'inactive'){
                 $post['message'] = "You status put as inactive for ".$request->input('reason'). " Please check accordingly" ;

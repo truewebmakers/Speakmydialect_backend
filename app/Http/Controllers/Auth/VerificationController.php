@@ -37,7 +37,7 @@ class VerificationController extends Controller
         $user->markEmailAsVerified();
         // event(new Verified($user));
         if(empty($message)){
-            $message = "Thank you! Your email has been successfully verified. Please wait while the admin approves your registration; you will be notified via email.";
+            $message = "Thank you for verifying your email! Your registration is now under review. Please allow some time for admin approval. You will receive a notification via email once your account has been approved.";
         }
 
         return view('thankyou',compact('message'));

@@ -138,7 +138,7 @@ class AuthController extends Controller
             } else {
                 // If the user's status is not active
                 Auth::logout(); // Log the user out
-                return response()->json(['message' => 'Your account is currently inactive. Please reach out to the admin to get it approved.'], 403);
+                return response()->json(['message' => "Your account is currently awaiting approval. Please contact the admin to complete the approval process. Once approved, you'll have full access to your account."], 403);
             }
         }
         // if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
