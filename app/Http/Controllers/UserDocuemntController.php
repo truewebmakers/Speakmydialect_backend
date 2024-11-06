@@ -37,11 +37,12 @@ class UserDocuemntController extends Controller
                 'reason' => $request->input('reason')
             ]);
             $post['status'] = $request->input('status');
+            $post['username'] =$user->fname . ' ' . $user->lname;
              if($request->input('status') == 'active'){
                 $post['message'] = "Congratulations, You are not Approved from admin and you can able to login now in the system";
                 $post['login'] = true;
             }else if($request->input('status') == 'inactive'){
-                $post['message'] = "You status put as inactive for ".$request->input('reason'). " Please check accordingly" ;
+                $post['message'] = $request->input('reason');
                 $post['login'] = false;
             }else if($request->input('status') == 'reject'){
                 $post['message'] = "You status put as Reject for ".$request->input('reason'). " Please check accordingly" ;
