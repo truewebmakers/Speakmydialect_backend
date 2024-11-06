@@ -19,7 +19,8 @@ class CustomEmailVerification extends Notification
      */
     public function via(object $notifiable): array
     {
-        return $notifiable->prefers_sms ? ['vonage'] : ['mail', 'database'];
+        return ['mail'];
+        // return $notifiable->prefers_sms ? ['vonage'] : ['mail', 'database'];
     }
     public function toMail($notifiable)
     {
