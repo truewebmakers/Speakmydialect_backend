@@ -193,10 +193,11 @@ class AuthController extends Controller
                 'last_name' => 'required',
                 'subject' => 'required',
                 'email' => 'required',
+                'phone' => 'required',
                 'query' => 'required'
 
             ]);
-            $post = $request->only(['first_name', 'last_name', 'subject', 'email', 'query']);
+            $post = $request->only(['first_name', 'last_name', 'subject', 'email', 'phone' ,'query']);
 
             $email = $request->input('email');
             $adminEmail = env('MAIL_ADMIN_EMAIL');
