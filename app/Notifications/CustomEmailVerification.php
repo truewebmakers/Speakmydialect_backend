@@ -17,6 +17,10 @@ class CustomEmailVerification extends Notification
      * @param  mixed  $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
+    public function via(object $notifiable): array
+    {
+        return $notifiable->prefers_sms ? ['vonage'] : ['mail', 'database'];
+    }
     public function toMail($notifiable)
     {
         // Generate the verification URL
