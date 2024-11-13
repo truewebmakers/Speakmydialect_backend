@@ -22,7 +22,12 @@ class SendContactUs extends Mailable
         //
         $this->data = $data;
     }
-
+    public function envelope(): Envelope
+    {
+        return new Envelope(
+            subject: 'New Inquiry Received',
+        );
+    }
     /**
      * Get the message envelope.
      */
