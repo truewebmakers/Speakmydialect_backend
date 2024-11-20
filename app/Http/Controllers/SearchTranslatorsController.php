@@ -8,6 +8,23 @@ use Illuminate\Http\Request;
 
 class SearchTranslatorsController extends Controller
 {
+
+    public function ProfileIncomplete($userId){
+        $query = User::where('id',$userId);
+        $query->whereHas('userSkills', function ($subquery) {
+            $subquery->whereNotNull('language'); // Ensure user has a language
+        })
+        ->whereHas('userSkills', function ($subquery) {
+            $subquery->whereNotNull('level'); // Ensure user has a skill (level)
+        });
+        $user =  $query->first();
+        if (!$user) {
+            return response()->json([
+                'error' => 'Your profile is incomplete. You must have at least one skill and one language to appear in the search results.',
+            ], 400); // Return a 400 Bad Request with the error message
+        }
+
+    }
     public function searchTranslators(Request $request)
     {
         $query = User::query();
