@@ -41,7 +41,7 @@ class SearchTranslatorsController extends Controller
         if ($request->filled('language')) {
             $languageId = $request->input('language');
             $query->whereHas('userSkills', function ($subquery) use ($request,$languageId) {
-                $subquery->whereIn('language',$languageId );
+                $subquery->where('language',$languageId );
             });
             // $languageId = Language::where('name','Like','%'.$request->input('language').'%')->pluck('id');
             // $query->whereHas('userSkills', function ($subquery) use ($request,$languageId) {
