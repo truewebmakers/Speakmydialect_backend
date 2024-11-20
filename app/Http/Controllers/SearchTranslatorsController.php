@@ -60,6 +60,13 @@ class SearchTranslatorsController extends Controller
                 $subquery->where('dialect',  $request->input('dialect'));
             });
         }
+        // Ensure user has at least one skill and one language
+            $query->whereHas('userSkills', function ($subquery): void {
+                $subquery->whereNotNull('language'); // Ensure the user has a language
+            })
+            ->whereHas('userSkills', function ($subquery) {
+                $subquery->whereNotNull('level'); // Ensure the user has a skill (level)
+            });
 
         $query->with('userMeta', 'userSkills')->where(['user_type' =>'translator','status' => 'active']);
         // $translators = $query->get();
