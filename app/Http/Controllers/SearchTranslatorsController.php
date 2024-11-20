@@ -21,7 +21,7 @@ class SearchTranslatorsController extends Controller
         if (!$user) {
             return response()->json([
                 'status' => false,
-                'error' => 'Your profile is incomplete. You must have at least one skill and one language to appear in the search results.',
+                'message' => 'Your profile is incomplete. You must have at least one skill and one language to appear in the search results.',
             ], 400); // Return a 400 Bad Request with the error message
         }else{
             return response()->json([
