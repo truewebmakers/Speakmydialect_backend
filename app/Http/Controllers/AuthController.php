@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\TwilioHelper;
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\{UserDocuments,ContactFormEntry};
+use App\Models\{UserDocuments, ContactFormEntry};
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -13,6 +14,7 @@ use Illuminate\Support\Str;
 
 use App\Mail\SendContactUs;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Cache;
 
 
 
@@ -49,8 +51,9 @@ class AuthController extends Controller
         $request->validate([
             'fname' => 'required|string|max:255',
             'lname' => 'required|string|max:255',
-            // 'username' => 'required|string|max:255|unique:users',
             'email' => 'required|string|email|max:255|unique:users',
+            'country_code' => 'required',
+            'phone_number' => 'required|string|max:12|unique:users',
             'password' => 'required|string|min:8',
             'user_type' => 'required',
             'files.*.path' => 'required|string',
@@ -59,22 +62,74 @@ class AuthController extends Controller
         ]);
 
 
-
         $user = User::create([
             'fname' => $request->fname,
             'lname' => $request->lname,
-            'username' =>($request->username) ? $request->username : $request->fname,
+            'username' => ($request->username) ? $request->username : $request->fname,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'user_type' => $request->user_type,
             'status' => 'in-review'
         ]);
 
-        $this->UploadDocuments($request,$user->id);
+        $this->UploadDocuments($request, $user->id);
         $user->sendEmailVerificationNotification();
 
 
-        return response()->json(['message' => 'User registered successfully and Please verify your email','status' => true], 201);
+        return response()->json(['message' => 'User registered successfully and Please verify your email', 'status' => true], 201);
+    }
+
+    public function requestOtp(Request $request)
+    {
+        $request->validate([
+            'country_code' => 'required',
+            'phone_number' => 'required|string|max:20|unique:users'
+        ]);
+
+        // Generate OTP (6 digits)
+        $otp = rand(100000, 999999);
+
+        // Store OTP in cache with expiration time (5 minutes)
+        $cacheKey = 'otp_' . $request->phone_number;  // Store OTP by phone number for simplicity
+        Cache::put($cacheKey, $otp, now()->addMinutes(5));
+
+        // Send OTP to the user's phone number via Twilio
+        TwilioHelper::sendOtp($request->country_code, $request->phone_number, $otp);
+
+        return response()->json([
+            'message' => 'OTP sent successfully. Please verify your phone number.',
+            'status' => true
+        ], 200);
+    }
+
+    public function verifyOtp(Request $request)
+    {
+        $request->validate([
+            'otp' => 'required|digits:6',
+            'phone_number' => 'required|string|max:20'
+        ]);
+
+        $otp = Cache::get('otp_' . $request->phone_number);
+        if (!$otp) {
+            return response()->json([
+                'message' => 'OTP expired or not generated. Please request a new OTP.',
+                'status' => false,
+                'is_verified' => false
+            ], 400);
+        }
+        if ($otp == $request->otp) {
+            return response()->json([
+                'message' => 'OTP Verifed',
+                'status' => true,
+                'is_verified' => true
+            ], 200);
+        }
+
+        return response()->json([
+            'message' => 'Invalid OTP.',
+            'status' => false,
+            'is_verified' => false
+        ], 400);
     }
 
 
@@ -168,10 +223,10 @@ class AuthController extends Controller
             $user->password = Hash::make($request->input('password'));
             $user->save();
 
-            return response()->json(['message' => 'Password changed successfully.','status' => true]);
+            return response()->json(['message' => 'Password changed successfully.', 'status' => true]);
         } else {
             // Old password doesn't match
-            return response()->json(['message' => 'Your old password does not match with our records. Please check your password and try again.' ,'status' => false], 401);
+            return response()->json(['message' => 'Your old password does not match with our records. Please check your password and try again.', 'status' => false], 401);
         }
     }
 
@@ -181,7 +236,8 @@ class AuthController extends Controller
         $request->user()->currentAccessToken()->delete();
 
         return response()->json([
-            'message' => 'Successfully logged out' ,'status' => true
+            'message' => 'Successfully logged out',
+            'status' => true
         ]);
     }
 
@@ -197,29 +253,30 @@ class AuthController extends Controller
                 'query' => 'required'
 
             ]);
-            $post = $request->only(['first_name', 'last_name', 'subject', 'email', 'phone' ,'query']);
+            $post = $request->only(['first_name', 'last_name', 'subject', 'email', 'phone', 'query']);
 
             $email = $request->input('email');
             $adminEmail = env('MAIL_ADMIN_EMAIL');
-            Mail::to($adminEmail) ->cc($email)->send(new SendContactUs(data: $post));
+            Mail::to($adminEmail)->cc($email)->send(new SendContactUs(data: $post));
 
-            ContactFormEntry::create( $post );
+            ContactFormEntry::create($post);
             return response()->json([
-                'message' => 'Email Sent' ,
+                'message' => 'Email Sent',
                 'status' => true
             ]);
         } catch (\Throwable $th) {
             return response()->json([
-                'message' => $th->getMessage() ,
+                'message' => $th->getMessage(),
                 'status' => true
             ]);
         }
     }
 
-    public function FetchContactFormEntires(){
-        $entries = ContactFormEntry::orderBy('id','desc')->get();
+    public function FetchContactFormEntires()
+    {
+        $entries = ContactFormEntry::orderBy('id', 'desc')->get();
         return response()->json([
-            'message' => 'Fetched Sent' ,
+            'message' => 'Fetched Sent',
             'data' => $entries,
             'status' => true
         ]);

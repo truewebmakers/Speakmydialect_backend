@@ -13,7 +13,6 @@ use App\Http\Controllers\{
     UserDocuemntController,
     TranslatorBankDetailsController
 };
-use App\Models\Booking;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -23,6 +22,8 @@ Route::get('/user', function (Request $request) {
 Route::post('/signup', [AuthController::class, 'register'])->name('register');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/send-email', [AuthController::class, 'sendEmail'])->name('send-email');
+Route::post('/request-otp', [AuthController::class, 'requestOtp'])->name('request-otp');
+Route::post('/verify-otp', [AuthController::class, 'verifyOtp'])->name('verify-otp');
 
 
 
@@ -50,7 +51,7 @@ Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
     Route::get('/get-contactform-entries', [AuthController::class, 'FetchContactFormEntires'])->name('get.contact.form.entry');
 
     Route::get('/user/get/docuemnts/{id}', [UserDocuemntController::class, 'getdocumentsOfUser'])->name('user.get.document');
-    Route::get('/user/get/dashboard/count', [BookingController::class, 'BookingCounts'])->name('user.get.document');
+    Route::get('/user/get/dashboard/count', [BookingController::class, 'BookingCounts'])->name('user.get.document.count');
     Route::get('/user/get/approved/bookings', [BookingController::class, 'getApprovedBookings'])->name('user.get.approved');
     Route::post('/user/status/approved/bookings/{id}', [BookingController::class, 'ApprovedBookingPaidStatus'])->name('user.status.paid');
 
@@ -86,7 +87,7 @@ Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
     Route::get('/booking/get/client/{client_id}/{status}', [BookingController::class, 'getBookingForClient'])->name('booking.get.client');
     Route::get('/booking/get/translator/{translator_id}/{status}', [BookingController::class, 'getBookingForTranslator'])->name('booking.get.translator');
     Route::post('/booking/update/client/{booking_id}/{status}', [BookingController::class, 'updateClientStatus'])->name('booking.update');
-    Route::post('/booking/update/translator/{booking_id}/{status}', [BookingController::class, 'updateTranslatorStatus'])->name('booking.update');
+    Route::post('/booking/update/translator/{booking_id}/{status}', [BookingController::class, 'updateTranslatorStatus'])->name('booking.update.status');
     Route::post('/booking/add', [BookingController::class, 'store'])->name('booking.add');
     Route::post('/booking/delete/{id}', [BookingController::class, 'destroy'])->name('booking.destroy');
     // Booking Apis end
