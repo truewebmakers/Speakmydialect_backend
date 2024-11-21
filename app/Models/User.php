@@ -33,7 +33,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'reason',
         'address',
         'country_code',
-        'phone_number'
+        'phone_number',
+        'otp_verified_at'
     ];
 
     /**

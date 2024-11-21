@@ -69,7 +69,9 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'user_type' => $request->user_type,
-            'status' => 'in-review'
+            'status' => 'in-review',
+            'otp_verified_at' => ($request->input('otp_verified_at')) ?? date('Y-m-d H:i:s'),  // Default to null if not provided
+
         ]);
 
         $this->UploadDocuments($request, $user->id);
@@ -121,7 +123,8 @@ class AuthController extends Controller
             return response()->json([
                 'message' => 'OTP Verifed',
                 'status' => true,
-                'is_verified' => true
+                'is_verified' => true ,
+                'verified_at' => date('Y-m-d H:i:s')
             ], 200);
         }
 
