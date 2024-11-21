@@ -94,9 +94,9 @@ class AuthController extends Controller
         // Store OTP in cache with expiration time (5 minutes)
         $cacheKey = 'otp_' . $request->phone_number;  // Store OTP by phone number for simplicity
         Cache::put($cacheKey, $otp, now()->addMinutes(5));
-
+        $message = "Your OTP code is: $otp. Please use this code to verify your phone number.";
         // Send OTP to the user's phone number via Twilio
-        TwilioHelper::sendOtp($request->country_code, $request->phone_number, $otp);
+        TwilioHelper::sendOtp($request->country_code, $request->phone_number ,$message);
 
         return response()->json([
             'message' => 'OTP sent successfully. Please verify your phone number.',

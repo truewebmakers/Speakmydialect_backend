@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Log;
 class TwilioHelper
 {
     // Send OTP via Twilio
-    public static function sendOtp($country_code,$phoneNumber, $otp)
+    public static function sendOtp($country_code,$phoneNumber,$message)
     {
         // Retrieve Twilio credentials from the environment file
         $sid = env('TWILIO_SID');
@@ -20,7 +20,7 @@ class TwilioHelper
             $client = new Client($sid, $token);
 
             // Compose the OTP message
-            $message = "Your OTP code is: $otp. Please use this code to verify your phone number.";
+
 
             // Send the OTP message via Twilio
             $client->messages->create(
