@@ -11,7 +11,8 @@ use App\Http\Controllers\{
     BookingController,
     PayoutController,
     UserDocuemntController,
-    TranslatorBankDetailsController
+    TranslatorBankDetailsController,
+    TranslatorAvailabilityController
 };
 
 Route::get('/user', function (Request $request) {
@@ -98,6 +99,10 @@ Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
     Route::post('/translator/bank/store', [TranslatorBankDetailsController::class, 'store'])->name('translator.store');
     Route::post('/translator/bank/update/{id}', [TranslatorBankDetailsController::class, 'update'])->name('translator.update');
     Route::post('/translator/bank/delete/{id}', [TranslatorBankDetailsController::class, 'destroy'])->name('translator.delete');
+
+
+    Route::post('/translator/availability', [TranslatorAvailabilityController::class, 'store']);
+    Route::get('/translator/availability/{translatorId}', [TranslatorAvailabilityController::class, 'index']);
 
 
 
