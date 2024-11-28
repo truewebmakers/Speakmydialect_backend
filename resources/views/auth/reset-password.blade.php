@@ -10,6 +10,9 @@
 <body>
     <div class="container mt-5">
         <div class="row justify-content-center">
+            <div class="logo">
+                <img style="height: 50px;" src="https://speakmydialect.com.au/images/logo.jpeg">
+            </div>
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header">
