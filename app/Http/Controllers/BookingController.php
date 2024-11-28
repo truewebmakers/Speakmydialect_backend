@@ -9,11 +9,9 @@ use App\Models\User;
 class BookingController extends Controller
 {
 
-
     public function getPayoutBooking($translatorId,Request $request)
     {
         $query = Booking::where(['translator_id' => $translatorId]);
-
         $booking = $query->get();
         return response()->json(['message' => 'Booking fetched successfully.' ,'data' =>$booking ,'status' => true],200);
     }
@@ -107,7 +105,6 @@ class BookingController extends Controller
             })->whereDate('start_at', '>', now()->toDateString());
             // $query->whereDate('start_at','>',date('Y-m-d'))->orWhere('status','accept');
         }
-
 
         $booking = $query->orderBy('created_at','desc')->get();
         return response()->json(['message' => 'Booking fetched successfully.' ,'data' =>$booking ,'status' => true],200);
@@ -215,8 +212,5 @@ class BookingController extends Controller
         return response()->json(['message' => 'Booking updated successfully.' ,'data' => $job ,'status' => true],200);
 
     }
-
-
-
 
 }

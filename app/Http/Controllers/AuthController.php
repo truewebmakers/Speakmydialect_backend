@@ -15,7 +15,8 @@ use Illuminate\Support\Str;
 use App\Mail\SendContactUs;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Cache;
-
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Password;
 
 
 
@@ -91,6 +92,29 @@ class AuthController extends Controller
         return response()->json([
             'exists' => ($emailExists) ? true : false
         ]);
+    }
+
+
+
+    public function sendResetLink(Request $request)
+    {
+        // Validate the email address
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|exists:users,email',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 400);
+        }
+        $response = Password::sendResetLink(
+            $request->only('email')
+        );
+
+        if ($response === Password::RESET_LINK_SENT) {
+            return response()->json(['message' => 'Password reset link sent to your email.'], 200);
+        } else {
+            return response()->json(['message' => 'Failed to send the password reset link.'], 500);
+        }
     }
 
     public function requestOtp(Request $request)
