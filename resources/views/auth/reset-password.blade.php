@@ -7,6 +7,14 @@
     <!-- Add Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
+
+<style>
+    .logo {
+    text-align: center;
+    padding: 10px 0;
+    margin: 15px 0;
+}
+</style>
 <body>
     <div class="container mt-5">
         <div class="row justify-content-center">
