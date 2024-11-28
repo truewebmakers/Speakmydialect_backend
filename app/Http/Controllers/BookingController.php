@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\TwilioHelper;
 use Illuminate\Http\Request;
 use App\Models\Booking;
 use App\Models\User;
@@ -110,18 +111,111 @@ class BookingController extends Controller
         return response()->json(['message' => 'Booking fetched successfully.' ,'data' =>$booking ,'status' => true],200);
     }
 
-    public function updateClientStatus($id , $status ='')
+    // public function updateClientStatus($id , $status ='')
+    // {
+    //     $query = Booking::where(['id' => $id])->update(['status' => $status]);
+    //     return response()->json(['message' => 'status Updated.' ,'data' =>$query ,'status' => true],200);
+    // }
+
+
+    public function updateClientStatus($id, $status = '')
     {
+        // Retrieve the booking details and interpreter information
+        $booking = Booking::with('translator')->where(['id' => $id])->first();
+
+        if (!$booking) {
+            return response()->json(['message' => 'Booking not found.', 'status' => false], 404);
+        }
+
+        // Extract interpreter and job details
+        $interpreterName = $booking->translator->fname; // Replace with the appropriate attribute if different
+        $jobTitle = $booking->job_title; // Replace with the actual field name for the job title
+        $jobDate = $booking->created_at; // Replace with the actual field name for the job date
+        $phoneNumber = $booking->translator->phone_number; // Adjust this as necessary to get the phone number
+        $countryCode = $booking->translator->country_code; // Adjust if needed
+
+        // Update the booking status
         $query = Booking::where(['id' => $id])->update(['status' => $status]);
-        return response()->json(['message' => 'status Updated.' ,'data' =>$query ,'status' => true],200);
+
+        // Define the message template based on the status
+        $message = '';
+        switch ($status) {
+            case 'pending':
+                $message = "Hi $interpreterName,\nYou have a new job request on the Speak My Dialect app!\nJob Title: $jobTitle\nDate: $jobDate\nClick here to review and respond: [link]";
+                break;
+            case 'accept':
+                $message = "Hi $interpreterName,\nYour job on the Speak My Dialect app has been confirmed.\nJob Title: $jobTitle\nDate: $jobDate\nPlease reach 15 minutes before the scheduled time to prepare.";
+                break;
+            case 'mark-completed':
+                $message = "Hi $interpreterName,\nThank you for completing your job on the Speak My Dialect app!\nJob Title: $jobTitle\nDate: $jobDate\nYour submission has been received and is under review.";
+                break;
+            case 'approved':
+                $message = "Hi $interpreterName,\nGreat news! Your completed job on the Speak My Dialect app has been approved.\nJob Title: $jobTitle\nDate: $jobDate\nYour payment will be processed shortly.";
+                break;
+            case 'cancel':
+                $message = "Hi $interpreterName,\nThe following job on the Speak My Dialect app has been canceled by the client:\nJob Title: $jobTitle\nDate: $jobDate\nNo further action is required.";
+                break;
+            default:
+                return response()->json(['message' => 'Invalid status provided.', 'status' => false], 400);
+        }
+
+        // Send the message via Twilio
+        TwilioHelper::StatusMessage($countryCode, $phoneNumber, $message);
+
+        return response()->json(['message' => 'Status updated and message sent.', 'data' => $query, 'status' => true], 200);
     }
 
-    public function updateTranslatorStatus($id , $status ='')
+
+    public function updateTranslatorStatus($id, $status = '')
     {
+        $booking = Booking::with('client')->where(['id' => $id])->first();
+
+        if (!$booking) {
+            return response()->json(['message' => 'Booking not found.', 'status' => false], 404);
+        }
+        $clientName = $booking->client->fname;
+        $jobTitle = $booking->job_title;
+        $jobDate = $booking->created_at;
+        $phoneNumber = $booking->client->phone_number;
+        $countryCode = $booking->client->country_code;
         $query = Booking::where(['id' => $id])->update(['status' => $status]);
 
-        return response()->json(['message' => 'status Updated.' ,'data' => $query ,'status' => true],200);
+        $message = '';
+        switch ($status) {
+            case 'Booked':
+                $message = "Hi $clientName,\nYour job request on the Speak My Dialect app has been successfully submitted.\nJob Title: $jobTitle\nDate: $jobDate\nWe will notify you once an interpreter accepts the job.";
+                break;
+            case 'accept':
+                $interpreterName = $booking->interpreter->name ?? 'Not assigned'; // Replace with actual interpreter field if needed
+                $message = "Hi $clientName,\nYour job on the Speak My Dialect app has been confirmed and is scheduled as follows:\nJob Title: $jobTitle\nDate: $jobDate\nInterpreter: $interpreterName";
+                break;
+            case 'mark-completed':
+                $message = "Hi $clientName,\nThe job you requested on the Speak My Dialect app has been successfully completed.\nJob Title: $jobTitle\nDate: $jobDate\nThank you for using our services.";
+                break;
+            case 'approved':
+                $message = "Hi $clientName,\nThe job you requested on the Speak My Dialect app has been approved and closed.\nJob Title: $jobTitle\nDate: $jobDate\nWe hope to serve you again soon!";
+                break;
+            case 'disputed':
+                $message = "Hi $clientName,\nYour job on the Speak My Dialect app has been canceled successfully.\nJob Title: $jobTitle\nDate: $jobDate\nIf you need assistance or wish to reschedule, please contact our support team.";
+                break;
+            default:
+                return response()->json(['message' => 'Invalid status provided.', 'status' => false], 400);
+        }
+
+        // Send the message via Twilio
+        TwilioHelper::StatusMessage($countryCode, $phoneNumber, $message);
+
+        return response()->json(['message' => 'Status updated and message sent.', 'data' => $query, 'status' => true], 200);
     }
+
+
+    // public function updateTranslatorStatus($id , $status ='')
+    // {
+    //     $query = Booking::with('client')->where(['id' => $id])->update(['status' => $status]);
+    //     TwilioHelper::StatusMessage($country_code,$phoneNumber,$message);
+    //     return response()->json(['message' => 'status Updated.' ,'data' => $query ,'status' => true],200);
+    // }
+
 
 
     public function BookingCounts(Request $request)
