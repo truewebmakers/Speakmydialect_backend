@@ -14,6 +14,9 @@
     padding: 10px 0;
     margin: 15px 0;
 }
+input#email {
+    background: #d3d3d3;
+}
 </style>
 <body>
     <div class="container mt-5">
@@ -66,7 +69,7 @@
                         </form>
                     </div>
                     <div class="login">
-                        <a href="https://speakmydialect.com.au/login"> Login to Website </a>
+                        <a href="https://speakmydialect.com.au/login" class="btn btn-success w-100"> Login to Website </a>
                     </div>
                 </div>
             </div>
