@@ -10,13 +10,13 @@
 
 <style>
     .logo {
-    text-align: center;
-    padding: 10px 0;
-    margin: 15px 0;
-}
-input#email {
-    background: #d3d3d3;
-}
+        text-align: center;
+        padding: 10px 0;
+        margin: 15px 0;
+    }
+    input#email {
+        background: #d3d3d3;
+    }
 </style>
 <body>
     <div class="container mt-5">
@@ -54,6 +54,7 @@ input#email {
                             <div class="mb-3">
                                 <label for="password" class="form-label">New Password</label>
                                 <input type="password" class="form-control" id="password" name="password" required>
+                                <input type="checkbox" id="showPassword" class="form-check-input ms-2"> Show Password
                                 @error('password')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
@@ -70,10 +71,7 @@ input#email {
                     </div>
 
                 </div>
-
-
             </div>
-
             <div class="login">
                 <a href="https://speakmydialect.com.au/login" class="btn btn-success w-100"> Login to Website </a>
             </div>
@@ -82,5 +80,21 @@ input#email {
 
     <!-- Add Bootstrap JS (Optional for form validation or other interactions) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom script for show/hide password -->
+    <script>
+        document.getElementById('showPassword').addEventListener('change', function() {
+            const passwordField = document.getElementById('password');
+            const passwordConfirmationField = document.getElementById('password_confirmation');
+
+            if (this.checked) {
+                passwordField.type = 'text';
+                passwordConfirmationField.type = 'text';
+            } else {
+                passwordField.type = 'password';
+                passwordConfirmationField.type = 'password';
+            }
+        });
+    </script>
 </body>
 </html>
