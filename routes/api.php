@@ -24,6 +24,7 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/send-email', [AuthController::class, 'sendEmail'])->name('send-email');
 Route::post('/request-otp', [AuthController::class, 'requestOtp'])->name('request-otp');
 Route::post('/verify-otp', [AuthController::class, 'verifyOtp'])->name('verify-otp');
+Route::post('/check-email', [AuthController::class, 'checkEmail'])->name('email');
 
 
 

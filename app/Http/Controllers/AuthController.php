@@ -60,8 +60,6 @@ class AuthController extends Controller
             'files.*.type' => 'required|string',
             'files.*.side' => 'required|string',
         ]);
-
-
         $user = User::create([
             'fname' => $request->fname,
             'lname' => $request->lname,
@@ -77,9 +75,22 @@ class AuthController extends Controller
 
         $this->UploadDocuments($request, $user->id);
         $user->sendEmailVerificationNotification();
-
-
         return response()->json(['message' => 'User registered successfully and Please verify your email', 'status' => true], 201);
+    }
+    public function checkEmail(Request $request)
+    {
+        // Validate the incoming request to ensure 'email' is provided and is a valid email
+        $request->validate([
+            'email' => 'required|email',
+        ]);
+
+        // Check if email exists in the 'users' table
+        $emailExists = User::where('email', $request->email)->exists();
+
+        // Return response
+        return response()->json([
+            'exists' => ($emailExists) ? true : false
+        ]);
     }
 
     public function requestOtp(Request $request)
@@ -88,17 +99,14 @@ class AuthController extends Controller
             'country_code' => 'required',
             'phone_number' => 'required|string|max:20|unique:users'
         ]);
-
         // Generate OTP (6 digits)
         $otp = rand(100000, 999999);
-
         // Store OTP in cache with expiration time (5 minutes)
         $cacheKey = 'otp_' . $request->phone_number;  // Store OTP by phone number for simplicity
         Cache::put($cacheKey, $otp, now()->addMinutes(5));
         $message = "Your OTP code is: $otp. Please use this code to verify your phone number.";
         // Send OTP to the user's phone number via Twilio
         TwilioHelper::sendOtp($request->country_code, $request->phone_number ,$message);
-
         return response()->json([
             'message' => 'OTP sent successfully. Please verify your phone number.',
             'status' => true
