@@ -117,6 +117,39 @@ class AuthController extends Controller
         }
     }
 
+    public function showResetForm($token)
+    {
+        // Logic to show the password reset form
+        return view('auth.reset-password', ['token' => $token]);
+    }
+
+    public function reset(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'token' => 'required',
+            'email' => 'required|email',
+            'password' => 'required|min:8|confirmed',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 400);
+        }
+
+        $response = Password::reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function ($user, $password) {
+                $user->password = bcrypt($password);
+                $user->save();
+            }
+        );
+
+        if ($response === Password::PASSWORD_RESET) {
+            return response()->json(['message' => 'Password has been reset successfully.'], 200);
+        } else {
+            return response()->json(['message' => 'Failed to reset the password.'], 500);
+        }
+    }
+
     public function requestOtp(Request $request)
     {
         $request->validate([
