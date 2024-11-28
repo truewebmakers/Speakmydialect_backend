@@ -17,6 +17,11 @@
     input#email {
         background: #d3d3d3;
     }
+
+    .login {
+    text-align: center;
+    margin: 30px;
+}
 </style>
 <body>
     <div class="container mt-5">
@@ -73,7 +78,7 @@
                 </div>
             </div>
             <div class="login">
-                <a href="https://speakmydialect.com.au/login" class="btn btn-success w-100"> Login to Website </a>
+                <a href="https://speakmydialect.com.au/login" class="btn btn-success w-30"> Login to Website </a>
             </div>
         </div>
     </div>
