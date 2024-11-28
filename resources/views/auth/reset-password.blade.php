@@ -21,7 +21,7 @@
                             <input type="hidden" name="token" value="{{ $token }}">
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email address</label>
-                                <input type="email" class="form-control" id="email" name="email" value="{{ request()->input('email') }}" required>
+                                <input type="email" class="form-control" id="email" name="email" value="{{ request()->input('email') }}" required readonly>
                                 @error('email')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
