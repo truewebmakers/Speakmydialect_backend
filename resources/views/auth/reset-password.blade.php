@@ -68,10 +68,14 @@ input#email {
                             <button type="submit" class="btn btn-primary w-100">Reset Password</button>
                         </form>
                     </div>
-                    <div class="login">
-                        <a href="https://speakmydialect.com.au/login" class="btn btn-success w-100"> Login to Website </a>
-                    </div>
+
                 </div>
+
+
+            </div>
+
+            <div class="login">
+                <a href="https://speakmydialect.com.au/login" class="btn btn-success w-100"> Login to Website </a>
             </div>
         </div>
     </div>
