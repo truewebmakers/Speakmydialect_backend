@@ -144,9 +144,11 @@ class AuthController extends Controller
         );
 
         if ($response === Password::PASSWORD_RESET) {
-            return response()->json(['message' => 'Password has been reset successfully.'], 200);
+            return redirect()->back()->with('status', 'Password has been reset successfully. You can now log in.');
+
         } else {
-            return response()->json(['message' => 'Failed to reset the password.'], 500);
+            return redirect()->route('password.reset', ['token' => $request->token])
+                         ->with('error', 'Failed to reset the password. Please try again.');
         }
     }
 
