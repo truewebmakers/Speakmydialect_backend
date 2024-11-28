@@ -26,6 +26,8 @@ Route::post('/request-otp', [AuthController::class, 'requestOtp'])->name('reques
 Route::post('/verify-otp', [AuthController::class, 'verifyOtp'])->name('verify-otp');
 Route::post('/check-email', [AuthController::class, 'checkEmail'])->name('email');
 Route::post('/send-reset-link', [AuthController::class, 'sendResetLink'])->name('send-reset-link');
+Route::post('/resend-email-verification', [AuthController::class, 'resendVerificationEmail'])->name('resend-email-verification');
+
 
 
 Route::post('/upload/temp-documents', [AuthController::class, 'uploadDocumentTemp'])->name('upload.temp.document');

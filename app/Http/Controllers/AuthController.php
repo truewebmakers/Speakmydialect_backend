@@ -78,6 +78,27 @@ class AuthController extends Controller
         $user->sendEmailVerificationNotification();
         return response()->json(['message' => 'User registered successfully and Please verify your email', 'status' => true], 201);
     }
+
+    public function resendVerificationEmail(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+        ]);
+        $user = User::where('email', $request->email)->first();
+
+        // Check if the email is already verified
+        if ($user->hasVerifiedEmail()) {
+            return response()->json(['message' => 'Your email is already verified.', 'status' => true], 422);
+        }
+
+        // Send the verification email
+        $user->sendEmailVerificationNotification();
+
+        return response()->json(['message' => 'A new verification link has been sent to your email address.', 'status' => true], 200);
+
+
+    }
+
     public function checkEmail(Request $request)
     {
         // Validate the incoming request to ensure 'email' is provided and is a valid email
@@ -128,7 +149,7 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'token' => 'required',
             'email' => 'required|email',
-            'password' => 'required|min:8|confirmed',
+            'password' => 'required|min:6|confirmed',
         ]);
 
         if ($validator->fails()) {
