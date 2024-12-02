@@ -125,11 +125,11 @@ class BookingController extends Controller
         $interpreterName = $booking->translator->fname;
         $jobTitle = $booking->job_title;
         $jobDate = $booking->created_at;
-        $phoneNumber = $booking->translator->phone_number;
+        $phoneN= $booking->translator->phone_number;
         $countryCode = $booking->translator->country_code;
         // return response()->json(['message' => $booking, 'status' => false], 404);
         // Update the booking status
-        return response()->json(['message' => $phoneNumber, 'cc' => $countryCode, 'status' => false], 400);
+        // return response()->json(['message' => $phoneN, 'cc' => $countryCode, 'status' => false], 400);
         $query = Booking::where(['id' => $id])->update(['status' => $status]);
 
         // Define the message template based on the status
@@ -155,7 +155,7 @@ class BookingController extends Controller
         }
 
         // Send the message via Twilio
-        TwilioHelper::StatusMessage($countryCode, $phoneNumber, $message);
+        TwilioHelper::StatusMessage($countryCode, $phoneN, $message);
 
         return response()->json(['message' => 'Status updated and message sent.', 'data' => $query, 'status' => true], 200);
     }

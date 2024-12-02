@@ -30,7 +30,7 @@ class TwilioHelper
         }
     }
 
-    public static function StatusMessage($country_code,$phoneNumber,$message)
+    public static function StatusMessage($country_code,$phone,$message)
     {
         $sid = env('TWILIO_SID');
         $token = env('TWILIO_AUTH_TOKEN');
@@ -40,7 +40,7 @@ class TwilioHelper
             $client = new Client($sid, $token);
 
             $client->messages->create(
-                '+'.$country_code. $phoneNumber,
+                '+'.$country_code.$phone,
                 [
                     'from' => $twilioPhoneNumber,
                     'body' => $message
