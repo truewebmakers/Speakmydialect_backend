@@ -19,12 +19,12 @@ class Booking extends Model
     }
     public function translatorMeta()
     {
-        return $this->belongsTo(UserMeta::class,'translator_id','user_id')->select('user_id','country_code','phone_number', 'profile_pic', 'intro','gender'); // Replace 'id', 'name', 'email' with the columns you need;
+        return $this->belongsTo(UserMeta::class,'translator_id','user_id')->select('user_id', 'profile_pic', 'intro','gender'); // Replace 'id', 'name', 'email' with the columns you need;
     }
 
     public function client()
     {
-        return $this->belongsTo(User::class,'client_id','id')->select('id','uuid', 'fname', 'lname','email','user_type');
+        return $this->belongsTo(User::class,'client_id','id')->select('id','uuid', 'country_code','phone_number','fname', 'lname','email','user_type');
     }
 
     public function clientMeta()
