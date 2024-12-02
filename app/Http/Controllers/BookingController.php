@@ -122,12 +122,12 @@ class BookingController extends Controller
         }
 
         // Extract interpreter and job details
-        $interpreterName = $booking->translator->fname; // Replace with the appropriate attribute if different
-        $jobTitle = $booking->job_title; // Replace with the actual field name for the job title
-        $jobDate = $booking->created_at; // Replace with the actual field name for the job date
-        $phoneNumber = $booking->translator->phone_number; // Adjust this as necessary to get the phone number
-        $countryCode = $booking->translator->country_code; // Adjust if needed
-        return response()->json(['message' => $booking, 'status' => false], 404);
+        $interpreterName = $booking->translator->fname;
+        $jobTitle = $booking->job_title;
+        $jobDate = $booking->created_at;
+        $phoneNumber = $booking->translator->phone_number;
+        $countryCode = $booking->translator->country_code;
+        // return response()->json(['message' => $booking, 'status' => false], 404);
         // Update the booking status
         $query = Booking::where(['id' => $id])->update(['status' => $status]);
 
