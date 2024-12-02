@@ -111,12 +111,6 @@ class BookingController extends Controller
         return response()->json(['message' => 'Booking fetched successfully.' ,'data' =>$booking ,'status' => true],200);
     }
 
-    // public function updateClientStatus($id , $status ='')
-    // {
-    //     $query = Booking::where(['id' => $id])->update(['status' => $status]);
-    //     return response()->json(['message' => 'status Updated.' ,'data' =>$query ,'status' => true],200);
-    // }
-
 
     public function updateClientStatus($id, $status = '')
     {
@@ -133,7 +127,7 @@ class BookingController extends Controller
         $jobDate = $booking->created_at; // Replace with the actual field name for the job date
         $phoneNumber = $booking->translator->phone_number; // Adjust this as necessary to get the phone number
         $countryCode = $booking->translator->country_code; // Adjust if needed
-
+        return response()->json(['message' => $booking, 'status' => false], 404);
         // Update the booking status
         $query = Booking::where(['id' => $id])->update(['status' => $status]);
 
