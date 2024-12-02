@@ -35,20 +35,20 @@ class TwilioHelper
         $sid = env('TWILIO_SID');
         $token = env('TWILIO_AUTH_TOKEN');
         $twilioPhoneNumber = env('TWILIO_PHONE_NUMBER');
-
+        Log::info("Phone". $phone . " -- Country" . $country_code);
         try {
             $client = new Client($sid, $token);
 
             $client->messages->create(
-                '+'.$country_code.$phone,
+                  '+'.$country_code.$phone,
                 [
                     'from' => $twilioPhoneNumber,
                     'body' => $message
                 ]
             );
         } catch (\Exception $e) {
-            Log::error('Twilio error: ' . $e->getMessage());
-            throw new \Exception('Error sending : ' . $e->getMessage());
+            Log::error('Twilio error: ' . $e->getMessage() . ' - Code: ' . $e->getCode());
+            throw new \Exception('Error sending : ' . $e->getMessage(). ' - Code: ' . $e->getCode());
         }
     }
 }
