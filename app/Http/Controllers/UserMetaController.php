@@ -33,7 +33,7 @@ class UserMetaController extends Controller
         // Validate incoming request data
         $request->validate([
             'profile_pic' => 'image|mimes:jpeg,png,jpg,gif|max:10000',
-            'phone' => 'required',
+            // 'phone' => 'required',
             'fix_rate' => 'required',
             'hourly_rate' => 'required',
             'gender' => 'nullable|string',
@@ -54,7 +54,7 @@ class UserMetaController extends Controller
         }
         $userMeta = UserMeta::where(['user_id' => $id]);
         $insert = [
-            'phone' => $request->input('phone'),
+            // 'phone' => $request->input('phone'),
             'gender' => $request->input('gender'),
             'location' => $request->input('location'),
             'fix_rate' => $request->input('fix_rate'),
