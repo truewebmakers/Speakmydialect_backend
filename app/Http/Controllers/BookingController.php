@@ -129,6 +129,7 @@ class BookingController extends Controller
         $countryCode = $booking->translator->country_code;
         // return response()->json(['message' => $booking, 'status' => false], 404);
         // Update the booking status
+        return response()->json(['message' => $phoneNumber, 'cc' => $countryCode, 'status' => false], 400);
         $query = Booking::where(['id' => $id])->update(['status' => $status]);
 
         // Define the message template based on the status
