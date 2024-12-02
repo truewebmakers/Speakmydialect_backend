@@ -47,8 +47,8 @@ class TwilioHelper
                 ]
             );
         } catch (\Exception $e) {
-            Log::error('Twilio OTP error: ' . $e->getMessage());
-            throw new \Exception('Error sending OTP: ' . $e->getMessage());
+            Log::error('Twilio error: ' . $e->getMessage());
+            throw new \Exception('Error sending : ' . $e->getMessage());
         }
     }
 }
