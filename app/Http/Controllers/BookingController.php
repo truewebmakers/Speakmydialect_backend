@@ -174,7 +174,7 @@ class BookingController extends Controller
             return response()->json(['message' => 'Booking not found.', 'status' => false], 404);
         }
 
-        return response()->json(['message' => 'Status updated and message sent.', 'data' => $booking, 'status' => true], 200);
+      //  return response()->json(['message' => 'Status updated and message sent.', 'data' => $booking, 'status' => true], 200);
         $clientName = $booking->client->fname;
         $jobTitle = $booking->job_title;
         $jobDate = $booking->created_at;
