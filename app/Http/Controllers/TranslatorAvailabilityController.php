@@ -14,9 +14,9 @@ class TranslatorAvailabilityController extends Controller
             'translator_id' => 'required|exists:users,id',
             'availability' => 'required|array',
             'availability.*.is_enabled' => 'required|boolean',
-            'availability.*.times' => 'array', // Ensure 'times' is an array
-            'availability.*.times.*.start_time' => 'required|date_format:H:i',
-            'availability.*.times.*.end_time' => 'required|date_format:H:i|after:availability.*.times.*.start_time',
+            // 'availability.*.times' => 'array', // Ensure 'times' is an array
+            // 'availability.*.times.*.start_time' => 'required|date_format:H:i',
+            // 'availability.*.times.*.end_time' => 'required|date_format:H:i|after:availability.*.times.*.start_time',
         ]);
 
 
