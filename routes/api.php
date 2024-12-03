@@ -103,6 +103,8 @@ Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
 
     Route::post('/translator/availability', [TranslatorAvailabilityController::class, 'store']);
     Route::get('/translator/availability/{translatorId}', [TranslatorAvailabilityController::class, 'index']);
+    Route::get('/translator/availability/get-slots', [TranslatorAvailabilityController::class, 'getSlots']);
+
 
 
 
