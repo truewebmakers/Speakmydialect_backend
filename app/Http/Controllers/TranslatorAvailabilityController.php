@@ -36,7 +36,7 @@ class TranslatorAvailabilityController extends Controller
                     [
                         'translator_id' => $request->translator_id,
                         'day' => $day,
-                        'start_time' => $timeSlot['start_time'],
+                        'start_time' => $timeSlot['start_time']
                     ],
                     [
                         'end_time' => $timeSlot['end_time'],
@@ -53,6 +53,21 @@ class TranslatorAvailabilityController extends Controller
     public function index($translatorId)
     {
         $availability = TranslatorAvailability::where('translator_id', $translatorId)->get();
+        return response()->json(['data' => $availability]);
+    }
+
+    public function getSlots( Request $request )
+    {
+        $validator = Validator::make($request->all(), [
+            'translator_id' => 'required|exists:users,id',
+            'day' => 'required'
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+        $translatorId =  $request->input('translator_id');
+        $day =  $request->input('day');
+        $availability = TranslatorAvailability::where(['translator_id' => $translatorId ,'day' => $day])->get();
         return response()->json(['data' => $availability]);
     }
 }
