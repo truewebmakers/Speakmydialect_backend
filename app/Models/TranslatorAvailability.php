@@ -8,11 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class TranslatorAvailability extends Model
 {
     use HasFactory;
-    protected $fillable = ['translator_id', 'day', 'start_time', 'end_time','is_enabled'];
+
+    protected $fillable = ['translator_id', 'day', 'start_time', 'end_time', 'is_enabled'];
 
     public function translator()
     {
         return $this->belongsTo(User::class, 'translator_id');
     }
-
 }
