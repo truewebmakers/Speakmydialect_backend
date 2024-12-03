@@ -21,6 +21,8 @@ return new class extends Migration
             $table->foreign('translator_id')->references('id')->on('users')->onDelete('cascade');
             $table->enum('payment_type',['fix','hourly'])->default('fix');
             $table->unsignedInteger('present_rate')->default(0);
+            $table->string('day')->nullable();
+
             $table->dateTime('start_at')->nullable();
             $table->dateTime('end_at')->nullable();
             $table->enum('availability',['phone','video-call','in-person'])->default('in-person');
