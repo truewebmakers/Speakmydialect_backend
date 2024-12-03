@@ -56,75 +56,49 @@ class TranslatorAvailabilityController extends Controller
         return response()->json(['data' => $availability]);
     }
 
-    public function getSlots(Request $request)
+    public function getSlots( Request $request )
     {
         $validator = Validator::make($request->all(), [
             'translator_id' => 'required|exists:users,id',
-            'day' => 'required|in:Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday'
+            'day' => 'required',
+            'slot_start' => 'required',
+            'slot_end' => 'required',
         ]);
+
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
+        $translatorId =  $request->input('translator_id');
+        $day =  $request->input('day');
+        $slot_start =  $request->input('slot_start');
+        $slot_end =  $request->input('slot_end');
+        $bookingExist = Booking::where('translator_id', $translatorId)
+        ->where('day', $day)
+        ->where('start_time', $slot_start)
+        ->where('end_time', $slot_end)
+        ->exists();
 
-        $translatorId = $request->input('translator_id');
-        $day = $request->input('day');
+        $availability = TranslatorAvailability::where([
+            'translator_id' => $translatorId,
+            'day' => $day
+        ])->get();
 
-        // Get the current date (today)
-        $currentDate = now();
+        // Add the booking status to each availability slot
+        $availabilityWithBookingStatus = $availability->map(function ($slot) use ($bookingExist, $slot_start, $slot_end) {
+            // Compare the availability slot with the requested slot times
+            $isBooked = $slot->start_time === $slot_start && $slot->end_time === $slot_end;
 
-        // Find the date for the given day of the current week
-        $dayOfWeek = collect(['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'])->flip();
-        $dayIndex = $dayOfWeek->get($day);
-
-        // Get the difference between today and the requested day
-        $dayDate = $currentDate->startOfWeek()->addDays($dayIndex);
-
-        // Fetch the availability slots for the given translator and day
-        $availability = TranslatorAvailability::where(['translator_id' => $translatorId, 'day' => $day])->get();
-
-        // Now we check for any bookings that exist for that translator and specific day
-        $bookedSlots = Booking::where('translator_id', $translatorId)
-            ->whereDate('start_at', $dayDate) // Check the specific date for bookings
-            ->get(['start_at', 'end_at']); // Get the start and end times of the booking slots
-
-        // Format booked slots as a collection of [start_at, end_at] ranges
-        $bookedRanges = $bookedSlots->map(function ($booking) {
             return [
-                'start_at' => $booking->start_at,
-                'end_at' => $booking->end_at
+                'id' => $slot->id,
+                'start_time' => $slot->start_time,
+                'end_time' => $slot->end_time,
+                'is_booked' => $isBooked || $bookingExist, // Mark the slot as booked if the booking exists
             ];
         });
 
-        // Map availability slots to check if the slot is booked
-        $availabilityWithBookingStatus = $availability->map(function ($slot) use ($bookedRanges, $dayDate) {
-            // Check if the slot's date is the same as the calculated dayDate
-            if ($slot->start_at->isSameDay($dayDate)) {
-                // Get the start and end times for the slot
-                $slotStart = $slot->start_at;
-                $slotEnd = $slot->end_at;
+    return response()->json(['data' => $availabilityWithBookingStatus]);
 
-                // Check if the slot overlaps with any booked ranges
-                $isBooked = $bookedRanges->contains(function ($booking) use ($slotStart, $slotEnd) {
-                    // Check if there is an overlap: (start of slot is before end of booking)
-                    // and (end of slot is after start of booking)
-                    return ($slotStart < $booking['end_at'] && $slotEnd > $booking['start_at']);
-                });
 
-                return [
-                    'id' => $slot->id,
-                    'start_at' => $slot->start_at,
-                    'end_at' => $slot->end_at,
-                    'is_booked' => $isBooked, // Mark as booked if there's an overlap
-                ];
-            }
-
-            return null;
-        })->filter(); // Remove null values if there are any slots not matching the day
-
-        return response()->json(['data' => $availabilityWithBookingStatus]);
     }
-
-
-
 }
