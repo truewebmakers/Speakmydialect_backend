@@ -15,4 +15,6 @@ class TranslatorAvailability extends Model
     {
         return $this->belongsTo(User::class, 'translator_id');
     }
+
+    public 
 }
