@@ -59,7 +59,7 @@ class TranslatorAvailabilityController extends Controller
     public function getSlots( Request $request )
     {
         $validator = Validator::make($request->all(), [
-            'translator_id' => 'required|exists:users,id',
+            'translator_id' => 'required',
             'day' => 'required'
         ]);
         if ($validator->fails()) {
