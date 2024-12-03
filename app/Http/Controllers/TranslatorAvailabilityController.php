@@ -62,7 +62,6 @@ class TranslatorAvailabilityController extends Controller
             'translator_id' => 'required|exists:users,id',
             'day' => 'required'
         ]);
-
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
