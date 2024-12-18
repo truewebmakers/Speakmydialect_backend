@@ -68,11 +68,13 @@ class TranslatorAvailabilityController extends Controller
 
     $translatorId = $request->input('translator_id');
     $day = $request->input('day');
+    $currentDate = $request->input('currentDate');
+
 
     // Fetch booked slots for the given day
     $bookedSlot = Booking::where([
         'day' => $day,
-        'start_at' => date('Y-m-d')
+        'start_at' => $currentDate
     ])->first();
 
     // Initialize booked time range
