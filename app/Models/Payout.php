@@ -18,6 +18,10 @@ class Payout extends Model
         });
 
     }
+    public function booking()
+    {
+        return $this->belongsTo(Booking::class);
+    }
 
     public function payouts()
     {
