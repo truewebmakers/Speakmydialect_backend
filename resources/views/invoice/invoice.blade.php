@@ -11,12 +11,12 @@
 
         <div id="invoice-top">
             <div class="logo"></div>
-            <div class="info">
+            {{-- <div class="info">
                 <h2>Michael Truong</h2>
                 <p> hello@michaeltruong.ca </br>
                     289-335-6503
                 </p>
-            </div><!--End Info-->
+            </div><!--End Info--> --}}
             <div class="title">
                 <h1>Invoice #{{ $data['id']}}</h1>
                 <p>Issued: {{ $formattedDate }}</br>
@@ -30,11 +30,11 @@
         <div id="invoice-mid">
 
             <div class="clientlogo"></div>
-            <div class="info">
+            {{-- <div class="info">
                 <h2>Client Name</h2>
                 <p>JohnDoe@gmail.com</br>
                     555-555-5555</br>
-            </div>
+            </div> --}}
 
             {{-- <div id="project">
                 <h2>Project Description</h2>
