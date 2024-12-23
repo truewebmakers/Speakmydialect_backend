@@ -40,7 +40,6 @@ Route::get('/get-timezones', [UserMetaController::class, 'getTimezone'])->name('
 Route::get('/translators/search', [SearchTranslatorsController::class, 'searchTranslators'])->name('search.translator.filter');
 Route::get('/translators/profile-incomplete/{id}', [SearchTranslatorsController::class, 'ProfileIncomplete'])->name('search.translator.profile');
 
-
 Route::get('/language/search/suggestion', [SearchTranslatorsController::class, 'searchTranslatorsSuggestions'])->name('search.language.suggestion');
 Route::get('/get-profile/{uuid}', [SearchTranslatorsController::class, 'getUserProfile'])->name('get.user.profile');
 Route::get('/get/skillsall/{column}', [UserMetaController::class, 'getSkillsAll'])->name('get.skills.all');
