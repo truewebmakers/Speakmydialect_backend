@@ -44,6 +44,7 @@ Route::get('/translators/profile-incomplete/{id}', [SearchTranslatorsController:
 Route::get('/language/search/suggestion', [SearchTranslatorsController::class, 'searchTranslatorsSuggestions'])->name('search.language.suggestion');
 Route::get('/get-profile/{uuid}', [SearchTranslatorsController::class, 'getUserProfile'])->name('get.user.profile');
 Route::get('/get/skillsall/{column}', [UserMetaController::class, 'getSkillsAll'])->name('get.skills.all');
+Route::get('/get/dailect/{language_id}', [UserMetaController::class, 'getDailectByLanguageId'])->name('get.skills.all');
 
 Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
 

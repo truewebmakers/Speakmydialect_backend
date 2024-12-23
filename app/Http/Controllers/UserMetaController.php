@@ -131,6 +131,18 @@ class UserMetaController extends Controller
         ]);
     }
 
+    public function getDailectByLanguageId($language_id) {
+        $skills = UserSkills::where('language',$language_id)
+        ->distinct('dialect')
+        ->get('dialect');
+
+        return response()->json([
+            'message' => 'User skills fetched successfully',
+            'data' => $skills,
+            'status' => true
+        ]);
+    }
+
     public function DeleteSkill($id){
         $skills =  UserSkills::where(['id' => $id])->delete();
         return response()->json(['message' => 'User skills delete successfully','status' => true]);
