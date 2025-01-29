@@ -133,7 +133,7 @@ class TranslatorAvailabilityController extends Controller
     public function index($translatorId)
     {
         $availability = TranslatorAvailability::where('translator_id', $translatorId)->get();
-        return response()->json(['data' => $availability]);
+        return response()->json(['data' => $availability,'slot_duration' => $availability->slot_duration]);
     }
     public function getSlots(Request $request)
     {
@@ -175,7 +175,7 @@ class TranslatorAvailabilityController extends Controller
                 is_null($bookedEnd) ||  ($slot->start_time >= $bookedEnd || $slot->end_time <= $bookedStart);
         });
 
-        return response()->json(['data' => $filteredAvailability->values()]);
+        return response()->json(['data' => $filteredAvailability->values() ]);
     }
 
 
