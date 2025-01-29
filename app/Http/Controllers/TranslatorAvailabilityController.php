@@ -148,10 +148,10 @@ class TranslatorAvailabilityController extends Controller
         $translatorId = $request->input('translator_id');
         $day = $request->input('day');
         $currentDate = $request->input('currentDate');
-        $duration = $request->input('duration');
+        // $duration = $request->input('duration');
 
 
-        return response()->json(['data' => $request]);
+        // return response()->json(['data' => $request]);
 
 
 
