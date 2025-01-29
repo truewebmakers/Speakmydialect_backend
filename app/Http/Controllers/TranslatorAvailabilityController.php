@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{TranslatorAvailability,Booking};
+use App\Models\{TranslatorAvailability, Booking};
 use Illuminate\Support\Facades\Validator;
+
 class TranslatorAvailabilityController extends Controller
 {
     //
@@ -56,44 +57,87 @@ class TranslatorAvailabilityController extends Controller
         return response()->json(['data' => $availability]);
     }
     public function getSlots(Request $request)
-{
-    $validator = Validator::make($request->all(), [
-        'translator_id' => 'required',
-        'day' => 'required'
-    ]);
+    {
+        $validator = Validator::make($request->all(), [
+            'translator_id' => 'required',
+            'day' => 'required'
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
 
-    if ($validator->fails()) {
-        return response()->json(['errors' => $validator->errors()], 422);
+        $translatorId = $request->input('translator_id');
+        $day = $request->input('day');
+        $currentDate = $request->input('currentDate');
+        $duration = $request->input('duration');
+
+
+        return response()->json(['data' => $request]);
+
+
+
+        // Fetch booked slots for the given day
+        $bookedSlot = Booking::where(column: [
+            'day' => $day,
+            'start_at' => $currentDate
+        ])->first();
+
+        // Initialize booked time range
+        $bookedStart = $bookedSlot ? $bookedSlot->start_time : null;
+        $bookedEnd = $bookedSlot ? $bookedSlot->end_time : null;
+
+        // Fetch translator's availability
+        $availability = TranslatorAvailability::where(['translator_id' => $translatorId, 'day' => $day])->get();
+
+        // Remove the booked slot from availability
+        $filteredAvailability = $availability->filter(callback: function (TModel $slot) use ($bookedStart, $bookedEnd) {
+            // Include only slots outside the booked time range
+            return is_null($bookedStart) ||
+                is_null($bookedEnd) ||  ($slot->start_time >= $bookedEnd || $slot->end_time <= $bookedStart);
+        });
+
+        return response()->json(['data' => $filteredAvailability->values()]);
     }
 
-    $translatorId = $request->input('translator_id');
-    $day = $request->input('day');
-    $currentDate = $request->input('currentDate');
+
+    // public function getSlots(Request $request)
+    // {
+    //     $validator = Validator::make($request->all(), [
+    //         'translator_id' => 'required',
+    //         'day' => 'required'
+    //     ]);
+
+    //     if ($validator->fails()) {
+    //         return response()->json(['errors' => $validator->errors()], 422);
+    //     }
+
+    //     $translatorId = $request->input('translator_id');
+    //     $day = $request->input('day');
+    //     $currentDate = $request->input('currentDate');
 
 
-    // Fetch booked slots for the given day
-    $bookedSlot = Booking::where([
-        'day' => $day,
-        'start_at' => $currentDate
-    ])->first();
+    //     // Fetch booked slots for the given day
+    //     $bookedSlot = Booking::where(column: [
+    //         'day' => $day,
+    //         'start_at' => $currentDate
+    //     ])->first();
 
-    // Initialize booked time range
-    $bookedStart = $bookedSlot ? $bookedSlot->start_time : null;
-    $bookedEnd = $bookedSlot ? $bookedSlot->end_time : null;
+    //     // Initialize booked time range
+    //     $bookedStart = $bookedSlot ? $bookedSlot->start_time : null;
+    //     $bookedEnd = $bookedSlot ? $bookedSlot->end_time : null;
 
-    // Fetch translator's availability
-    $availability = TranslatorAvailability::where(['translator_id' => $translatorId, 'day' => $day])->get();
+    //     // Fetch translator's availability
+    //     $availability = TranslatorAvailability::where(['translator_id' => $translatorId, 'day' => $day])->get();
 
-    // Remove the booked slot from availability
-    $filteredAvailability = $availability->filter(function ($slot) use ($bookedStart, $bookedEnd) {
-        // Include only slots outside the booked time range
-        return is_null($bookedStart) ||
-               is_null($bookedEnd) ||
-               ($slot->start_time >= $bookedEnd || $slot->end_time <= $bookedStart);
-    });
+    //     // Remove the booked slot from availability
+    //     $filteredAvailability = $availability->filter(callback: function (TModel $slot) use ($bookedStart, $bookedEnd) {
+    //         // Include only slots outside the booked time range
+    //         return is_null($bookedStart) ||
+    //             is_null($bookedEnd) ||  ($slot->start_time >= $bookedEnd || $slot->end_time <= $bookedStart);
+    //     });
 
-    return response()->json(['data' => $filteredAvailability->values()]);
-}
+    //     return response()->json(['data' => $filteredAvailability->values()]);
+    // }
 
 
     // public function getSlots( Request $request )

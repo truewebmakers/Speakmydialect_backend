@@ -90,8 +90,14 @@ class UserMetaController extends Controller
         // Loop through each skill and update or create accordingly
         foreach ($skillsData as $skill) {
             $existingSkill = UserSkills::where('user_id', $userId)
-                ->where('language', $skill['language'])
-                ->first();
+    ->where('language', $skill['language'])
+    ->where('dialect', $skill['dialect'])
+    ->first();
+
+
+            // $existingSkill = UserSkills::where('user_id', $userId)
+            //     ->where('language', $skill['language'])
+            //     ->first();
 
             if ($existingSkill) {
                 // If skill exists, update it
