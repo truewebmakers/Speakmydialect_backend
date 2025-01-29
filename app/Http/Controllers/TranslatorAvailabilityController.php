@@ -34,8 +34,8 @@ class TranslatorAvailabilityController extends Controller
 
             // Loop through each timeslot for the day
             foreach ($data['times'] as $timeSlot) {
-                $startTime = \Carbon\Carbon::createFromFormat('H:i', $timeSlot['start_time']);
-                $endTime = \Carbon\Carbon::createFromFormat('H:i', $timeSlot['end_time']);
+                $startTime = \Carbon\Carbon::createFromFormat('H:i:s', $timeSlot['start_time']);
+                $endTime = \Carbon\Carbon::createFromFormat('H:i:s', $timeSlot['end_time']);
                 $slotDuration = $request->slot_duration;
 
                 // Ensure the start_time is before end_time
@@ -64,10 +64,10 @@ class TranslatorAvailabilityController extends Controller
                         [
                             'translator_id' => $request->translator_id,
                             'day' => $day,
-                            'start_time' => $slotStart->format('H:i'),
+                            'start_time' => $slotStart->format('H:i:s'),
                         ],
                         [
-                            'end_time' => $slotEnd->format('H:i'),
+                            'end_time' => $slotEnd->format('H:i:s'),
                             'is_enabled' => $isEnabled,
                             'slot_duration' => $slotDuration, // Store slot_duration in the database
                             'updated_at' => now(),
