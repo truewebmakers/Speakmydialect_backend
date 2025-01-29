@@ -44,8 +44,10 @@ Route::get('/language/search/suggestion', [SearchTranslatorsController::class, '
 Route::get('/get-profile/{uuid}', [SearchTranslatorsController::class, 'getUserProfile'])->name('get.user.profile');
 Route::get('/get/skillsall/{column}', [UserMetaController::class, 'getSkillsAll'])->name('get.skills.all');
 Route::get('/get/dailect/{language_id}', [UserMetaController::class, 'getDailectByLanguageId'])->name('get.skills.all');
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
 Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
+
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
     Route::get('/get-profile-admin/{id}', [SearchTranslatorsController::class, 'getUserProfile'])->name('get.user.admin.profile');
     Route::get('/users/get/list', [UserDocuemntController::class, 'getNewUserList'])->name('user.get.new.list');
