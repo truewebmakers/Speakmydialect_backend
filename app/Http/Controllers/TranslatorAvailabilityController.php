@@ -17,8 +17,8 @@ class TranslatorAvailabilityController extends Controller
             'availability.*.is_enabled' => 'required|boolean',
             'slot_duration' => 'required|integer|min:1', // Ensure slot_duration is positive
             'availability.*.times' => 'array',
-            'availability.*.times.*.start_time' => 'required|date_format:H:i',
-            'availability.*.times.*.end_time' => 'required|date_format:H:i|after:availability.*.times.*.start_time',
+          //  'availability.*.times.*.start_time' => 'required|date_format:H:i',
+            //'availability.*.times.*.end_time' => 'required|date_format:H:i|after:availability.*.times.*.start_time',
         ]);
 
         if ($validator->fails()) {
