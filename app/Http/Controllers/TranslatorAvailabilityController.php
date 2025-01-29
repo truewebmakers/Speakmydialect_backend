@@ -133,7 +133,7 @@ class TranslatorAvailabilityController extends Controller
     public function index($translatorId)
     {
         $availability = TranslatorAvailability::where('translator_id', $translatorId)->get();
-        return response()->json(['data' => $availability,'slot_duration' => $availability->slot_duration]);
+        return response()->json(['data' => $availability]);
     }
     public function getSlots(Request $request)
     {
