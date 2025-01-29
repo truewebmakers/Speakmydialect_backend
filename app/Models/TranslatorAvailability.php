@@ -9,7 +9,7 @@ class TranslatorAvailability extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['translator_id', 'day', 'start_time', 'end_time', 'is_enabled'];
+    protected $fillable = ['translator_id', 'day', 'start_time', 'end_time', 'is_enabled','slot_duration'];
 
     public function translator()
     {

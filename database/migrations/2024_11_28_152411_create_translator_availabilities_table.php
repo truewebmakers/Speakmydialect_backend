@@ -19,6 +19,7 @@ return new class extends Migration
             $table->time('start_time');
             $table->time('end_time');
             $table->boolean('is_enabled')->default(true);
+            $table->integer('slot_duration')->nullable();
             $table->timestamps();
         });
     }
