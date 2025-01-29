@@ -169,13 +169,12 @@ class TranslatorAvailabilityController extends Controller
         $availability = TranslatorAvailability::where(['translator_id' => $translatorId, 'day' => $day])->get();
 
         // Remove the booked slot from availability
-        $filteredAvailability = $availability->filter(callback: function (TModel $slot) use ($bookedStart, $bookedEnd) {
-            // Include only slots outside the booked time range
-            return is_null($bookedStart) ||
-                is_null($bookedEnd) ||  ($slot->start_time >= $bookedEnd || $slot->end_time <= $bookedStart);
-        });
+        // $filteredAvailability = $availability->filter(callback: function (TModel $slot) use ($bookedStart, $bookedEnd) {
+        //     // Include only slots outside the booked time range
+        //     return is_null($bookedStart) ||  is_null($bookedEnd) ||  ($slot->start_time >= $bookedEnd || $slot->end_time <= $bookedStart);
+        // });
 
-        return response()->json(['data' => $filteredAvailability->values() ]);
+        return response()->json(['data' => $availability ]);
     }
 
 
