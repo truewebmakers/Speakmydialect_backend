@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Str;
-
 use App\Mail\SendContactUs;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Cache;

@@ -44,7 +44,7 @@ Route::get('/language/search/suggestion', [SearchTranslatorsController::class, '
 Route::get('/get-profile/{uuid}', [SearchTranslatorsController::class, 'getUserProfile'])->name('get.user.profile');
 Route::get('/get/skillsall/{column}', [UserMetaController::class, 'getSkillsAll'])->name('get.skills.all');
 Route::get('/get/dailect/{language_id}', [UserMetaController::class, 'getDailectByLanguageId'])->name('get.skills.all');
-
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
 
     Route::get('/get-profile-admin/{id}', [SearchTranslatorsController::class, 'getUserProfile'])->name('get.user.admin.profile');
@@ -66,7 +66,7 @@ Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
     Route::post('/update/skills/{id}', [UserMetaController::class, 'updateOrCreateSkills'])->name('update.skills');
     Route::get('/get/skills/{id}', [UserMetaController::class, 'getSkills'])->name('get.skills');
     Route::post('/delete/skills/{id}', [UserMetaController::class, 'DeleteSkill'])->name('delete.skills');
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
 
     // Work experience Apis started
     Route::get('/experience/get/{user_id}', [UserWorkExperienceController::class, 'getWorkExperience'])->name('experience.get');
