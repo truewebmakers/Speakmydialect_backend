@@ -290,8 +290,8 @@ class BookingController extends Controller
                 $durationInMinutes = $startTime->diffInMinutes($endTime);
 
                 // Add the start time, end time, and duration to your data array
-                $dataArr['start_at'] = $slot['start_time'];
-                $dataArr['end_at'] = $slot['end_time'];
+                $dataArr['start_at'] = $startTime;
+                $dataArr['end_at'] = $endTime;
                 $duration_in_minutes = $durationInMinutes;
             }
 
