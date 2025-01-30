@@ -6,6 +6,7 @@ use App\Helpers\TwilioHelper;
 use Illuminate\Http\Request;
 use App\Models\Booking;
 use App\Models\User;
+use Carbon\Carbon;
 
 class BookingController extends Controller
 {
@@ -255,7 +256,7 @@ class BookingController extends Controller
     {
         // duration: { hours: 0, minutes: 0 },
 
-        return response()->json(['message' => $request->input('slots')], 200);
+      //  return response()->json(['message' => $request->input('slots')], 200);
 
         $request->validate([
             'client_id' => 'required|exists:users,id',
@@ -279,18 +280,27 @@ class BookingController extends Controller
         if(!empty( $user) && $user->user_type == 'client'){
 
             $dataArr[] = $request->except('work_status');
+            $duration_in_minutes = 0;
+            foreach ($slots as $slot) {
+                // Get the start and end time using Carbon for time difference calculation
+                $startTime = Carbon::parse($slot->start_time);
+                $endTime = Carbon::parse($slot->end_time);
 
-            foreach($slots as $slot){
-                $dataArr['start_at'] = $slot['start_time'];
-                $dataArr['end_at'] = $slot['end_time'];
+                // Calculate the difference in minutes
+                $durationInMinutes = $startTime->diffInMinutes($endTime);
+
+                // Add the start time, end time, and duration to your data array
+                $dataArr['start_at'] = $slot->start_time;
+                $dataArr['end_at'] = $slot->end_time;
+                $duration_in_minutes = $durationInMinutes;
             }
 
 
             $booking = Booking::create($dataArr);
         }else{
-            return response()->json(['message' => 'This user is not a client. You must have a client account to be hired.' ,'data' =>[] ,'status' => true],422);
+            return response()->json(['message' => 'This user is not a client. You must have a client account to be hired.' ,'data' =>[] ,'status' => true ],422);
         }
-        return response()->json(['message' => 'Booking added successfully.' ,'data' =>$booking ,'status' => true , 'slots' =>  $slots ],200);
+        return response()->json(['message' => 'Booking added successfully.' ,'data' =>$booking ,'status' => true , 'slots' =>  $slots ,'duration_in_minutes' => $duration_in_minutes ],200);
 
     }
 
