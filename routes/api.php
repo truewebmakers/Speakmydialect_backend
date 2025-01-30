@@ -49,7 +49,7 @@ Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-    Route::get('/get-all-users', [AuthController::class, 'FetchContactFormEntires'])->name('get.contact.form.entry');
+    Route::get('/get-all-users', [AuthController::class, 'getAllUsers'])->name('get.contact.form.entry');
 
 
     Route::get('/get-profile-admin/{id}', [SearchTranslatorsController::class, 'getUserProfile'])->name('get.user.admin.profile');

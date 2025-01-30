@@ -95,8 +95,6 @@ class AuthController extends Controller
         $user->sendEmailVerificationNotification();
 
         return response()->json(['message' => 'A new verification link has been sent to your email address.', 'status' => true], 200);
-
-
     }
 
     public function checkEmail(Request $request)
@@ -166,10 +164,9 @@ class AuthController extends Controller
 
         if ($response === Password::PASSWORD_RESET) {
             return redirect()->back()->with('status', 'Password has been reset successfully. You can now log in.');
-
         } else {
             return redirect()->route('password.reset', ['token' => $request->token])
-                         ->with('error', 'Failed to reset the password. Please try again.');
+                ->with('error', 'Failed to reset the password. Please try again.');
         }
     }
 
@@ -186,7 +183,7 @@ class AuthController extends Controller
         Cache::put($cacheKey, $otp, now()->addMinutes(5));
         $message = "Your OTP code is: $otp. Please use this code to verify your phone number.";
         // Send OTP to the user's phone number via Twilio
-        TwilioHelper::sendOtp($request->country_code, $request->phone_number ,$message);
+        TwilioHelper::sendOtp($request->country_code, $request->phone_number, $message);
         return response()->json([
             'message' => 'OTP sent successfully. Please verify your phone number.',
             'status' => true
@@ -212,7 +209,7 @@ class AuthController extends Controller
             return response()->json([
                 'message' => 'OTP Verifed',
                 'status' => true,
-                'is_verified' => true ,
+                'is_verified' => true,
                 'verified_at' => date('Y-m-d H:i:s')
             ], 200);
         }
@@ -365,36 +362,36 @@ class AuthController extends Controller
     }
 
     public function getAllUsers(Request $request)
-{
-    // Validate user_type
-    $request->validate([
-        'user_type' => 'required|string'
-    ]);
+    {
+        // Validate user_type
+        $request->validate([
+            'user_type' => 'required|string'
+        ]);
 
-    // Fetch users with pagination
-    $users = User::where('user_type', $request->input('user_type'))->paginate(10);
+        // Fetch users with pagination
+        $users = User::where('user_type', $request->input('user_type'))->paginate(10);
 
-    // Check if users were found
-    if ($users->isEmpty()) {
+        // Check if users were found
+        if ($users->isEmpty()) {
+            return response()->json([
+                'message' => 'Not Found',
+                'status' => false
+            ]);
+        }
+
+        // Return paginated users
         return response()->json([
-            'message' => 'Not Found',
-            'status' => false
+            'message' => 'Users fetched successfully',
+            'status' => true,
+            'data' => $users->items(),
+            'pagination' => [
+                'total' => $users->total(),
+                'per_page' => $users->perPage(),
+                'current_page' => $users->currentPage(),
+                'last_page' => $users->lastPage()
+            ]
         ]);
     }
-
-    // Return paginated users
-    return response()->json([
-        'message' => 'Users fetched successfully',
-        'status' => true,
-        'data' => $users->items(),
-        'pagination' => [
-            'total' => $users->total(),
-            'per_page' => $users->perPage(),
-            'current_page' => $users->currentPage(),
-            'last_page' => $users->lastPage()
-        ]
-    ]);
-}
 
 
 
