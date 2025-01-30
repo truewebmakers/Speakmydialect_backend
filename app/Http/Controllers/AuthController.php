@@ -366,19 +366,26 @@ class AuthController extends Controller
 
     public function getAllUsers(Request $request)
     {
-         $users = User::where('user_type',$request->input('user_type'))->get();
-         if(!$users){
+        // Fetch users based on user_type from the request
+        $users = User::where('user_type', $request->input('user_type'))->get();
+
+        // Check if the collection is empty
+        if ($users->isEmpty()) {
             return response()->json([
                 'message' => 'Not Found',
                 'status' => false
             ]);
-         }
-         return response()->json([
-            'message' => 'users fetched successfully',
+        }
+
+        // Return users if found
+        return response()->json([
+            'message' => 'Users fetched successfully',
             'status' => true,
-            'data' => $users
+            'data' => $users,
+            'type' => $request->input('user_type')
         ]);
     }
+
 
     public function FetchContactFormEntires()
     {
