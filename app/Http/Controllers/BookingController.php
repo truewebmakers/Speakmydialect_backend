@@ -283,15 +283,15 @@ class BookingController extends Controller
             $duration_in_minutes = 0;
             foreach ($slots as $slot) {
                 // Get the start and end time using Carbon for time difference calculation
-                $startTime = Carbon::parse($slot->start_time);
-                $endTime = Carbon::parse($slot->end_time);
+                $startTime = Carbon::parse($slot['start_time']);
+                $endTime = Carbon::parse($slot['end_time']);
 
                 // Calculate the difference in minutes
                 $durationInMinutes = $startTime->diffInMinutes($endTime);
 
                 // Add the start time, end time, and duration to your data array
-                $dataArr['start_at'] = $slot->start_time;
-                $dataArr['end_at'] = $slot->end_time;
+                $dataArr['start_at'] = $slot['start_time'];
+                $dataArr['end_at'] = $slot['end_time'];
                 $duration_in_minutes = $durationInMinutes;
             }
 
