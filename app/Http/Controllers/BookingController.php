@@ -279,7 +279,7 @@ class BookingController extends Controller
         $user = User::where(['id' => $request->input('client_id')])->get()->first();
         if(!empty( $user) && $user->user_type == 'client'){
 
-            $dataArr = $request->except('work_status');
+            $dataArr = $request->except('work_status','slots');
             $duration_in_minutes = 0;
             foreach ($slots as $slot) {
                 // Get the start and end time using Carbon for time difference calculation
