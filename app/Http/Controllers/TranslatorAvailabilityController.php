@@ -133,7 +133,18 @@ class TranslatorAvailabilityController extends Controller
     public function index($translatorId)
     {
         $availability = TranslatorAvailability::where('translator_id', $translatorId)->get();
-        return response()->json(['data' => $availability]);
+
+        $response = $availability->map(function ($item) {
+            return [
+                'data' => $response,
+                'slot_duration' => $item->slot_duration, // Assuming 'slot_duration' is a column in your table
+                // Add other fields from the availability table if necessary
+            ];
+        });
+
+        return response()->json(['data' => $response]);
+
+
     }
     public function getSlots(Request $request)
     {
