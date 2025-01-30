@@ -136,7 +136,7 @@ class TranslatorAvailabilityController extends Controller
 
         $response = $availability->map(function ($item) {
             return [
-                'data' => $response,
+                'data' => $item,
                 'slot_duration' => $item->slot_duration, // Assuming 'slot_duration' is a column in your table
                 // Add other fields from the availability table if necessary
             ];
