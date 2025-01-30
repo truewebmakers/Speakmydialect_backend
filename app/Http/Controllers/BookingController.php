@@ -273,18 +273,14 @@ class BookingController extends Controller
 
         $slots = $request->input('slots');
 
-
-
-
-
         $user = User::where(['id' => $request->input('client_id')])->get()->first();
         if(!empty( $user) && $user->user_type == 'client'){
 
             $dataArr[] = $request->except('work_status');
 
             foreach($slots as $slot){
-                $dataArr['start_at'] = $slot->start_at;
-                $dataArr['end_at'] = $slot->end_at;
+                $dataArr['start_at'] = $slot['start_at'];
+                $dataArr['end_at'] = $slot['end_at'];
             }
 
 
@@ -292,7 +288,7 @@ class BookingController extends Controller
         }else{
             return response()->json(['message' => 'This user is not a client. You must have a client account to be hired.' ,'data' =>[] ,'status' => true],422);
         }
-        return response()->json(['message' => 'Booking added successfully.' ,'data' =>$booking ,'status' => true],200);
+        return response()->json(['message' => 'Booking added successfully.' ,'data' =>$booking ,'status' => true , 'slots' =>  $slots ],200);
 
     }
 
