@@ -279,8 +279,8 @@ class BookingController extends Controller
             $dataArr[] = $request->except('work_status');
 
             foreach($slots as $slot){
-                $dataArr['start_at'] = $slot['start_at'];
-                $dataArr['end_at'] = $slot['end_at'];
+                $dataArr['start_at'] = $slot['start_time'];
+                $dataArr['end_at'] = $slot['end_time'];
             }
 
 
