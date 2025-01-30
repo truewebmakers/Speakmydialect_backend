@@ -363,15 +363,15 @@ class AuthController extends Controller
 
     public function getAllUsers(Request $request)
     {
-        // Validate user_type
+        // Validate user_type if needed
         $request->validate([
             'user_type' => 'required|string'
         ]);
 
-        // Fetch users with pagination
-        $users = User::where('user_type', $request->input('user_type'))->paginate(10);
+        // Fetch users based on user_type
+        $users = User::where('user_type', $request->input('user_type'))->get();
 
-        // Check if users were found
+        // Check if any users were found
         if ($users->isEmpty()) {
             return response()->json([
                 'message' => 'Not Found',
@@ -379,17 +379,11 @@ class AuthController extends Controller
             ]);
         }
 
-        // Return paginated users
+        // Return the users if found
         return response()->json([
             'message' => 'Users fetched successfully',
             'status' => true,
-            'data' => $users->items(),
-            'pagination' => [
-                'total' => $users->total(),
-                'per_page' => $users->perPage(),
-                'current_page' => $users->currentPage(),
-                'last_page' => $users->lastPage()
-            ]
+            'data' => $users
         ]);
     }
 
