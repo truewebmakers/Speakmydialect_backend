@@ -49,6 +49,9 @@ Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
+    Route::get('/get-all-users', [AuthController::class, 'FetchContactFormEntires'])->name('get.contact.form.entry');
+
+
     Route::get('/get-profile-admin/{id}', [SearchTranslatorsController::class, 'getUserProfile'])->name('get.user.admin.profile');
     Route::get('/users/get/list', [UserDocuemntController::class, 'getNewUserList'])->name('user.get.new.list');
     Route::post('/user/update/status/{id}', [UserDocuemntController::class, 'UpdateUserStatus'])->name('user.update.new.list');

@@ -364,6 +364,22 @@ class AuthController extends Controller
         }
     }
 
+    public function getAllUsers(Request $request)
+    {
+         $users = User::where('user_type',$request->input('user_type'))->get();
+         if(!$users){
+            return response()->json([
+                'message' => 'Not Found',
+                'status' => false
+            ]);
+         }
+         return response()->json([
+            'message' => 'users fetched successfully',
+            'status' => true,
+            'data' => $users
+        ]);
+    }
+
     public function FetchContactFormEntires()
     {
         $entries = ContactFormEntry::orderBy('id', 'desc')->get();

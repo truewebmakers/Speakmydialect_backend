@@ -263,17 +263,32 @@ class BookingController extends Controller
             'present_rate' => 'required|integer',
             'availability' => 'required|in:phone,video-call,in-person',
             'status' => 'required|in:accept,reject,cancel,in-process,approved,reject,disputed,pending,mark-completed',
-           // 'work_status' => 'required|in:approved,reject,disputed,pending',
-            'payment_status' => 'required|in:paid,escrow,hold,dispute,none',
+             // 'work_status' => 'required|in:approved,reject,disputed,pending',
+             'payment_status' => 'required|in:paid,escrow,hold,dispute,none',
              'duration' => 'required',
-            'start_at' => 'required',
-            'end_at' => 'required',
+            // 'start_at' => 'required',
+            // 'end_at' => 'required',
+            'slots' => 'required|array'
         ]);
+
+        $slots = $request->input('slots');
+
+
+
 
 
         $user = User::where(['id' => $request->input('client_id')])->get()->first();
         if(!empty( $user) && $user->user_type == 'client'){
-            $booking = Booking::create($request->except('work_status'));
+
+            $dataArr[] = $request->except('work_status');
+
+            foreach($slots as $slot){
+                $dataArr['start_at'] = $slot->start_at;
+                $dataArr['end_at'] = $slot->end_at;
+            }
+
+
+            $booking = Booking::create($dataArr);
         }else{
             return response()->json(['message' => 'This user is not a client. You must have a client account to be hired.' ,'data' =>[] ,'status' => true],422);
         }
