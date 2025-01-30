@@ -365,26 +365,37 @@ class AuthController extends Controller
     }
 
     public function getAllUsers(Request $request)
-    {
-        // Fetch users based on user_type from the request
-        $users = User::where('user_type', $request->input('user_type'))->get();
+{
+    // Validate user_type
+    $request->validate([
+        'user_type' => 'required|string'
+    ]);
 
-        // Check if the collection is empty
-        if ($users->isEmpty()) {
-            return response()->json([
-                'message' => 'Not Found',
-                'status' => false
-            ]);
-        }
+    // Fetch users with pagination
+    $users = User::where('user_type', $request->input('user_type'))->paginate(10);
 
-        // Return users if found
+    // Check if users were found
+    if ($users->isEmpty()) {
         return response()->json([
-            'message' => 'Users fetched successfully',
-            'status' => true,
-            'data' => $users,
-            'type' => $request->input('user_type')
+            'message' => 'Not Found',
+            'status' => false
         ]);
     }
+
+    // Return paginated users
+    return response()->json([
+        'message' => 'Users fetched successfully',
+        'status' => true,
+        'data' => $users->items(),
+        'pagination' => [
+            'total' => $users->total(),
+            'per_page' => $users->perPage(),
+            'current_page' => $users->currentPage(),
+            'last_page' => $users->lastPage()
+        ]
+    ]);
+}
+
 
 
     public function FetchContactFormEntires()
