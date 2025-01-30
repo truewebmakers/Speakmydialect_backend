@@ -134,11 +134,15 @@ class TranslatorAvailabilityController extends Controller
     {
         $availability = TranslatorAvailability::where('translator_id', $translatorId)->get();
 
+        // Check if there is any availability and get the slot_duration from the first item
+        $slotDuration = $availability->isNotEmpty() ? $availability->first()->slot_duration : null;
 
-
-
-        return response()->json(['data' => $availability,'slot_duration' => (!empty($availability)) ? $availability[0]->slot_duration : null ]);
+        return response()->json([
+            'data' => $availability,
+            'slot_duration' => $slotDuration
+        ]);
     }
+
     public function getSlots(Request $request)
     {
         $validator = Validator::make($request->all(), [
