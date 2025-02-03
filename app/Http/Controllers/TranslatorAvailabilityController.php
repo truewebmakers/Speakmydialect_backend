@@ -17,7 +17,7 @@ class TranslatorAvailabilityController extends Controller
             'availability.*.is_enabled' => 'required|boolean',
             'slot_duration' => 'required|integer|min:1', // Ensure slot_duration is positive
             'availability.*.times' => 'array',
-          //  'availability.*.times.*.start_time' => 'required|date_format:H:i',
+            //  'availability.*.times.*.start_time' => 'required|date_format:H:i',
             //'availability.*.times.*.end_time' => 'required|date_format:H:i|after:availability.*.times.*.start_time',
         ]);
 
@@ -143,7 +143,51 @@ class TranslatorAvailabilityController extends Controller
         ]);
     }
 
+
     public function getSlots(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'translator_id' => 'required',
+            'day' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $translatorId = $request->input('translator_id');
+        $day = $request->input('day');
+        $currentDate = $request->input('currentDate');
+
+        // Fetch booked slots for the given day
+        $bookedSlots = Booking::where([
+            'day' => $day,
+            'start_at' => $currentDate
+        ])->get();
+
+        // Fetch translator's availability for the given day
+        $availability = TranslatorAvailability::where([
+            'translator_id' => $translatorId,
+            'day' => $day
+        ])->get();
+
+        // Filter out booked slots from availability
+        $filteredAvailability = $availability->filter(function ($slot) use ($bookedSlots) {
+            foreach ($bookedSlots as $bookedSlot) {
+                // Check if the availability slot overlaps with any booked slot
+                if (
+                    ($slot->start_time < $bookedSlot->end_time && $slot->end_time > $bookedSlot->start_time)
+                ) {
+                    return false; // Exclude overlapping slots
+                }
+            }
+            return true; // Include non-overlapping slots
+        });
+
+        return response()->json(['data' => $filteredAvailability->values()]);
+    }
+
+    public function getSlots1(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'translator_id' => 'required',
@@ -182,7 +226,7 @@ class TranslatorAvailabilityController extends Controller
             return is_null($bookedStart) ||  is_null($bookedEnd) ||  ($slot->start_time >= $bookedEnd || $slot->end_time <= $bookedStart);
         });
 
-        return response()->json(['data' => $filteredAvailability ]);
+        return response()->json(['data' => $filteredAvailability]);
     }
 
 
