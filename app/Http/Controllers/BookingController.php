@@ -116,7 +116,7 @@ class BookingController extends Controller
     public function updateClientStatus($id, $status = '')
     {
         // Retrieve the booking details and interpreter information
-        $booking = Booking::with('translator')->where(['id' => $id])->first();
+        $booking = Booking::with('translator','client')->where(['id' => $id])->first();
 
         if (!$booking) {
             return response()->json(['message' => 'Booking not found.', 'status' => false], 404);
@@ -124,6 +124,7 @@ class BookingController extends Controller
 
         // Extract interpreter and job details
         $interpreterName = $booking->translator->fname;
+        $clientName = $booking->client->fname;
         $jobTitle = $booking->job_title;
         $jobDate = $booking->created_at;
         $phoneN= $booking->translator->phone_number;
@@ -149,7 +150,7 @@ class BookingController extends Controller
                 $message = "Hi $interpreterName,\nGreat news! Your completed job on the Speak My Dialect app has been approved.\nJob Title: $jobTitle\nDate: $jobDate\nYour payment will be processed shortly.";
                 break;
             case 'cancel':
-                $message = "Hi $interpreterName,\nThe following job on the Speak My Dialect app has been canceled by the client:\nJob Title: $jobTitle\nDate: $jobDate\nNo further action is required.";
+                $message = "Hi $interpreterName,\nThe following job on the Speak My Dialect app has been canceled by the client: $clientName \nJob Title: $jobTitle\nDate: $jobDate\nNo further action is required.";
                 break;
             default:
                 return response()->json(['message' => 'Invalid status provided.', 'status' => false], 400);
