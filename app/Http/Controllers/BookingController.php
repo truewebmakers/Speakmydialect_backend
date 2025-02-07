@@ -256,7 +256,7 @@ class BookingController extends Controller
     {
         // duration: { hours: 0, minutes: 0 },
 
-      //  return response()->json(['message' => $request->input('slots')], 200);
+       return response()->json(['message' => $request->input('slots')], 200);
 
         $request->validate([
             'client_id' => 'required|exists:users,id',
