@@ -36,6 +36,10 @@ class Booking extends Model
     {
         return $this->hasMany(Payout::class,'job_id','id');
     }
+    public function slots()
+    {
+        return $this->hasMany(BookingSlot::class,'booking_id','id');
+    }
 
 
     protected static function booted()
