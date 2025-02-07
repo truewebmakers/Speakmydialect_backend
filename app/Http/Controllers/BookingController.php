@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\TwilioHelper;
 use Illuminate\Http\Request;
-use App\Models\Booking;
+use App\Models\{Booking,BookingSlot};
 use App\Models\User;
 use Carbon\Carbon;
 
@@ -255,8 +255,7 @@ class BookingController extends Controller
     public function store(Request $request)
     {
         // duration: { hours: 0, minutes: 0 },
-
-       return response()->json(['message' => $request->input('slots')], 200);
+    //    return response()->json(['message' => $request->input('slots')], 200);
 
         $request->validate([
             'client_id' => 'required|exists:users,id',
@@ -276,27 +275,30 @@ class BookingController extends Controller
 
         $slots = $request->input('slots');
 
+        // BookingSlot::create();
+
         $user = User::where(['id' => $request->input('client_id')])->get()->first();
         if(!empty( $user) && $user->user_type == 'client'){
 
             $dataArr = $request->except('work_status','slots');
             $duration_in_minutes = 0;
-            foreach ($slots as $slot) {
-                // Get the start and end time using Carbon for time difference calculation
-                $startTime = Carbon::parse($slot['start_time']);
-                $endTime = Carbon::parse($slot['end_time']);
 
-                // Calculate the difference in minutes
-                $durationInMinutes = $startTime->diffInMinutes($endTime);
-
-                // Add the start time, end time, and duration to your data array
-                $dataArr['start_at'] = $startTime;
-                $dataArr['end_at'] = $endTime;
-                $duration_in_minutes = $durationInMinutes;
-            }
 
 
             $booking = Booking::create($dataArr);
+
+            $slotArr = [];
+            foreach ($slots as $slot) {
+                $startTime = Carbon::parse($slot['start_time']);
+                $endTime = Carbon::parse($slot['end_time']);
+                $durationInMinutes = $startTime->diffInMinutes($endTime);
+                $slotArr['booking_id'] = $booking->id;
+                $slotArr['start_at'] = $startTime;
+                $slotArr['end_at'] = $endTime;
+                $duration_in_minutes = $durationInMinutes;
+
+                BookingSlot::create($slotArr);
+            }
         }else{
             return response()->json(['message' => 'This user is not a client. You must have a client account to be hired.' ,'data' =>[] ,'status' => true ],422);
         }

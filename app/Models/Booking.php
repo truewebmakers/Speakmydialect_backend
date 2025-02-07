@@ -45,6 +45,5 @@ class Booking extends Model
                 $user->uuid = (string) Str::uuid();
             }
         });
-
     }
 }
