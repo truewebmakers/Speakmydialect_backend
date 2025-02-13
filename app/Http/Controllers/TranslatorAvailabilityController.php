@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{TranslatorAvailability, Booking};
+use App\Models\{TranslatorAvailability, Booking,BookingSlot};
 use Illuminate\Support\Facades\Validator;
 
 class TranslatorAvailabilityController extends Controller
