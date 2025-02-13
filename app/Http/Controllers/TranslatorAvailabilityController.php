@@ -171,11 +171,31 @@ class TranslatorAvailabilityController extends Controller
             'day' => $day
         ])->get();
 
+        // Loop through the booked slots and filter out availability slots that are already booked
+        $filteredAvailability = $availability->filter(function ($availableSlot) use ($bookedSlots, $currentDate) {
+            // Combine the current date with availability's start and end time
+            $availabilityStart = \Carbon\Carbon::parse($currentDate . ' ' . $availableSlot->start_at);
+            $availabilityEnd = \Carbon\Carbon::parse($currentDate . ' ' . $availableSlot->end_at);
 
+            // Check if the slot is booked
+            foreach ($bookedSlots as $bookedSlot) {
+                $bookedStart = \Carbon\Carbon::parse($bookedSlot->start_at);
+                $bookedEnd = \Carbon\Carbon::parse($bookedSlot->end_at);
+
+                // Compare start and end times using Carbon's comparison methods
+                // If the availability slot matches a booked slot, it is considered taken and excluded
+                if ($availabilityStart->equalTo($bookedStart) && $availabilityEnd->equalTo($bookedEnd)) {
+                    return false; // Exclude this slot because it's already booked
+                }
+            }
+
+            return true; // Include the slot if it's not booked
+        });
 
         // Return filtered availability data
-        return response()->json(['data' => $availability]);
+        return response()->json(['data' => $filteredAvailability->values()]);
     }
+
 
 
 
