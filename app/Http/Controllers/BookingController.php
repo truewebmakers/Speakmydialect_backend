@@ -275,6 +275,7 @@ class BookingController extends Controller
         ]);
 
         $slots = $request->input('slots');
+        $start_at = $request->input('start_at');
 
 
         $user = User::where(['id' => $request->input('client_id')])->get()->first();
@@ -286,13 +287,26 @@ class BookingController extends Controller
 
             $slotArr = [];
             foreach ($slots as $slot) {
-                $startTime = Carbon::parse($slot['start_time']);
-                $endTime = Carbon::parse($slot['end_time']);
-                $durationInMinutes = $startTime->diffInMinutes($endTime);
+
+
+                $startDateTime = Carbon::parse($start_at . ' ' . $slot['start_time']); // Concatenate date and time for start
+                $endDateTime = Carbon::parse($start_at . ' ' . $slot['end_time']); // Concatenate date and time for end
+
+                $durationInMinutes = $startDateTime->diffInMinutes($endDateTime); // Calculate duration
+
                 $slotArr['booking_id'] = $booking->id;
-                $slotArr['start_at'] = $startTime;
-                $slotArr['end_at'] = $endTime;
+                $slotArr['start_at'] = $startDateTime; // Use the combined start datetime
+                $slotArr['end_at'] = $endDateTime; // Use the combined end datetime
                 $duration_in_minutes = $durationInMinutes;
+
+
+                // $startTime = Carbon::parse($slot['start_time']);
+                // $endTime = Carbon::parse($slot['end_time']);
+                // $durationInMinutes = $startTime->diffInMinutes($endTime);
+                // $slotArr['booking_id'] = $booking->id;
+                // $slotArr['start_at'] = $startTime;
+                // $slotArr['end_at'] = $endTime;
+                // $duration_in_minutes = $durationInMinutes;
 
                 BookingSlot::create($slotArr);
             }
