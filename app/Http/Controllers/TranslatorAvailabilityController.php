@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{TranslatorAvailability, Booking,BookingSlot};
+use App\Models\{TranslatorAvailability, Booking, BookingSlot};
 use Illuminate\Support\Facades\Validator;
 
 class TranslatorAvailabilityController extends Controller
@@ -173,14 +173,17 @@ class TranslatorAvailabilityController extends Controller
 
         // Loop through the booked slots and filter out availability slots that are already booked
         $filteredAvailability = $availability->filter(function ($availableSlot) use ($bookedSlots, $currentDate) {
-            // Combine the current date with availability's start and end time
-            $availabilityStart = \Carbon\Carbon::parse($currentDate . ' ' . $availableSlot->start_at);
-            $availabilityEnd = \Carbon\Carbon::parse($currentDate . ' ' . $availableSlot->end_at);
+            // Combine the current date with availability's start time and end time
+            $availabilityStart = \Carbon\Carbon::parse($currentDate . ' ' . $availableSlot->start_time);
+            $availabilityEnd = \Carbon\Carbon::parse($currentDate . ' ' . $availableSlot->end_time);
 
             // Check if the slot is booked
             foreach ($bookedSlots as $bookedSlot) {
                 $bookedStart = \Carbon\Carbon::parse($bookedSlot->start_at);
                 $bookedEnd = \Carbon\Carbon::parse($bookedSlot->end_at);
+
+                // Debug log to see what the slots look like
+                \Log::info("Comparing slots: Availability [Start: {$availabilityStart}, End: {$availabilityEnd}] with Booked [Start: {$bookedStart}, End: {$bookedEnd}]");
 
                 // Compare start and end times using Carbon's comparison methods
                 // If the availability slot matches a booked slot, it is considered taken and excluded
@@ -193,8 +196,9 @@ class TranslatorAvailabilityController extends Controller
         });
 
         // Return filtered availability data
-        return response()->json(['data' => $filteredAvailability->values() , 'availability' => $availability, 'bookedSlots' => $bookedSlots ]);
+        return response()->json(['data' => $filteredAvailability->values()]);
     }
+
 
 
 
