@@ -23,9 +23,11 @@ class SearchTranslatorsController extends Controller
 
 
         if (!$user) {
+
+            $ud = User::find($userId);
             return response()->json([
                 'status' => false,
-                'profile_locked' => Auth::user()->profile_locked,
+                'profile_locked' =>$ud->profile_locked,
                 'message' => 'Your profile is incomplete. You must have at least one skill and one language to appear in the search results.',
             ], 400); // Return a 400 Bad Request with the error message
         }else{
