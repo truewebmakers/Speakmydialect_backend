@@ -172,15 +172,13 @@ class TranslatorAvailabilityController extends Controller
 
         // Filter out booked slots from availability
         $filteredAvailability = $availability->filter(function ($slot) use ($bookedSlots) {
+            // Check if the availability slot's start_at and end_at already exist in the booked slots
             foreach ($bookedSlots as $bookedSlot) {
-                // Check if the availability slot overlaps with any booked slot
-                if (
-                    ($slot->start_time < $bookedSlot->end_at && $slot->end_time > $bookedSlot->start_at)
-                ) {
-                    return false; // Exclude overlapping slots
+                if ($slot->start_at == $bookedSlot->start_at && $slot->end_at == $bookedSlot->end_at) {
+                    return false; // Exclude this slot because it's already booked
                 }
             }
-            return true; // Include non-overlapping slots
+            return true; // Include the slot if it's not booked
         });
 
         // Return filtered availability data
