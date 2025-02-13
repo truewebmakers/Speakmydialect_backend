@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Language;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SearchTranslatorsController extends Controller
 {
@@ -18,10 +19,13 @@ class SearchTranslatorsController extends Controller
             $subquery->whereNotNull('level'); // Ensure user has a skill (level)
         });
         $user =  $query->first();
+
+
+
         if (!$user) {
             return response()->json([
                 'status' => false,
-                'profile_locked' => $query->first()->profile_locked,
+                'profile_locked' => Auth::user()->profile_locked,
                 'message' => 'Your profile is incomplete. You must have at least one skill and one language to appear in the search results.',
             ], 400); // Return a 400 Bad Request with the error message
         }else{
