@@ -132,7 +132,7 @@ class TranslatorAvailabilityController extends Controller
 
     public function index($translatorId)
     {
-        $availability = TranslatorAvailability::with('translator')->where('translator_id', $translatorId)->get();
+        $availability = TranslatorAvailability::where('translator_id', $translatorId)->get();
 
         // Check if there is any availability and get the slot_duration from the first item
         $slotDuration = $availability->isNotEmpty() ? $availability->first()->slot_duration : null;
