@@ -78,7 +78,7 @@ class BookingController extends Controller
 
     public function getBookingForTranslator($translatorId , $status ='' , Request $request)
     {
-        $query = Booking::with('client','clientMeta')->where(['translator_id' => $translatorId]);
+        $query = Booking::with('client','clientMeta','slots')->where(['translator_id' => $translatorId]);
 
         if($request->input('type') == 'new_booking'){
             $query->where(['status' => $status])->whereDate('start_at','>=',date('Y-m-d')) ;
