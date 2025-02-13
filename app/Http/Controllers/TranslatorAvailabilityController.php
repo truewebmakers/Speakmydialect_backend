@@ -147,6 +147,7 @@ class TranslatorAvailabilityController extends Controller
         $validator = Validator::make($request->all(), [
             'translator_id' => 'required',
             'day' => 'required',
+            'currentDate' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -171,11 +172,13 @@ class TranslatorAvailabilityController extends Controller
         ])->get();
 
         // Filter out booked slots from availability
-        $filteredAvailability = $availability->filter(function ($slot) use ($bookedSlots) {
+        $filteredAvailability = $availability->filter(function ($slot) use ($bookedSlots, $currentDate) {
+            // Combine the current date with availability's start and end time
+            $availabilityStart = \Carbon\Carbon::parse($currentDate . ' ' . $slot->start_at);
+            $availabilityEnd = \Carbon\Carbon::parse($currentDate . ' ' . $slot->end_at);
+
+            // Check if the slot is booked
             foreach ($bookedSlots as $bookedSlot) {
-                // Use Carbon to ensure proper date comparison including time
-                $availabilityStart = \Carbon\Carbon::parse($slot->start_at);
-                $availabilityEnd = \Carbon\Carbon::parse($slot->end_at);
                 $bookedStart = \Carbon\Carbon::parse($bookedSlot->start_at);
                 $bookedEnd = \Carbon\Carbon::parse($bookedSlot->end_at);
 
@@ -187,12 +190,14 @@ class TranslatorAvailabilityController extends Controller
                     return false; // Exclude this slot because it's already booked
                 }
             }
+
             return true; // Include the slot if it's not booked
         });
 
         // Return filtered availability data
         return response()->json(['data' => $filteredAvailability->values()]);
     }
+
 
 
 
