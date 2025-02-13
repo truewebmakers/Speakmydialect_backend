@@ -145,50 +145,59 @@ class TranslatorAvailabilityController extends Controller
 
 
     public function getSlots(Request $request)
-{
-    $validator = Validator::make($request->all(), [
-        'translator_id' => 'required',
-        'day' => 'required',
-    ]);
+    {
+        // Validate input
+        $validator = Validator::make($request->all(), [
+            'translator_id' => 'required',
+            'day' => 'required'
+        ]);
 
-    if ($validator->fails()) {
-        return response()->json(['errors' => $validator->errors()], 422);
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $translatorId = $request->input('translator_id');
+        $day = $request->input('day');
+        $currentDate = $request->input('currentDate');
+
+        // Fetch all bookings for the given translator on the selected day
+        $bookedSlots = Booking::where([
+            'translator_id' => $translatorId,
+            'day' => $day
+        ])->get();
+
+        // Initialize an array of booked time ranges
+        $bookedTimes = [];
+        foreach ($bookedSlots as $slot) {
+            $bookedTimes[] = [
+                'start' => $slot->start_time,
+                'end' => $slot->end_time
+            ];
+        }
+
+        // Fetch the translator's availability for the given day
+        $availability = TranslatorAvailability::where([
+            'translator_id' => $translatorId,
+            'day' => $day
+        ])->get();
+
+        // Filter out slots that overlap with booked times
+        $filteredAvailability = $availability->filter(function ($slot) use ($bookedTimes) {
+            // Check if the availability overlaps with any booked slot
+            foreach ($bookedTimes as $booked) {
+                if (
+                    ($slot->start_time < $booked['end'] && $slot->end_time > $booked['start'])
+                ) {
+                    return false; // Slot is not available
+                }
+            }
+            return true; // Slot is available
+        });
+
+        // Return available slots
+        return response()->json(['data' => $filteredAvailability]);
     }
 
-    $translatorId = $request->input('translator_id');
-    $day = $request->input('day');
-    $currentDate = $request->input('currentDate');
-
-    // Ensure $currentDate is in the right format, e.g., 'Y-m-d'
-    $currentDate = \Carbon\Carbon::parse($currentDate)->format('Y-m-d');
-
-    // Fetch booked slots for the given day, ensuring time filtering
-    $bookedSlots = Booking::where('day', $day)
-        ->whereDate('start_at', '=', $currentDate) // Compare only the date part of start_at
-        ->get();
-
-    // Fetch translator's availability for the given day
-    $availability = TranslatorAvailability::where([
-        'translator_id' => $translatorId,
-        'day' => $day
-    ])->get();
-
-    // Filter out booked slots from availability
-    $filteredAvailability = $availability->filter(function ($slot) use ($bookedSlots) {
-        foreach ($bookedSlots as $bookedSlot) {
-            // Check if the availability slot overlaps with any booked slot
-            if (
-                ($slot->start_time < $bookedSlot->end_time && $slot->end_time > $bookedSlot->start_time)
-            ) {
-                return false; // Exclude overlapping slots
-            }
-        }
-        return true; // Include non-overlapping slots
-    });
-
-    // Return filtered availability data
-    return response()->json(['data' => $filteredAvailability->values()]);
-}
 
 
     public function getSlots1(Request $request)
@@ -208,9 +217,6 @@ class TranslatorAvailabilityController extends Controller
 
 
         // return response()->json(['data' => $request]);
-
-
-
         // Fetch booked slots for the given day
         $bookedSlot = Booking::where(column: [
             'day' => $day,
