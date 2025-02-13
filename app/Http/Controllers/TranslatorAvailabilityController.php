@@ -161,8 +161,8 @@ class TranslatorAvailabilityController extends Controller
         $currentDate = \Carbon\Carbon::parse($currentDate)->format('Y-m-d');
 
         // Fetch booked slots from BookingSlot table for the given day and translator
-        $bookedSlots = BookingSlot::whereDate('start_at', '=', $currentDate)  // Compare only the date part of start_at
-        ->get();
+        $bookedSlots = BookingSlot::whereDate('start_at', '=', $currentDate)
+            ->get();
 
         // Fetch translator's availability for the given day
         $availability = TranslatorAvailability::where([
@@ -172,9 +172,18 @@ class TranslatorAvailabilityController extends Controller
 
         // Filter out booked slots from availability
         $filteredAvailability = $availability->filter(function ($slot) use ($bookedSlots) {
-            // Check if the availability slot's start_at and end_at already exist in the booked slots
             foreach ($bookedSlots as $bookedSlot) {
-                if ($slot->start_at == $bookedSlot->start_at && $slot->end_at == $bookedSlot->end_at) {
+                // Use Carbon to ensure proper date comparison including time
+                $availabilityStart = \Carbon\Carbon::parse($slot->start_at);
+                $availabilityEnd = \Carbon\Carbon::parse($slot->end_at);
+                $bookedStart = \Carbon\Carbon::parse($bookedSlot->start_at);
+                $bookedEnd = \Carbon\Carbon::parse($bookedSlot->end_at);
+
+                // Debug log to see what the slots look like
+                \Log::info("Comparing slots: Availability [Start: {$availabilityStart}, End: {$availabilityEnd}] with Booked [Start: {$bookedStart}, End: {$bookedEnd}]");
+
+                // Compare start and end times using Carbon's comparison methods
+                if ($availabilityStart->equalTo($bookedStart) && $availabilityEnd->equalTo($bookedEnd)) {
                     return false; // Exclude this slot because it's already booked
                 }
             }
@@ -184,6 +193,7 @@ class TranslatorAvailabilityController extends Controller
         // Return filtered availability data
         return response()->json(['data' => $filteredAvailability->values()]);
     }
+
 
 
 
