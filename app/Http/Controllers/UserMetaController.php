@@ -122,13 +122,13 @@ class UserMetaController extends Controller
     }
 
     public function getSkills($id){
-         $skills =  UserSkills::where(['user_id' => $id])->orderBy('id','desc')->get();
+         $skills =  UserSkills::with('user')->where(['user_id' => $id])->orderBy('id','desc')->get();
          return response()->json(['message' => 'User skills fetched successfully' , 'data' =>$skills ,'status' => true]);
 
     }
 
     public function getSkillsAll($column) {
-        $skills = UserSkills::whereNotNull($column)->get($column);
+        $skills = UserSkills::with('user')->whereNotNull($column)->get($column);
 
         return response()->json([
             'message' => 'User skills fetched successfully',

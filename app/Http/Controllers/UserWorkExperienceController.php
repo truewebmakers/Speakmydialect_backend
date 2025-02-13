@@ -9,7 +9,7 @@ class UserWorkExperienceController extends Controller
 {
     //
     public function getWorkExperience($id){
-        $workExperience = UserWorkExperience::where('user_id',$id)->orderBy('id','desc')->get();
+        $workExperience = UserWorkExperience::with('user')->where('user_id',$id)->orderBy('id','desc')->get();
         return response()->json(['message' => 'Work Experience feched successfully.','data' => $workExperience ],200);
     }
     public function store(Request $request,$id)
