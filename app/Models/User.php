@@ -34,7 +34,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'address',
         'country_code',
         'phone_number',
-        'otp_verified_at'
+        'otp_verified_at',
+        'profile_locked'
     ];
 
     /**

@@ -56,6 +56,7 @@ class AuthController extends Controller
             'phone_number' => 'required|string|max:12|unique:users',
             'password' => 'required|string|min:8',
             'user_type' => 'required',
+            'profile_locked' => 'Yes',
             'files.*.path' => 'required|string',
             'files.*.type' => 'required|string',
             'files.*.side' => 'required|string',

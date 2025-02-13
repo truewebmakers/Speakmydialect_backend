@@ -22,6 +22,8 @@ return new class extends Migration
             $table->enum('user_type',['translator','client','admin'])->default('translator');
             $table->enum('status',['active','inactive','hold','in-review','reject'])->default('active');
             $table->text('reason')->nullable();
+            $table->enum('profile_locked',['Yes','No'])->default('Yes');
+
             $table->rememberToken();
             $table->timestamps();
         });
