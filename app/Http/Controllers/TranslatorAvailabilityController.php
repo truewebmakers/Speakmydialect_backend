@@ -158,44 +158,33 @@ class TranslatorAvailabilityController extends Controller
         $day = $request->input('day');
         $currentDate = $request->input('currentDate');
 
-        // Ensure $currentDate is in the right format, e.g., 'Y-m-d'
         $currentDate = \Carbon\Carbon::parse($currentDate)->format('Y-m-d');
 
-        // Fetch booked slots from BookingSlot table for the given day and translator
         $bookedSlots = BookingSlot::whereDate('start_at', '=', $currentDate)
             ->get();
 
-        // Fetch translator's availability for the given day
         $availability = TranslatorAvailability::where([
             'translator_id' => $translatorId,
             'day' => $day
         ])->get();
 
-        // Loop through the booked slots and filter out availability slots that are already booked
         $filteredAvailability = $availability->filter(function ($availableSlot) use ($bookedSlots, $currentDate) {
-            // Combine the current date with availability's start time and end time
             $availabilityStart = \Carbon\Carbon::parse($currentDate . ' ' . $availableSlot->start_time);
             $availabilityEnd = \Carbon\Carbon::parse($currentDate . ' ' . $availableSlot->end_time);
 
-            // Check if the slot is booked
             foreach ($bookedSlots as $bookedSlot) {
                 $bookedStart = \Carbon\Carbon::parse($bookedSlot->start_at);
                 $bookedEnd = \Carbon\Carbon::parse($bookedSlot->end_at);
 
-                // Debug log to see what the slots look like
-                \Log::info("Comparing slots: Availability [Start: {$availabilityStart}, End: {$availabilityEnd}] with Booked [Start: {$bookedStart}, End: {$bookedEnd}]");
 
-                // Compare start and end times using Carbon's comparison methods
-                // If the availability slot matches a booked slot, it is considered taken and excluded
                 if ($availabilityStart->equalTo($bookedStart) && $availabilityEnd->equalTo($bookedEnd)) {
-                    return false; // Exclude this slot because it's already booked
+                    return false;
                 }
             }
 
-            return true; // Include the slot if it's not booked
+            return true;
         });
 
-        // Return filtered availability data
         return response()->json(['data' => $filteredAvailability->values()]);
     }
 
