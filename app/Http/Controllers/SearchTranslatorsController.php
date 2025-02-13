@@ -20,11 +20,11 @@ class SearchTranslatorsController extends Controller
         });
         $user =  $query->first();
 
-
+        $ud = User::find($userId);
 
         if (!$user) {
 
-            $ud = User::find($userId);
+
             return response()->json([
                 'status' => false,
                 'profile_locked' =>$ud->profile_locked,
