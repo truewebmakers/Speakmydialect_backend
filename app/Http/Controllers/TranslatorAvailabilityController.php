@@ -187,7 +187,7 @@ class TranslatorAvailabilityController extends Controller
         });
 
         // Return filtered availability data
-        return response()->json(['data' => $filteredAvailability->values()]);
+        return response()->json(['data' => $filteredAvailability->values(),'d'=>1]);
     }
 
 
