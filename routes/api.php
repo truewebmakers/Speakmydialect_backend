@@ -48,6 +48,7 @@ Route::get('/get/dailect/{language_id}', [UserMetaController::class, 'getDailect
 Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::post('/update/lock/{id}', [AuthController::class, 'UpdateProfileLock'])->name('update.lock');
 
     Route::get('/get-all-users', [AuthController::class, 'getAllUsers'])->name('get.contact.form.entry');
 

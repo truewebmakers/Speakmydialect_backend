@@ -320,6 +320,12 @@ class AuthController extends Controller
         }
     }
 
+    Public function UpdateProfileLock(Request $request, $id){
+        $profilelock = $request->input('profile_lock');
+        User::find($id)->update(['profile_locked' => $profilelock]);
+        return response()->json(['message' => 'Profile Updated  successfully.', 'status' => true]);
+    }
+
     public function logout(Request $request)
     {
 
