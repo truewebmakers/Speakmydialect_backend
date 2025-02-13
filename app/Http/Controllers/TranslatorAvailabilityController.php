@@ -161,8 +161,8 @@ class TranslatorAvailabilityController extends Controller
         $currentDate = \Carbon\Carbon::parse($currentDate)->format('Y-m-d');
 
         // Fetch booked slots from BookingSlot table for the given day and translator
-        $bookedSlots = BookingSlot::whereDate('start_at', 'LIKE', $currentDate)  // Compare only the date part of start_at
-            ->get();
+        $bookedSlots = BookingSlot::whereDate('start_at', '=', $currentDate)  // Compare only the date part of start_at
+        ->get();
 
         // Fetch translator's availability for the given day
         $availability = TranslatorAvailability::where([
