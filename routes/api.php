@@ -52,6 +52,8 @@ Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
 
     Route::get('/get-all-users', [AuthController::class, 'getAllUsers'])->name('get.contact.form.entry');
 
+    // Route::get('/get-profile-lock/{id}', [AuthController::class, 'GetProfileLockStatus'])->name('get.profile.lock.status');
+
 
     Route::get('/get-profile-admin/{id}', [SearchTranslatorsController::class, 'getUserProfile'])->name('get.user.admin.profile');
     Route::get('/users/get/list', [UserDocuemntController::class, 'getNewUserList'])->name('user.get.new.list');
