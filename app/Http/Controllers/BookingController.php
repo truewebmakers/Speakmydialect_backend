@@ -178,14 +178,14 @@ class BookingController extends Controller
         $phoneNumber = $booking->client->phone_number;
         $countryCode = $booking->client->country_code;
         $query = Booking::where(['id' => $id])->update(['status' => $status]);
-
+        $interpreterName = $booking->translator->fname ?? '';
         $message = '';
         switch ($status) {
             case 'Booked':
                 $message = "Hi $clientName,\nYour job request on the Speak My Dialect app has been successfully submitted.\nJob Title: $jobTitle\nDate: $jobDate\nWe will notify you once an interpreter accepts the job.";
                 break;
             case 'accept':
-                $interpreterName = $booking->interpreter->fname ?? ''; // Replace with actual interpreter field if needed
+               // Replace with actual interpreter field if needed
                 $message = "Hi $clientName,\nYour job on the Speak My Dialect app has been confirmed and is scheduled as follows:\nJob Title: $jobTitle\nDate: $jobDate\nInterpreter: $interpreterName";
                 break;
             case 'mark-completed':
